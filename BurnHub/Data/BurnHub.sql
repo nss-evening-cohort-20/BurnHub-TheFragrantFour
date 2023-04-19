@@ -119,72 +119,7 @@ GO
 
 --STARTING DATA--
 
-<<<<<<< HEAD
---INSERT INTO [User]
---			([firebaseId],
---			[name],
---			[isSeller],
---			[dateCreated],
---			[email],
---			[image])
---		VALUES
---			('aaaaaaaaa', 'Harry Palmer', 1, 'hpalmer@mail.com', null),
---			('bbbbbbbb', 'Gudina Khan', 1, 'gkhan@mail.com', null),
---			('cccccccccc', 'Andreas Arya', 1, 'aarya@mail.com', null),
---			('dddddddddddd', 'Elisabet Mohan', 1, 'emohan@mail.com', null),
---			('eeeeeeeeeee', 'Dwain Roger', 1, 'droger@mail.com', null),
---			('fffffffff', 'Rahman Blaan', 1, 'rblaan@mail.com', null),
---			('gggggggggg', 'Censu Berhta', 1, 'cberhta@mail.com', null),
---			('hhhhhhhhhhhhh', 'Lidia Stefka', 0, 'lstefka@mail.com', null),
---			('iiiiiiiiiiii', 'Shukriya Kusuma', 0, 'skusuma@mail.com', null),
---			('jjjjjjjjjjjjj', 'Diadumenian Hanis', 0, 'dhanis@mail.com', null),
---			('kkkkkkkkk', 'Fedlimid Aybek', 0, 'faybek@mail.com', null),
---			('lllllllllll', 'Matylda Ralf', 0, 'mralf@mail.com', null),
---			('mmmmmmmmmmmmm', 'Taisiya Karsten', 0, 'tkarsten@mail.com', null),
---			('nnnnnnnnnnnn', 'Gisila Finnguala', 0, 'gfinnguala@mail.com', null),
---			('ooooooooooo', 'Philandros Ela', 0, 'pela@mail.com', null),
---			('pppppppppp', 'Brittany Jaron', 0, 'bjaron@mail.com', null),
---			('qqqqqqqqq', 'Bia Melker', 0, 'bmelker@mail.com', null),
---			('rrrrrrrrrrr', 'Kali Sawyer', 0, 'ksawyer@mail.com', null),
---			('sssssssssss', 'Calvus Graciano', 0, 'cgraciano@mail.com', null),
---			('ttttttttttt', 'Atallah Seoc', 0, 'aseoc@mail.com', null)
---GO
 
-INSERT INTO [Category]
-            ([name])
-        VALUES
-            ('Candle')
-GO
-
-INSERT INTO [Item]
-            ([categoryId],
-             [storeId],
-             [description],
-             [price])
-        VALUES
-            (1 , 1 , 'Pale Blue Soy based candle with wood wick', 10),
-            (1 , 1 , 'Pink Soy based candle with wick', 20),
-            (1 , 2 , 'The Ocean Breeze slaps you in the face', 25),
-            (1 , 2 , 'Be prepared to be bull dozed by the fragrant aroma of an orange grove', 20),
-            (1 , 3 , 'Fancy AF with gold flakes make you feel like royalty', 1300),
-            (1 , 3 , 'Treat yo self', 1000),
-            (1 , 4 , 'its a small fire object', 5),
-            (1 , 4 , 'indoor fire with nice smell', 5),
-            (1 , 5 , 'Soy with slow burn wick and smells like summer', 11),
-            (1 , 5 , 'Soy with slow burn wick and smells like winter', 12),
-            (1 , 6 , 'French vanilla candle', 15),
-            (1 , 6 , 'Apple candle', 16),
-            (1 , 7 , '200hr burn time with the smell of roses', 40),
-            (1 , 7 , '500hr burn time with the smell of fresh laundry', 60),
-            (1 , 8 , null, 12),
-            (1 , 8 , null, 14),
-            (1 , 9 , 'peach truck summer day in mason jar', 20),
-            (1 , 9 , 'wild flower walk in the sun in large mason jar', 35),
-            (1 , 10 , '10oz mint green refresher', 18),
-            (1 , 10 , '12oz lemon-lime refresher', 26),
-GO
-
-           
 
 INSERT INTO [User] ([name], isSeller, dateCreated, email, firebaseId)
 VALUES
@@ -229,4 +164,90 @@ VALUES
   ('Chancellor E. Gillespie','0','2018-03-30T03:03:32.000Z','chancelloregillespie@google.edu','JEI86PTX1JO'),
   ('Garrison Melton','0','2017-11-28T08:55:52.000Z','garrisonmelton@aol.edu','QZC71DPK3ZY')
 GO
+
+INSERT INTO [Store]
+			([userId],
+			[dateCreated],
+			[name])
+		VALUES
+			(1, '2020-06-22 04:04:13.413', 'Bee Calm'),
+			(2, '2019-06-13 10:38:48.020', 'Vegan Bouquet'),
+			(3, '2022-02-24 14:57:03.100', 'Soy Flamingo'),
+			(4, '2021-08-16 16:44:17.180', 'Thyme to Unwind'),
+			(5, '2022-07-22 08:39:28.780', 'Flaming Candle Co.'),
+			(6, '2018-03-17 13:48:07.200', 'Busy Beeswax Candles'),
+			(7, '2020-08-24 17:33:37.307', 'Fabulous Flame'),
+			(8, '2022-03-11 18:21:08.090', 'Candle Carvers'),
+			(9, '2020-03-07 11:16:45.682', 'Happy Candle Collective'),
+			(10, '2019-07-11 10:18:47.613', 'Smoked Scents')
+GO
+
+INSERT INTO [Category]
+            ([name])
+        VALUES
+            ('Candle')
+GO
+
+INSERT INTO [Item]
+            ([categoryId],
+             [storeId],
+             [description],
+             [price])
+        VALUES
+            (1 , 1 , 'Pale Blue Soy based candle with wood wick', 10),
+            (1 , 1 , 'Pink Soy based candle with wick', 20),
+            (1 , 2 , 'The Ocean Breeze slaps you in the face', 25),
+            (1 , 2 , 'Be prepared to be bull dozed by the fragrant aroma of an orange grove', 20),
+            (1 , 3 , 'Fancy AF with gold flakes make you feel like royalty', 1300),
+            (1 , 3 , 'Treat yo self', 1000),
+            (1 , 4 , 'its a small fire object', 5),
+            (1 , 4 , 'indoor fire with nice smell', 5),
+            (1 , 5 , 'Soy with slow burn wick and smells like summer', 11),
+            (1 , 5 , 'Soy with slow burn wick and smells like winter', 12),
+            (1 , 6 , 'French vanilla candle', 15),
+            (1 , 6 , 'Apple candle', 16),
+            (1 , 7 , '200hr burn time with the smell of roses', 40),
+            (1 , 7 , '500hr burn time with the smell of fresh laundry', 60),
+            (1 , 8 , null, 12),
+            (1 , 8 , null, 14),
+            (1 , 9 , 'peach truck summer day in mason jar', 20),
+            (1 , 9 , 'wild flower walk in the sun in large mason jar', 35),
+            (1 , 10 , '10oz mint green refresher', 18),
+            (1 , 10 , '12oz lemon-lime refresher', 26)
+GO         
+
+INSERT INTO [Option]
+			([attribute])
+		VALUES
+			('Pumpkin'),
+			('Vanilla'),
+			('Citrus'),
+			('Coconut'),
+			('Gardenia'),
+			('Lavender'),
+			('Lemon'),
+			('Cinnamon'),
+			('Rose'),
+			('Peppermint'),
+			('Jasmine'),
+			('Sandalwood'),
+			('Butter Cream'),
+			('Salted Caramel'),
+			('Cottage Breeze'),
+			('Autumn Leaves'),
+			('Spiced Pumpkin'),
+			('Vineyard'),
+			('Macintosh'),
+			('Christmas Cookie')
+Go
+
+
+
+
+
+
+
+
+
+
 
