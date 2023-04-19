@@ -148,3 +148,41 @@ GO
 --			('sssssssssss', 'Calvus Graciano', 0, 'cgraciano@mail.com', null),
 --			('ttttttttttt', 'Atallah Seoc', 0, 'aseoc@mail.com', null)
 --GO
+
+INSERT INTO [Category]
+            ([id],
+             [name],)
+        VALUES
+            (1 , 'Candle')
+GO
+
+INSERT INTO [Item]
+            ([id],
+             [categoryId],
+             [storeId],
+             [description],
+             [price])
+        VALUES
+            (1 , 1 , 'Pale Blue Soy based candle with wood wick', 10),
+            (1 , 1 , 'Pink Soy based candle with wick', 20),
+            (1 , 2 , 'The Ocean Breeze slaps you in the face', 25),
+            (1 , 2 , 'Be prepared to be bull dozed by the fragrant aroma of an orange grove', 20),
+            (1 , 3 , 'Fancy AF with gold flakes make you feel like royalty', 1300),
+            (1 , 3 , 'Treat yo self', 1000),
+            (1 , 4 , 'its a small fire object', 5),
+            (1 , 4 , 'indoor fire with nice smell', 5),
+            (1 , 5 , 'Soy with slow burn wick and smells like summer', 11),
+            (1 , 5 , 'Soy with slow burn wick and smells like winter', 12),
+            (1 , 6 , 'French vanilla candle', 15),
+            (1 , 6 , 'Apple candle', 16),
+            (1 , 7 , '200hr burn time with the smell of roses', 40),
+            (1 , 7 , '500hr burn time with the smell of fresh laundry', 60),
+            (1 , 8 , null, 12),
+            (1 , 8 , null, 14),
+            (1 , 9 , 'peach truck summer day in mason jar', 20),
+            (1 , 9 , 'wild flower walk in the sun in large mason jar', 35),
+            (1 , 10 , '10oz mint green refresher', 18),
+            (1 , 10 , '12oz lemon-lime refresher', 26),
+GO
+
+           
