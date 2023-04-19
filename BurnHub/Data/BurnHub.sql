@@ -162,3 +162,55 @@ VALUES
   ('Chancellor E. Gillespie','0','2018-03-30T03:03:32.000Z','chancelloregillespie@google.edu','JEI86PTX1JO'),
   ('Garrison Melton','0','2017-11-28T08:55:52.000Z','garrisonmelton@aol.edu','QZC71DPK3ZY')
 GO
+
+INSERT INTO [Store]
+			([userId],
+			[dateCreated],
+			[name])
+		VALUES
+			(1, '2020-06-22 04:04:13.413', 'Bee Calm'),
+			(3, '2019-06-13 10:38:48.020', 'Vegan Bouquet'),
+			(4, '2022-02-24 14:57:03.100', 'Soy Flamingo'),
+			(2, '2021-08-16 16:44:17.180', 'Thyme to Unwind'),
+			(1, '2022-07-22 08:39:28.780', 'Flaming Candle Co.'),
+			(3, '2018-03-17 13:48:07.200', 'Busy Beeswax Candles'),
+			(2, '2020-08-24 17:33:37.307', 'Fabulous Flame'),
+			(4, '2022-03-11 18:21:08.090', 'Candle Carvers'),
+			(4, '2020-03-07 11:16:45.682', 'Happy Candle Collective'),
+			(1, '2019-07-11 10:18:47.613', 'Smoked Scents')
+GO
+
+INSERT INTO [Option]
+			([attribute])
+		VALUES
+			('Pumpkin'),
+			('Vanilla'),
+			('Citrus'),
+			('Coconut'),
+			('Gardenia'),
+			('Lavender'),
+			('Lemon'),
+			('Cinnamon'),
+			('Rose'),
+			('Peppermint'),
+			('Jasmine'),
+			('Sandalwood'),
+			('Butter Cream'),
+			('Salted Caramel'),
+			('Cottage Breeze'),
+			('Autumn Leaves'),
+			('Spiced Pumpkin'),
+			('Vineyard'),
+			('Macintosh'),
+			('Christmas Cookie')
+Go
+
+
+
+
+
+
+
+
+
+
