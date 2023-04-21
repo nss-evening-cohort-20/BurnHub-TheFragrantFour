@@ -266,6 +266,7 @@ INSERT INTO [Order]
 			(13, '2023-03-09 10:15:23', '2023-03-13 08:36:45'),
 			(14, '2023-03-12 16:45:37', NULL),
 			(15, '2023-01-05 13:27:42', NULL)
+GO
 
 INSERT INTO [OrderItem]
 			([orderId],
@@ -308,6 +309,7 @@ INSERT INTO [OrderItem]
 			(18,2),
 			(19,5),
 			(20,10)
+<<<<<<< HEAD
 
 INSERT INTO [ItemOption]
 			([optionId],
@@ -398,3 +400,6 @@ GO
 
 
 
+=======
+GO
+>>>>>>> main
