@@ -67,7 +67,7 @@ CREATE TABLE [Order] (
   [id] int PRIMARY KEY identity,
   [userId] int not null,
   [dateCreated] datetime not null,
-  [dateComplete] datetime null
+  [dateComplete] datetime
 )
 GO
 
