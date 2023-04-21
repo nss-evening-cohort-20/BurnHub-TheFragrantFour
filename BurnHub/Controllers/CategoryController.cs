@@ -1,84 +1,61 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BurnHub.Models;
+using BurnHub.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurnHub.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly
-        // GET: CategoryController
-        public ActionResult Index()
+        private readonly ICategoryRepository _categoryRepo;
+
+        public CategoryController(ICategoryRepository categoryRepo)
         {
-            return View();
+            _categoryRepo = categoryRepo;
         }
 
-        // GET: CategoryController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public IActionResult Get()
         {
-            return View();
+            return Ok(_categoryRepo.GetAll());
         }
 
-        // GET: CategoryController/Create
-        public ActionResult Create()
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            return View();
+            var category = _categoryRepo.GetById(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return Ok(category);
         }
 
-        // POST: CategoryController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Post(Category category)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _categoryRepo.Add(category);
+            return CreatedAtAction("Get", new { id = category.Id }, category);
         }
 
-        // GET: CategoryController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Category category)
         {
-            return View();
+            if (id != category.Id)
+            {
+                return BadRequest();
+            }
+
+            _categoryRepo.Add(category);
+            return NoContent();
         }
 
-        // POST: CategoryController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CategoryController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CategoryController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _categoryRepo.Delete(id);
+            return NoContent();
         }
     }
 }
