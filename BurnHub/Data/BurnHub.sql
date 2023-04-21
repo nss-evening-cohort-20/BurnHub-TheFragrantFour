@@ -29,6 +29,7 @@ GO
 
 CREATE TABLE [Item] (
   [id] int PRIMARY KEY identity,
+  [name] nvarchar(255) not null,
   [categoryId] int not null,
   [storeId] int not null,
   [description] nvarchar(255),
@@ -66,7 +67,7 @@ CREATE TABLE [Order] (
   [id] int PRIMARY KEY identity,
   [userId] int not null,
   [dateCreated] datetime not null,
-  [dateComplete] datetime
+  [dateComplete] datetime null
 )
 GO
 
@@ -81,7 +82,8 @@ GO
 CREATE TABLE [OrderItem] (
   [id] int PRIMARY KEY identity,
   [orderId] int not null,
-  [itemId] int not null
+  [itemId] int not null,
+  [itemQuantity] int not null
 )
 GO
 
@@ -189,31 +191,32 @@ INSERT INTO [Category]
 GO
 
 INSERT INTO [Item]
-            ([categoryId],
+            ([name],
+			 [categoryId],
              [storeId],
              [description],
              [price])
         VALUES
-            (1 , 1 , 'Pale Blue Soy based candle with wood wick', 10),
-            (1 , 1 , 'Pink Soy based candle with wick', 20),
-            (1 , 2 , 'The Ocean Breeze slaps you in the face', 25),
-            (1 , 2 , 'Be prepared to be bull dozed by the fragrant aroma of an orange grove', 20),
-            (1 , 3 , 'Fancy AF with gold flakes make you feel like royalty', 1300),
-            (1 , 3 , 'Treat yo self', 1000),
-            (1 , 4 , 'its a small fire object', 5),
-            (1 , 4 , 'indoor fire with nice smell', 5),
-            (1 , 5 , 'Soy with slow burn wick and smells like summer', 11),
-            (1 , 5 , 'Soy with slow burn wick and smells like winter', 12),
-            (1 , 6 , 'French vanilla candle', 15),
-            (1 , 6 , 'Apple candle', 16),
-            (1 , 7 , '200hr burn time with the smell of roses', 40),
-            (1 , 7 , '500hr burn time with the smell of fresh laundry', 60),
-            (1 , 8 , null, 12),
-            (1 , 8 , null, 14),
-            (1 , 9 , 'peach truck summer day in mason jar', 20),
-            (1 , 9 , 'wild flower walk in the sun in large mason jar', 35),
-            (1 , 10 , '10oz mint green refresher', 18),
-            (1 , 10 , '12oz lemon-lime refresher', 26)
+            ('', 1 , 1 , 'Pale Blue Soy based candle with wood wick', 10),
+            ('', 1 , 1 , 'Pink Soy based candle with wick', 20),
+            ('', 1 , 2 , 'The Ocean Breeze slaps you in the face', 25),
+            ('', 1 , 2 , 'Be prepared to be bull dozed by the fragrant aroma of an orange grove', 20),
+            ('', 1 , 3 , 'Fancy AF with gold flakes make you feel like royalty', 1300),
+            ('', 1 , 3 , 'Treat yo self', 1000),
+            ('', 1 , 4 , 'its a small fire object', 5),
+            ('', 1 , 4 , 'indoor fire with nice smell', 5),
+            ('', 1 , 5 , 'Soy with slow burn wick and smells like summer', 11),
+            ('', 1 , 5 , 'Soy with slow burn wick and smells like winter', 12),
+            ('', 1 , 6 , 'French vanilla candle', 15),
+            ('', 1 , 6 , 'Apple candle', 16),
+            ('', 1 , 7 , '200hr burn time with the smell of roses', 40),
+            ('', 1 , 7 , '500hr burn time with the smell of fresh laundry', 60),
+            ('', 1 , 8 , null, 12),
+            ('', 1 , 8 , null, 14),
+            ('', 1 , 9 , 'peach truck summer day in mason jar', 20),
+            ('', 1 , 9 , 'wild flower walk in the sun in large mason jar', 35),
+            ('', 1 , 10 , '10oz mint green refresher', 18),
+            ('', 1 , 10 , '12oz lemon-lime refresher', 26)
 GO         
 
 INSERT INTO [Option]
@@ -270,124 +273,37 @@ GO
 
 INSERT INTO [OrderItem]
 			([orderId],
-			[itemId])
+			[itemId],
+			[itemQuantity])
 		VALUES
-			(1,15),
-			(1,2),
-			(2,10),
-			(2,3),
-			(3,5),
-			(3,16),
-			(4,12),
-			(4,2),
-			(4,2),
-			(4,2),
-			(4,3),
-			(5,2),
-			(5,2),
-			(5,10),
-			(6,10),
-			(6,15),
-			(6,15),
-			(7,18),
-			(7,18),
-			(7,20),
-			(8,20),
-			(8,20),
-			(8,10),
-			(9,5),
-			(9,5),
-			(9,3),
-			(10,1),
-			(11,2),
-			(12,9),
-			(13,5),
-			(14,10),
-			(15,15),
-			(16,18),
-			(17,5),
-			(18,2),
-			(19,5),
-			(20,10)
-
-INSERT INTO [ItemOption]
-			([optionId],
-			 [itemId])
-		VALUES
-			(1,1),
-			(2,1),
-			(3,2),
-			(2,2),
-			(4,3),
-			(5,3),
-			(6,4),
-			(7,4),
-			(8,5),
-			(9,5),
-			(10,6),
-			(11,6),
-			(12,7),
-			(13,7),
-			(14,8),
-			(15,8),
-			(16,9),
-			(17,9),
-			(18,10),
-			(19,10),
-			(20,11),
-			(19,11),
-			(1,12),
-			(5,12),
-			(7,13),
-			(8,14),
-			(1,14),
-			(9,15),
-			(12,15),
-			(1,15),
-			(4,16),
-			(5,17),
-			(9,18),
-			(10,19),
-			(12,20)
-GO
-
-INSERT INTO [Favorite]
-			([itemId],
-			 [userId])
-		VALUES
-			(1,1),
-			(2,1),
-			(3,2),
-			(2,2),
-			(4,3),
-			(5,3),
-			(6,4),
-			(7,4),
-			(8,5),
-			(9,5),
-			(10,6),
-			(11,6),
-			(12,7),
-			(13,7),
-			(14,8),
-			(15,8),
-			(16,9),
-			(17,9),
-			(18,10),
-			(19,10),
-			(20,11),
-			(19,11),
-			(1,12),
-			(5,12),
-			(7,13),
-			(8,14),
-			(1,14),
-			(9,15),
-			(12,15),
-			(1,15),
-			(4,16),
-			(5,17),
-			(9,18),
-			(10,19),
-			(12,20)
+			(1,15,1),
+			(1,2,1),
+			(2,10,1),
+			(2,3,1),
+			(3,5,1),
+			(3,16,1),
+			(4,12,1),
+			(4,2,3),
+			(4,3,1),
+			(5,2,2),
+			(5,10,1),
+			(6,10,1),
+			(6,15,2),
+			(7,18,2),
+			(7,20,1),
+			(8,20,2),
+			(8,10,1),
+			(9,5,2),
+			(9,3,1),
+			(10,1,1),
+			(11,2,1),
+			(12,9,1),
+			(13,5,1),
+			(14,10,1),
+			(15,15,1),
+			(16,18,1),
+			(17,5,1),
+			(18,2,1),
+			(19,5,1),
+			(20,10,1)
 GO

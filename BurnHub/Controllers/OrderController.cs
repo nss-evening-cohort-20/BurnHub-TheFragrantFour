@@ -32,15 +32,26 @@ namespace BurnHub.Controllers
             return Ok(order);
         }
 
+        [HttpGet("user/{id}")]
+        public IActionResult GetByUserId(int id)
+        {
+            var order = _orderRepo.GetByUserId(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
+
         [HttpPost]
-        public IActionResult Post(Order order)
+        public IActionResult Post(OrderBasic order)
         {
             _orderRepo.Add(order);
             return CreatedAtAction("Get", new { id = order.Id }, order);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Order order)
+        public IActionResult Put(int id, OrderBasic order)
         {
             if (id != order.Id)
             {
@@ -55,6 +66,35 @@ namespace BurnHub.Controllers
         public IActionResult Delete(int id)
         {
             _orderRepo.Delete(id);
+            return NoContent();
+        }
+
+
+        // ---- ORDER ITEM ----
+
+        [HttpPost("addOrderItem")]
+        public IActionResult PostOrderItem(OrderItem orderItem)
+        {
+            _orderRepo.AddOrderItem(orderItem);
+            return CreatedAtAction("Get", new { id = orderItem.Id }, orderItem);
+        }
+
+        [HttpPut("orderItem/{id}")]
+        public IActionResult PutOrderItem(int id, OrderItem orderItem)
+        {
+            if (id != orderItem.Id)
+            {
+                return BadRequest();
+            }
+
+            _orderRepo.UpdateOrderItem(orderItem);
+            return NoContent();
+        }
+
+        [HttpDelete("orderItem/{id}")]
+        public IActionResult DeleteOrderItem(int id)
+        {
+            _orderRepo.DeleteOrderItem(id);
             return NoContent();
         }
     }
