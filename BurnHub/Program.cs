@@ -10,7 +10,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+
 builder.Services.AddTransient<IStoreRepository, StoreRepository>();
+
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
 
 var app = builder.Build();
 

@@ -309,7 +309,6 @@ INSERT INTO [OrderItem]
 			(18,2),
 			(19,5),
 			(20,10)
-<<<<<<< HEAD
 
 INSERT INTO [ItemOption]
 			([optionId],
@@ -392,14 +391,3 @@ INSERT INTO [Favorite]
 			(10,19),
 			(12,20)
 GO
-
-
-
-
-
-
-
-
-=======
-GO
->>>>>>> main
