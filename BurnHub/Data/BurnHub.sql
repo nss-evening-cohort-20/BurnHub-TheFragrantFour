@@ -32,14 +32,17 @@ CREATE TABLE [Item] (
   [name] nvarchar(255) not null,
   [categoryId] int not null,
   [storeId] int not null,
+  [quantity] int not null,
   [description] nvarchar(255),
-  [price] int not null
+  [price] int not null,
+  [image] nvarchar(255)
 )
 GO
 
 CREATE TABLE [Category] (
   [id] int PRIMARY KEY identity,
-  [name] nvarchar(255) not null
+  [name] nvarchar(255) not null,
+  [image] nvarchar(255)
 )
 GO
 
@@ -75,7 +78,9 @@ CREATE TABLE [Store] (
   [id] int PRIMARY KEY identity,
   [userId] int UNIQUE not null,
   [dateCreated] datetime not null,
-  [name] nvarchar(255) not null
+  [name] nvarchar(255) not null,
+  [profileImage] nvarchar(255),
+  [coverImage] nvarchar(255)
 )
 GO
 
@@ -194,29 +199,30 @@ INSERT INTO [Item]
             ([name],
 			 [categoryId],
              [storeId],
+			 [quantity],
              [description],
              [price])
         VALUES
-            ('', 1 , 1 , 'Pale Blue Soy based candle with wood wick', 10),
-            ('', 1 , 1 , 'Pink Soy based candle with wick', 20),
-            ('', 1 , 2 , 'The Ocean Breeze slaps you in the face', 25),
-            ('', 1 , 2 , 'Be prepared to be bull dozed by the fragrant aroma of an orange grove', 20),
-            ('', 1 , 3 , 'Fancy AF with gold flakes make you feel like royalty', 1300),
-            ('', 1 , 3 , 'Treat yo self', 1000),
-            ('', 1 , 4 , 'its a small fire object', 5),
-            ('', 1 , 4 , 'indoor fire with nice smell', 5),
-            ('', 1 , 5 , 'Soy with slow burn wick and smells like summer', 11),
-            ('', 1 , 5 , 'Soy with slow burn wick and smells like winter', 12),
-            ('', 1 , 6 , 'French vanilla candle', 15),
-            ('', 1 , 6 , 'Apple candle', 16),
-            ('', 1 , 7 , '200hr burn time with the smell of roses', 40),
-            ('', 1 , 7 , '500hr burn time with the smell of fresh laundry', 60),
-            ('', 1 , 8 , null, 12),
-            ('', 1 , 8 , null, 14),
-            ('', 1 , 9 , 'peach truck summer day in mason jar', 20),
-            ('', 1 , 9 , 'wild flower walk in the sun in large mason jar', 35),
-            ('', 1 , 10 , '10oz mint green refresher', 18),
-            ('', 1 , 10 , '12oz lemon-lime refresher', 26)
+            ('Blue Flicker', 1 , 1 , 2 , 'Pale Blue Soy based candle with wood wick', 10),
+            ('Chill Out', 1 , 1 , 3 , 'Pink Soy based candle with wick', 20),
+            ('Coastal Rainfall', 1 , 2 , 5 , 'The Ocean Breeze slaps you in the face', 25),
+            ('Orange Grove', 1 , 2 , 1 , 'Be prepared to be bull dozed by the fragrant aroma of an orange grove', 20),
+            ('Abundance', 1 , 3 , 10 , 'Fancy AF with gold flakes make you feel like royalty', 1300),
+            ('Gettin'' Lit', 1 , 3 , 3 , 'Treat yo self', 1000),
+            ('Candle', 1 , 4 , 2 , 'its a small fire object', 5),
+            ('Call 911', 1 , 4 , 6 , 'indoor fire with nice smell', 5),
+            ('Summer Time Smiles', 1 , 5 , 11 , 'Soy with slow burn wick and smells like summer', 11),
+            ('Crisp Fall Air', 1 , 5 , 12 , 'Soy with slow burn wick and smells like fall', 12),
+            ('Christmas Spirit', 1 , 6 , 4 , 'French vanilla candle', 15),
+            ('Sweet Apples', 1 , 6 , 9 , 'Apple candle', 16),
+            ('Rose', 1 , 7 , 8 , '200hr burn time with the smell of roses', 40),
+            ('Laundry Day', 1 , 7 , 12 , '500hr burn time with the smell of fresh laundry', 60),
+            ('Cinnamon Bun', 1 , 8 , 3 ,  null, 12),
+            ('Lavender', 1 , 8 , 18 , null, 14),
+            ('Fresh Peaches On The Farm In The Morning', 1 , 9 , 12 , 'peach truck summer day in mason jar', 20),
+            ('Spring Flowers', 1 , 9 , 10 , 'wild flower walk in the sun in large mason jar', 35),
+            ('Shamrockin'' Flavor', 1 , 10 , 2 , '10oz mint green refresher', 18),
+            ('Sparkling Limeade', 1 , 10 , 8 , '12oz lemon-lime refresher', 26)
 GO         
 
 INSERT INTO [Option]
