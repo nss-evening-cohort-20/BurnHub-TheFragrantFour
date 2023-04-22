@@ -20,8 +20,10 @@ public class ItemRepository : BaseRepository, IItemRepository
                                         name,
                                         categoryId,
                                         storeId,
+                                        quantity,
                                         description,
-                                        price
+                                        price,
+                                        image
                                     FROM [Item]";
 
                 var reader = cmd.ExecuteReader();
@@ -35,8 +37,11 @@ public class ItemRepository : BaseRepository, IItemRepository
                         Name = DbUtils.GetString(reader, "name"),
                         CategoryId = DbUtils.GetInt(reader, "categoryId"),
                         StoreId = DbUtils.GetInt(reader, "storeId"),
+                        Quantity = DbUtils.GetInt(reader, "quantity"),
                         Description = DbUtils.GetString(reader, "description"),
-                        Price = DbUtils.GetInt(reader, "price"),                    };
+                        Price = DbUtils.GetInt(reader, "price"),
+                        Image = DbUtils.GetString(reader, "image"),
+                    };
 
                     items.Add(item);
                 }
@@ -59,8 +64,10 @@ public class ItemRepository : BaseRepository, IItemRepository
                                         name,
                                         categoryId,
                                         storeId,
+                                        quantity,
                                         description,
-                                        price
+                                        price,
+                                        image
                                     FROM [Item]
                                     WHERE id = @id";
 
@@ -77,8 +84,11 @@ public class ItemRepository : BaseRepository, IItemRepository
                         Name = DbUtils.GetString(reader, "name"),
                         CategoryId = DbUtils.GetInt(reader, "categoryId"),
                         StoreId = DbUtils.GetInt(reader, "storeId"),
+                        Quantity = DbUtils.GetInt(reader, "quantity"),
                         Description = DbUtils.GetString(reader, "description"),
-                        Price = DbUtils.GetInt(reader, "price"),                    };
+                        Price = DbUtils.GetInt(reader, "price"),
+                        Image = DbUtils.GetString(reader, "image"),
+                    };
                 }
 
                 reader.Close();
@@ -98,21 +108,27 @@ public class ItemRepository : BaseRepository, IItemRepository
                                         (name,
                                         categoryId,
                                         storeId,
+                                        quantity,
                                         description,
-                                        price)
+                                        price,
+                                        image)
                                     OUTPUT INSERTED.ID
                                     VALUES
                                         (@name,
                                         @categoryID,
                                         @storeId,
+                                        @quantity,
                                         @description,
-                                        @price)";
+                                        @price,
+                                        @image)";
 
                 DbUtils.AddParameter(cmd, "@name", item.Name);
                 DbUtils.AddParameter(cmd, "@categoryId", item.CategoryId);
                 DbUtils.AddParameter(cmd, "@storeId", item.StoreId);
+                DbUtils.AddParameter(cmd, "@quantity", item.Quantity);
                 DbUtils.AddParameter(cmd, "@description", item.Description);
                 DbUtils.AddParameter(cmd, "@price", item.Price);
+                DbUtils.AddParameter(cmd, "@image", item.Image);
                 item.Id = (int)cmd.ExecuteScalar();
             }
         }
@@ -129,15 +145,19 @@ public class ItemRepository : BaseRepository, IItemRepository
                                         SET name = @name,
                                             categoryId = @categoryId,
                                             storeId = @storeId,
+                                            quantity = @quantity,
                                             description = @description,
-                                            price = @price
+                                            price = @price,
+                                            image = @image,
                                     WHERE id = @id";
 
                 DbUtils.AddParameter(cmd, "@name", item.Name);
                 DbUtils.AddParameter(cmd, "@categoryId", item.CategoryId);
                 DbUtils.AddParameter(cmd, "@storeId", item.StoreId);
+                DbUtils.AddParameter(cmd, "@quantity", item.Quantity);
                 DbUtils.AddParameter(cmd, "@description", item.Description);
                 DbUtils.AddParameter(cmd, "@price", item.Price);
+                DbUtils.AddParameter(cmd, "@image", item.Image);
                 cmd.ExecuteNonQuery();
             }
         }
