@@ -16,15 +16,22 @@ public class ItemRepository : BaseRepository, IItemRepository
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = @"SELECT
-                                        id,
-                                        name,
-                                        categoryId,
-                                        storeId,
-                                        quantity,
-                                        description,
-                                        price,
-                                        image
-                                    FROM [Item]";
+                                        i.id,
+                                        i.name,
+                                        i.categoryId,
+                                        i.storeId,
+                                        i.quantity,
+                                        i.description,
+                                        i.price,
+                                        i.image,
+	                                    s.name as storeName,
+	                                    s.image as storeImage,
+	                                    c.name as categoryName
+                                    FROM Item i
+                                    JOIN Store s
+	                                    ON i.storeId = s.id
+                                    JOIN Category c
+	                                    ON i.categoryId = c.id";
 
                 var reader = cmd.ExecuteReader();
                 var items = new List<Item>();

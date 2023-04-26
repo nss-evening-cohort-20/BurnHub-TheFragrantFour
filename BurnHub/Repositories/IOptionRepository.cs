@@ -4,11 +4,11 @@ namespace BurnHub.Repositories
 {
     public interface IOptionRepository
     {
-        List<Option> GetOptions();
-        Option GetOptionById(int id);
-        void AddOption(Option option);
-        void UpdateOption(Option option);
-        void DeleteOption(int id);
+        List<Option> GetAll();
+        Option GetById(int id);
+        void Add(Option option);
+        void Update(Option option);
+        void Delete(int id);
 
     }
 }

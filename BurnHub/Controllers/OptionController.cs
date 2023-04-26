@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BurnHub.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class OptionController : Controller
 {
@@ -16,15 +16,15 @@ public class OptionController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetOptions()
+    public IActionResult Get()
     {
-        return Ok(_optionRepository.GetOptions());
+        return Ok(_optionRepository.GetAll());
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetOptionById(int id)
+    public IActionResult Get(int id)
     {
-        var option = _optionRepository.GetOptionById(id);
+        var option = _optionRepository.GetById(id);
 
         if (option == null)
         {
@@ -34,28 +34,28 @@ public class OptionController : Controller
     }
 
     [HttpPost]
-    public IActionResult AddOption(Option option)
+    public IActionResult Post(Option option)
     {
-        _optionRepository.AddOption(option);
+        _optionRepository.Add(option);
         return Created("/api/option/" + option.Id, option);
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateOption(int id, Option option)
+    public IActionResult Put(int id, Option option)
     {
         if (id != option.Id)
         {
             return BadRequest();
         }
 
-        _optionRepository.UpdateOption(option);
+        _optionRepository.Update(option);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteOption(int id)
+    public IActionResult Delete(int id)
     {
-        _optionRepository.DeleteOption(id);
+        _optionRepository.Delete(id);
         return NoContent();
     }
 }

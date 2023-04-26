@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BurnHub.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -32,7 +32,7 @@ namespace BurnHub.Controllers
             return Ok(order);
         }
 
-        [HttpGet("user/{id}")]
+        [HttpGet("userId/{id}")]
         public IActionResult GetByUserId(int id)
         {
             var order = _orderRepo.GetByUserId(id);
@@ -43,7 +43,7 @@ namespace BurnHub.Controllers
             return Ok(order);
         }
 
-        [HttpGet("open/user/{id}")]
+        [HttpGet("statusopenuserId/{id}")]
         public IActionResult GetOpenOrderByUserId(int id)
         {
             var order = _orderRepo.GetOpenOrderByUserId(id);
@@ -54,7 +54,7 @@ namespace BurnHub.Controllers
             return Ok(order);
         }
 
-        [HttpGet("closed/user/{id}")]
+        [HttpGet("statuscloseduserId/{id}")]
         public IActionResult GetClosedOrdersByUserId(int id)
         {
             return Ok(_orderRepo.GetClosedOrdersByUserId(id));

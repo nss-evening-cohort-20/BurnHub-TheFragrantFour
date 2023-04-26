@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BurnHub.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StoreController : ControllerBase
     {
