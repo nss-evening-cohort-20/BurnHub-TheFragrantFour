@@ -43,6 +43,23 @@ namespace BurnHub.Controllers
             return Ok(order);
         }
 
+        [HttpGet("open/user/{id}")]
+        public IActionResult GetOpenOrderByUserId(int id)
+        {
+            var order = _orderRepo.GetOpenOrderByUserId(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
+
+        [HttpGet("closed/user/{id}")]
+        public IActionResult GetClosedOrdersByUserId(int id)
+        {
+            return Ok(_orderRepo.GetClosedOrdersByUserId(id));
+        }
+
         [HttpPost]
         public IActionResult Post(OrderBasic order)
         {
