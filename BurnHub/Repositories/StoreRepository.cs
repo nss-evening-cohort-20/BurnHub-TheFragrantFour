@@ -18,7 +18,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                                         id,
 	                                    userId,
 	                                    dateCreated,
-	                                    name
+	                                    name,
+                                        image
                                     FROM [Store]";
 
                 var reader = cmd.ExecuteReader();
@@ -31,8 +32,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                         Id = DbUtils.GetInt(reader, "id"),
                         UserId = DbUtils.GetInt(reader, "userId"),
                         DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
-                        Name = DbUtils.GetString(reader, "name")
-
+                        Name = DbUtils.GetString(reader, "name"),
+                        Image = DbUtils.GetString(reader, "image")
                     };
 
                     stores.Add(store);
@@ -55,7 +56,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                                         id,
 	                                    userId,
 	                                    dateCreated,
-	                                    name
+	                                    name,
+                                        image
                                     FROM [Store]
                                     WHERE id = @id";
                 DbUtils.AddParameter(cmd, "@id", id);
@@ -70,8 +72,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                         Id = DbUtils.GetInt(reader, "id"),
                         UserId = DbUtils.GetInt(reader, "userId"),
                         DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
-                        Name = DbUtils.GetString(reader, "name")
-
+                        Name = DbUtils.GetString(reader, "name"),
+                        Image = DbUtils.GetString(reader, "image")
                     };
                 }
 
@@ -91,7 +93,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                 cmd.CommandText = @"INSERT INTO [Store]
 	                                    (userId,
 	                                    dateCreated,
-	                                    name)
+	                                    name,
+                                        image)
                                     OUTPUT INSERTED.ID
                                     VALUES
 	                                    (@userId,
@@ -101,7 +104,7 @@ public class StoreRepository : BaseRepository, IStoreRepository
                 DbUtils.AddParameter(cmd, "@userId", store.UserId);
                 DbUtils.AddParameter(cmd, "@dateCreated", store.DateCreated);
                 DbUtils.AddParameter(cmd, "@name", store.Name);
-
+                DbUtils.AddParameter(cmd, "@image", store.Image);
 
                 store.Id = (int)cmd.ExecuteScalar();
             }
@@ -118,13 +121,14 @@ public class StoreRepository : BaseRepository, IStoreRepository
                 cmd.CommandText = @"UPDATE [Store]
 	                                    SET userId = @userId,
 	                                        dateCreated = @dateCreated,
-	                                        name = @name
+	                                        name = @name,
+                                            image = @image
                                     WHERE id = @id";
 
                 DbUtils.AddParameter(cmd, "@userId", store.UserId);
                 DbUtils.AddParameter(cmd, "@dateCreated", store.DateCreated);
                 DbUtils.AddParameter(cmd, "@name", store.Name);
-
+                DbUtils.AddParameter(cmd, "@image", store.Image);
 
                 cmd.ExecuteNonQuery();
             }

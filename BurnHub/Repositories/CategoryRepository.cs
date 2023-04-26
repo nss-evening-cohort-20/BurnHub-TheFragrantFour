@@ -16,7 +16,8 @@ namespace BurnHub.Repositories
                 {
                     command.CommandText = @"SELECT
                                                 id,
-                                                name
+                                                name,
+                                                image
                                             FROM [Category]";
 
                     var categories = new List<Category>();
@@ -27,7 +28,8 @@ namespace BurnHub.Repositories
                         var category = new Category()
                         {
                             Id = DbUtils.GetInt(reader, "id"),
-                            Name = DbUtils.GetString(reader, "name")
+                            Name = DbUtils.GetString(reader, "name"),
+                            Image = DbUtils.GetString(reader, "image")
                         };
 
                         categories.Add(category);
@@ -48,7 +50,8 @@ namespace BurnHub.Repositories
                 {
                     command.CommandText = @"SELECT
                                                 id,
-                                                name
+                                                name,
+                                                image
                                             FROM [Category]
                                             WHERE id = @id";
 
@@ -63,6 +66,7 @@ namespace BurnHub.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "id"),
                             Name = DbUtils.GetString(reader, "name"),
+                            Image = DbUtils.GetString(reader, "image")
                         };
                     }
 
@@ -80,12 +84,14 @@ namespace BurnHub.Repositories
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = @"INSERT INTO [Category]
-                                                (name)
+                                                (name,
+                                                image)
                                             OUTPUT INSERTED.ID
                                             VALUES
                                                 (@name)";
 
                     DbUtils.AddParameter(command, "@name", category.Name);
+                    DbUtils.AddParameter(command, "@image", category.Image);
 
                     category.Id = (int)command.ExecuteScalar();
                 }
@@ -100,11 +106,13 @@ namespace BurnHub.Repositories
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = @"UPDATE [Category]
-                                                SET name = @name
+                                                SET name = @name,
+                                                    image = @image
                                             WHERE id = @id";
 
                     DbUtils.AddParameter(command, "@id", category.Id);
                     DbUtils.AddParameter(command, "@name", category.Name);
+                    DbUtils.AddParameter(command, "@image", category.Image);
 
                     command.ExecuteNonQuery();
                 }

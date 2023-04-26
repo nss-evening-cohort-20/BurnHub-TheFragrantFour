@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BurnHub.Controllers;
 
-[Route("api/controller")]
+[Route("api/[controller]")]
 [ApiController]
 public class OptionController : Controller
 {
@@ -37,7 +37,7 @@ public class OptionController : Controller
     public IActionResult AddOption(Option option)
     {
         _optionRepository.AddOption(option);
-        return CreatedAtAction("/api/option" + option.Id, option);
+        return Created("/api/option/" + option.Id, option);
     }
 
     [HttpPut("{id}")]
