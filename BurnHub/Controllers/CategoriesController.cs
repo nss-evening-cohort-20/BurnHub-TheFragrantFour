@@ -6,11 +6,11 @@ namespace BurnHub.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepo;
 
-        public CategoryController(ICategoryRepository categoryRepo)
+        public CategoriesController(ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
         }

@@ -6,55 +6,55 @@ namespace BurnHub.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class StoresController : ControllerBase
     {
-        private readonly IUserRepository _userRepo;
+        private readonly IStoreRepository _storeRepo;
 
-        public UserController(IUserRepository userRepo)
+        public StoresController(IStoreRepository storeRepo)
         {
-            _userRepo = userRepo;
+            _storeRepo = storeRepo;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_userRepo.GetAll());
+            return Ok(_storeRepo.GetAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var user = _userRepo.GetById(id);
-            if (user == null)
+            var store = _storeRepo.GetById(id);
+            if (store == null)
             {
                 return NotFound();
             }
-            return Ok(user);
+            return Ok(store);
         }
 
         [HttpPost]
-        public IActionResult Post(User user)
+        public IActionResult Post(Store store)
         {
-            _userRepo.Add(user);
-            return CreatedAtAction("Get", new { id = user.Id }, user);
+            _storeRepo.Add(store);
+            return CreatedAtAction("Get", new { id = store.Id }, store);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, User user)
+        public IActionResult Put(int id, Store store)
         {
-            if (id != user.Id)
+            if (id != store.Id)
             {
                 return BadRequest();
             }
 
-            _userRepo.Update(user);
+            _storeRepo.Update(store);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _userRepo.Delete(id);
+            _storeRepo.Delete(id);
             return NoContent();
         }
     }

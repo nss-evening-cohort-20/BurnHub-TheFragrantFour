@@ -8,6 +8,79 @@ public class ItemRepository : BaseRepository, IItemRepository
 {
     public ItemRepository(IConfiguration configuration) : base(configuration) { }
 
+    public List<Item> Search(string criterion)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT
+                                        i.id,
+                                        i.name,
+                                        i.categoryId,
+                                        i.storeId,
+                                        i.quantity,
+                                        i.description,
+                                        i.price,
+                                        i.image,
+	                                    s.userId as storeUserId,
+	                                    s.dateCreated as storeDateCreated,
+	                                    s.name as storeName,
+	                                    s.profileImage as storeProfileImage,
+	                                    s.image as storeImage,
+	                                    c.name as categoryName,
+	                                    c.image as categoryImage
+                                    FROM Item i
+                                    JOIN Store s
+	                                    ON i.storeId = s.id
+                                    JOIN Category c
+	                                    ON i.categoryId = c.id
+                                    WHERE i.name LIKE @Criterion";
+
+                DbUtils.AddParameter(cmd, "@Criterion", $"%{criterion}%");
+
+                var reader = cmd.ExecuteReader();
+                var items = new List<Item>();
+
+                while (reader.Read())
+                {
+                    var item = new Item()
+                    {
+                        Id = DbUtils.GetInt(reader, "id"),
+                        Name = DbUtils.GetString(reader, "name"),
+                        CategoryId = DbUtils.GetInt(reader, "categoryId"),
+                        StoreId = DbUtils.GetInt(reader, "storeId"),
+                        Quantity = DbUtils.GetInt(reader, "quantity"),
+                        Description = DbUtils.GetString(reader, "description"),
+                        Price = DbUtils.GetInt(reader, "price"),
+                        Image = DbUtils.GetString(reader, "image"),
+                        Category = new Category()
+                        {
+                            Id = DbUtils.GetInt(reader, "categoryId"),
+                            Name = DbUtils.GetString(reader, "categoryName"),
+                            Image = DbUtils.GetString(reader, "categoryImage")
+                        },
+                        Store = new Store()
+                        {
+                            Id = DbUtils.GetInt(reader, "storeId"),
+                            UserId = DbUtils.GetInt(reader, "storeUserId"),
+                            DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
+                            Name = DbUtils.GetString(reader, "storeName"),
+                            ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
+                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                        }
+                    };
+
+                    items.Add(item);
+                }
+
+                reader.Close();
+                return items;
+            }
+        }
+    }
+
     public List<Item> GetAll()
     {
         using (var conn = Connection)
@@ -24,9 +97,13 @@ public class ItemRepository : BaseRepository, IItemRepository
                                         i.description,
                                         i.price,
                                         i.image,
+	                                    s.userId as storeUserId,
+	                                    s.dateCreated as storeDateCreated,
 	                                    s.name as storeName,
+	                                    s.profileImage as storeProfileImage,
 	                                    s.image as storeImage,
-	                                    c.name as categoryName
+	                                    c.name as categoryName,
+	                                    c.image as categoryImage
                                     FROM Item i
                                     JOIN Store s
 	                                    ON i.storeId = s.id
@@ -48,6 +125,21 @@ public class ItemRepository : BaseRepository, IItemRepository
                         Description = DbUtils.GetString(reader, "description"),
                         Price = DbUtils.GetInt(reader, "price"),
                         Image = DbUtils.GetString(reader, "image"),
+                        Category = new Category()
+                        {
+                            Id = DbUtils.GetInt(reader, "categoryId"),
+                            Name = DbUtils.GetString(reader, "categoryName"),
+                            Image = DbUtils.GetString(reader, "categoryImage")
+                        },
+                        Store = new Store()
+                        {
+                            Id = DbUtils.GetInt(reader, "storeId"),
+                            UserId = DbUtils.GetInt(reader, "storeUserId"),
+                            DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
+                            Name = DbUtils.GetString(reader, "storeName"),
+                            ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
+                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                        }
                     };
 
                     items.Add(item);
@@ -67,15 +159,26 @@ public class ItemRepository : BaseRepository, IItemRepository
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = @"SELECT
-                                        id,
-                                        name,
-                                        categoryId,
-                                        storeId,
-                                        quantity,
-                                        description,
-                                        price,
-                                        image
-                                    FROM [Item]
+                                        i.id,
+                                        i.name,
+                                        i.categoryId,
+                                        i.storeId,
+                                        i.quantity,
+                                        i.description,
+                                        i.price,
+                                        i.image,
+	                                    s.userId as storeUserId,
+	                                    s.dateCreated as storeDateCreated,
+	                                    s.name as storeName,
+	                                    s.profileImage as storeProfileImage,
+	                                    s.image as storeImage,
+	                                    c.name as categoryName,
+	                                    c.image as categoryImage
+                                    FROM Item i
+                                    JOIN Store s
+	                                    ON i.storeId = s.id
+                                    JOIN Category c
+	                                    ON i.categoryId = c.id
                                     WHERE id = @id";
 
                 DbUtils.AddParameter(cmd, "@id", id);
@@ -95,6 +198,21 @@ public class ItemRepository : BaseRepository, IItemRepository
                         Description = DbUtils.GetString(reader, "description"),
                         Price = DbUtils.GetInt(reader, "price"),
                         Image = DbUtils.GetString(reader, "image"),
+                        Category = new Category()
+                        {
+                            Id = DbUtils.GetInt(reader, "categoryId"),
+                            Name = DbUtils.GetString(reader, "categoryName"),
+                            Image = DbUtils.GetString(reader, "categoryImage")
+                        },
+                        Store = new Store()
+                        {
+                            Id = DbUtils.GetInt(reader, "storeId"),
+                            UserId = DbUtils.GetInt(reader, "storeUserId"),
+                            DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
+                            Name = DbUtils.GetString(reader, "storeName"),
+                            ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
+                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                        }
                     };
                 }
 
@@ -104,7 +222,7 @@ public class ItemRepository : BaseRepository, IItemRepository
         }
     }
 
-    public Item GetByCategoryId(int id)
+    public List<Item> GetByCategoryId(int id)
     {
         using (var conn = Connection)
         {
@@ -113,55 +231,70 @@ public class ItemRepository : BaseRepository, IItemRepository
             {
                 cmd.CommandText = @"SELECT
                                         i.id,
-	                                    i.name,
-	                                    i.categoryId,
-	                                    i.storeId,
+                                        i.name,
+                                        i.categoryId,
+                                        i.storeId,
+                                        i.quantity,
                                         i.description,
                                         i.price,
-                                        i.quantity,
-                                        i.Image,
+                                        i.image,
+	                                    s.userId as storeUserId,
+	                                    s.dateCreated as storeDateCreated,
+	                                    s.name as storeName,
+	                                    s.profileImage as storeProfileImage,
+	                                    s.image as storeImage,
 	                                    c.name as categoryName,
-                                        c.image
-                                    FROM [Item] i
-                                    JOIN [Category] c
+	                                    c.image as categoryImage
+                                    FROM Item i
+                                    JOIN Store s
+	                                    ON i.storeId = s.id
+                                    JOIN Category c
 	                                    ON i.categoryId = c.id
                                     WHERE i.categoryId = @categoryId";
                 DbUtils.AddParameter(cmd, "@categoryId", id);
 
                 var reader = cmd.ExecuteReader();
+                var items = new List<Item>();
 
-                Item item = null;
                 while (reader.Read())
                 {
-                    if (item == null)
+                    var item = new Item()
                     {
-                        item = new Item()
+                        Id = DbUtils.GetInt(reader, "id"),
+                        Name = DbUtils.GetString(reader, "name"),
+                        CategoryId = DbUtils.GetInt(reader, "categoryId"),
+                        StoreId = DbUtils.GetInt(reader, "storeId"),
+                        Quantity = DbUtils.GetInt(reader, "quantity"),
+                        Description = DbUtils.GetString(reader, "description"),
+                        Price = DbUtils.GetInt(reader, "price"),
+                        Image = DbUtils.GetString(reader, "image"),
+                        Category = new Category()
                         {
-                            Id = DbUtils.GetInt(reader, "id"),
-                            Name = DbUtils.GetString(reader, "name"),
-                            CategoryId = DbUtils.GetInt(reader, "categoryId"),
-                            StoreId = DbUtils.GetInt(reader, "storeId"),
-                            Description = DbUtils.GetString(reader, "description"),
-                            Price = DbUtils.GetInt(reader, "price"),
-                            Quantity = DbUtils.GetInt(reader, "quantity"),
-                            Image = DbUtils.GetString(reader, "image"),
-                            Category = new Category
-                            {
-                                Id = DbUtils.GetInt(reader, "id"),
-                                Name = DbUtils.GetString(reader, "categoryName"),
-                                Image = DbUtils.GetString(reader, "image")
-                            },
-                        };
-                    }
+                            Id = DbUtils.GetInt(reader, "categoryId"),
+                            Name = DbUtils.GetString(reader, "categoryName"),
+                            Image = DbUtils.GetString(reader, "categoryImage")
+                        },
+                        Store = new Store()
+                        {
+                            Id = DbUtils.GetInt(reader, "storeId"),
+                            UserId = DbUtils.GetInt(reader, "storeUserId"),
+                            DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
+                            Name = DbUtils.GetString(reader, "storeName"),
+                            ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
+                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                        }
+                    };
+
+                    items.Add(item);
                 }
 
                 reader.Close();
-                return item;
+                return items;
             }
         }
     }
 
-    public Item GetByStoreId(int id)
+    public List<Item> GetByStoreId(int id)
     {
         using (var conn = Connection)
         {
@@ -170,56 +303,65 @@ public class ItemRepository : BaseRepository, IItemRepository
             {
                 cmd.CommandText = @"SELECT
                                         i.id,
-	                                    i.name,
-	                                    i.categoryId,
-	                                    i.storeId,
+                                        i.name,
+                                        i.categoryId,
+                                        i.storeId,
+                                        i.quantity,
                                         i.description,
                                         i.price,
-                                        i.quantity,
-                                        i.Image,
-	                                    s.userId,
-                                        s.dateCreated,
-                                        s.name,
-                                        s.profileImage,
-                                        s.coverImage
-                                    FROM [Item] i
-                                    JOIN [Store] s
+                                        i.image,
+	                                    s.userId as storeUserId,
+	                                    s.dateCreated as storeDateCreated,
+	                                    s.name as storeName,
+	                                    s.profileImage as storeProfileImage,
+	                                    s.image as storeImage,
+	                                    c.name as categoryName,
+	                                    c.image as categoryImage
+                                    FROM Item i
+                                    JOIN Store s
 	                                    ON i.storeId = s.id
+                                    JOIN Category c
+	                                    ON i.categoryId = c.id
                                     WHERE i.storeId = @storeId";
                 DbUtils.AddParameter(cmd, "@storeId", id);
 
                 var reader = cmd.ExecuteReader();
+                var items = new List<Item>();
 
-                Item item = null;
                 while (reader.Read())
                 {
-                    if (item == null)
+                    var item = new Item()
                     {
-                        item = new Item()
+                        Id = DbUtils.GetInt(reader, "id"),
+                        Name = DbUtils.GetString(reader, "name"),
+                        CategoryId = DbUtils.GetInt(reader, "categoryId"),
+                        StoreId = DbUtils.GetInt(reader, "storeId"),
+                        Quantity = DbUtils.GetInt(reader, "quantity"),
+                        Description = DbUtils.GetString(reader, "description"),
+                        Price = DbUtils.GetInt(reader, "price"),
+                        Image = DbUtils.GetString(reader, "image"),
+                        Category = new Category()
                         {
-                            Id = DbUtils.GetInt(reader, "id"),
-                            Name = DbUtils.GetString(reader, "name"),
-                            CategoryId = DbUtils.GetInt(reader, "categoryId"),
-                            StoreId = DbUtils.GetInt(reader, "storeId"),
-                            Description = DbUtils.GetString(reader, "description"),
-                            Price = DbUtils.GetInt(reader, "price"),
-                            Quantity = DbUtils.GetInt(reader, "quantity"),
-                            Image = DbUtils.GetString(reader, "image"),
-                            Store = new Store
-                            {
-                                Id = DbUtils.GetInt(reader, "storeId"),
-                                UserId = DbUtils.GetInt(reader, "userId"),
-                                DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
-                                Name = DbUtils.GetString(reader, "name"),
-                                ProfileImage = DbUtils.GetString(reader, "profileImage"),
-                                CoverImage = DbUtils.GetString(reader, "coverImage")
-                            },
-                        };
-                    }
+                            Id = DbUtils.GetInt(reader, "categoryId"),
+                            Name = DbUtils.GetString(reader, "categoryName"),
+                            Image = DbUtils.GetString(reader, "categoryImage")
+                        },
+                        Store = new Store()
+                        {
+                            Id = DbUtils.GetInt(reader, "storeId"),
+                            UserId = DbUtils.GetInt(reader, "storeUserId"),
+                            DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
+                            Name = DbUtils.GetString(reader, "storeName"),
+                            ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
+                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                        }
+                    };
+
+                    items.Add(item);
                 }
 
                 reader.Close();
-                return item;
+                return items;
             }
         }
     }

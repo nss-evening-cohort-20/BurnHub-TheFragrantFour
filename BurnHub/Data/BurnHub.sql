@@ -195,29 +195,6 @@ INSERT INTO [Category]
             ('Candle')
 GO
 
-INSERT INTO [Favorite]
-			([itemId],
-			[userId])
-		VALUES
-			( 7, 23),
-			( 3, 33),
-			( 8, 37),
-			( 14, 13),
-			( 2, 16),
-			( 1, 14),
-			( 9, 4),
-			( 12, 29),
-			( 14, 37),
-			( 4, 32),
-			( 19, 27),
-			( 8, 31),
-			( 17, 24),
-			( 13, 22),
-			( 16, 29),
-			( 15, 12),
-			( 11, 3)
-GO
-
 INSERT INTO [Item]
             ([name],
 			 [categoryId],
@@ -246,7 +223,30 @@ INSERT INTO [Item]
             ('Spring Flowers', 1 , 9 , 10 , 'wild flower walk in the sun in large mason jar', 35),
             ('Shamrockin'' Flavor', 1 , 10 , 2 , '10oz mint green refresher', 18),
             ('Sparkling Limeade', 1 , 10 , 8 , '12oz lemon-lime refresher', 26)
-GO         
+GO
+
+INSERT INTO [Favorite]
+			([itemId],
+			[userId])
+		VALUES
+			( 7, 23),
+			( 3, 33),
+			( 8, 37),
+			( 14, 13),
+			( 2, 16),
+			( 1, 14),
+			( 9, 4),
+			( 12, 29),
+			( 14, 37),
+			( 4, 32),
+			( 19, 27),
+			( 8, 31),
+			( 17, 24),
+			( 13, 22),
+			( 16, 29),
+			( 15, 12),
+			( 11, 3)
+GO
 
 INSERT INTO [Option]
 			([attribute])

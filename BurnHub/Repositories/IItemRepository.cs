@@ -4,12 +4,13 @@ namespace BurnHub.Repositories
 {
     public interface IItemRepository
     {
-        void Add(Item item);
-        void Delete(int id);
+        List<Item> Search(string criterion);
         List<Item> GetAll();
-        Item GetByCategoryId(int id);
         Item GetById(int id);
-        Item GetByStoreId(int id);
+        List<Item> GetByCategoryId(int id);
+        List<Item> GetByStoreId(int id);
+        void Add(Item item);
         void Update(Item item);
+        void Delete(int id);
     }
 }

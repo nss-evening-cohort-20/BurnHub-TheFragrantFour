@@ -6,11 +6,11 @@ namespace BurnHub.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly IOrderRepository _orderRepo;
 
-        public OrderController(IOrderRepository orderRepo)
+        public OrdersController(IOrderRepository orderRepo)
         {
             _orderRepo = orderRepo;
         }
@@ -32,32 +32,10 @@ namespace BurnHub.Controllers
             return Ok(order);
         }
 
-        [HttpGet("userId/{id}")]
-        public IActionResult GetByUserId(int id)
+        [HttpGet("byUser")]
+        public IActionResult GetByUserId(int userId, bool complete)
         {
-            var order = _orderRepo.GetByUserId(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return Ok(order);
-        }
-
-        [HttpGet("statusopenuserId/{id}")]
-        public IActionResult GetOpenOrderByUserId(int id)
-        {
-            var order = _orderRepo.GetOpenOrderByUserId(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return Ok(order);
-        }
-
-        [HttpGet("statuscloseduserId/{id}")]
-        public IActionResult GetClosedOrdersByUserId(int id)
-        {
-            return Ok(_orderRepo.GetClosedOrdersByUserId(id));
+            return(Ok(_orderRepo.GetAllByUserId(userId, complete)));
         }
 
         [HttpPost]

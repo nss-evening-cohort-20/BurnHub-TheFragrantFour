@@ -6,11 +6,11 @@ namespace BurnHub.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class OptionController : Controller
+public class OptionsController : Controller
 {
     private readonly IOptionRepository _optionRepository;
 
-    public OptionController(IOptionRepository optionRepository)
+    public OptionsController(IOptionRepository optionRepository)
     {
         _optionRepository = optionRepository;
     }

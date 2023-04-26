@@ -5,13 +5,19 @@ namespace BurnHub.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ItemController : ControllerBase
+    public class ItemsController : ControllerBase
     {
         private readonly IItemRepository _itemRepo;
 
-        public ItemController(IItemRepository itemRepo)
+        public ItemsController(IItemRepository itemRepo)
         {
             _itemRepo = itemRepo;
+        }
+
+        [HttpGet("search")]
+        public IActionResult Search(string q)
+        {
+            return Ok(_itemRepo.Search(q));
         }
 
         [HttpGet]
@@ -34,23 +40,13 @@ namespace BurnHub.Controllers
         [HttpGet("store/{id}")]
         public IActionResult GetByStoreId(int id)
         {
-            var item = _itemRepo.GetByStoreId(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return Ok(item);
+            return Ok(_itemRepo.GetByStoreId(id));
         }
 
         [HttpGet("category/{id}")]
         public IActionResult GetByCategoryId(int id)
         {
-            var item = _itemRepo.GetByCategoryId(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return Ok(item);
+            return Ok(_itemRepo.GetByCategoryId(id));
         }
 
         [HttpPost]
