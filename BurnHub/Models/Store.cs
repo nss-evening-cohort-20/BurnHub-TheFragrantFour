@@ -7,6 +7,7 @@ public class Store
     public int UserId { get; set; }
     public DateTime DateCreated { get; set; }
     public string Name { get; set; }
-    
+    public string ProfileImage { get; set; }
+    public string CoverImage { get; set; }
 }
 

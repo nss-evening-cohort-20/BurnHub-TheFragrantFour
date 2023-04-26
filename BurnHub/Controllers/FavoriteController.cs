@@ -1,83 +1,43 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BurnHub.Models;
+using BurnHub.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurnHub.Controllers
 {
-    public class FavoriteController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class FavoriteController : ControllerBase
     {
-        // GET: FavoriteController
-        public ActionResult Index()
+        private readonly IFavoriteRepository _favoriteRepo;
+
+        public FavoriteController(IFavoriteRepository favoriteRepo)
         {
-            return View();
+            _favoriteRepo = favoriteRepo;
         }
 
-        // GET: FavoriteController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet("user/{id}")]
+        public IActionResult GetByUserId(int id)
         {
-            return View();
+            var fav = _favoriteRepo.GetFavoritesByUserId(id);
+            if (fav == null)
+            {
+                return NotFound();
+            }
+            return Ok(fav);
         }
 
-        // GET: FavoriteController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: FavoriteController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Post(Favorite favorite)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _favoriteRepo.Add(favorite);
+            return CreatedAtAction("Get", new { id = favorite.Id }, favorite);
         }
 
-        // GET: FavoriteController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete (int id)
         {
-            return View();
-        }
-
-        // POST: FavoriteController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: FavoriteController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: FavoriteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _favoriteRepo.Delete(id);
+            return NoContent();
         }
     }
 }

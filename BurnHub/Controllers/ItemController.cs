@@ -31,6 +31,28 @@ namespace BurnHub.Controllers
             return Ok(item);
         }
 
+        [HttpGet("store/{id}")]
+        public IActionResult GetByStoreId(int id)
+        {
+            var item = _itemRepo.GetByStoreId(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
+        [HttpGet("category/{id}")]
+        public IActionResult GetByCategoryId(int id)
+        {
+            var item = _itemRepo.GetByCategoryId(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
         [HttpPost]
         public IActionResult Post(Item item)
         {
