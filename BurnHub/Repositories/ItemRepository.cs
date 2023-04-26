@@ -120,7 +120,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                                         i.price,
                                         i.quantity,
                                         i.Image,
-	                                    c.name as categoryName
+	                                    c.name as categoryName,
                                         c.image
                                     FROM [Item] i
                                     JOIN [Category] c
@@ -147,8 +147,8 @@ public class ItemRepository : BaseRepository, IItemRepository
                             Image = DbUtils.GetString(reader, "image"),
                             Category = new Category
                             {
-                                Id = DbUtils.GetInt(reader, "userId"),
-                                Name = DbUtils.GetString(reader, "userName"),
+                                Id = DbUtils.GetInt(reader, "id"),
+                                Name = DbUtils.GetString(reader, "categoryName"),
                                 Image = DbUtils.GetString(reader, "image")
                             },
                         };
@@ -180,7 +180,8 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.userId,
                                         s.dateCreated,
                                         s.name,
-                                        s.Image
+                                        s.profileImage,
+                                        s.coverImage
                                     FROM [Item] i
                                     JOIN [Store] s
 	                                    ON i.storeId = s.id
@@ -209,8 +210,9 @@ public class ItemRepository : BaseRepository, IItemRepository
                                 Id = DbUtils.GetInt(reader, "storeId"),
                                 UserId = DbUtils.GetInt(reader, "userId"),
                                 DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
-                                Name = DbUtils.GetString(reader, "userName"),
-                                Image = DbUtils.GetString(reader, "image")
+                                Name = DbUtils.GetString(reader, "name"),
+                                ProfileImage = DbUtils.GetString(reader, "profileImage"),
+                                CoverImage = DbUtils.GetString(reader, "coverImage")
                             },
                         };
                     }

@@ -195,6 +195,29 @@ INSERT INTO [Category]
             ('Candle')
 GO
 
+INSERT INTO [Favorite]
+			([itemId],
+			[userId])
+		VALUES
+			( 7, 23),
+			( 3, 33),
+			( 8, 37),
+			( 14, 13),
+			( 2, 16),
+			( 1, 14),
+			( 9, 4),
+			( 12, 29),
+			( 14, 37),
+			( 4, 32),
+			( 19, 27),
+			( 8, 31),
+			( 17, 24),
+			( 13, 22),
+			( 16, 29),
+			( 15, 12),
+			( 11, 3)
+GO
+
 INSERT INTO [Item]
             ([name],
 			 [categoryId],

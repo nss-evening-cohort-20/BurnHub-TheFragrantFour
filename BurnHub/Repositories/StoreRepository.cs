@@ -19,7 +19,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
 	                                    userId,
 	                                    dateCreated,
 	                                    name,
-                                        image
+                                        profileImage,
+                                        coverImage
                                     FROM [Store]";
 
                 var reader = cmd.ExecuteReader();
@@ -33,7 +34,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                         UserId = DbUtils.GetInt(reader, "userId"),
                         DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
                         Name = DbUtils.GetString(reader, "name"),
-                        Image = DbUtils.GetString(reader, "image")
+                        ProfileImage = DbUtils.GetString(reader, "profileImage"),
+                        CoverImage = DbUtils.GetString(reader, "coverImage")
                     };
 
                     stores.Add(store);
@@ -57,7 +59,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
 	                                    userId,
 	                                    dateCreated,
 	                                    name,
-                                        image
+                                        profileImage,
+                                        coverImage
                                     FROM [Store]
                                     WHERE id = @id";
                 DbUtils.AddParameter(cmd, "@id", id);
@@ -73,7 +76,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                         UserId = DbUtils.GetInt(reader, "userId"),
                         DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
                         Name = DbUtils.GetString(reader, "name"),
-                        Image = DbUtils.GetString(reader, "image")
+                        ProfileImage = DbUtils.GetString(reader, "profileImage"),
+                        CoverImage = DbUtils.GetString(reader, "coverImage")
                     };
                 }
 
@@ -94,7 +98,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
 	                                    (userId,
 	                                    dateCreated,
 	                                    name,
-                                        image)
+                                        profileImage,
+                                        coverImage)
                                     OUTPUT INSERTED.ID
                                     VALUES
 	                                    (@userId,
@@ -104,7 +109,8 @@ public class StoreRepository : BaseRepository, IStoreRepository
                 DbUtils.AddParameter(cmd, "@userId", store.UserId);
                 DbUtils.AddParameter(cmd, "@dateCreated", store.DateCreated);
                 DbUtils.AddParameter(cmd, "@name", store.Name);
-                DbUtils.AddParameter(cmd, "@image", store.Image);
+                DbUtils.AddParameter(cmd, "@profileImage", store.ProfileImage);
+                DbUtils.AddParameter(cmd, "@coverImage", store.CoverImage);
 
                 store.Id = (int)cmd.ExecuteScalar();
             }
@@ -122,13 +128,15 @@ public class StoreRepository : BaseRepository, IStoreRepository
 	                                    SET userId = @userId,
 	                                        dateCreated = @dateCreated,
 	                                        name = @name,
-                                            image = @image
+                                            profileImage = @profileImage,
+                                            coverImage = @coverImage
                                     WHERE id = @id";
 
                 DbUtils.AddParameter(cmd, "@userId", store.UserId);
                 DbUtils.AddParameter(cmd, "@dateCreated", store.DateCreated);
                 DbUtils.AddParameter(cmd, "@name", store.Name);
-                DbUtils.AddParameter(cmd, "@image", store.Image);
+                DbUtils.AddParameter(cmd, "@profileImage", store.ProfileImage);
+                DbUtils.AddParameter(cmd, "@coverImage", store.CoverImage);
 
                 cmd.ExecuteNonQuery();
             }
