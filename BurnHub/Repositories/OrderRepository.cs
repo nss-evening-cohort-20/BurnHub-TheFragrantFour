@@ -357,8 +357,4 @@ public class OrderRepository : BaseRepository, IOrderRepository
             }
         }
     }
-
-
-    
-    
 }
