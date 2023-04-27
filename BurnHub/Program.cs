@@ -17,6 +17,7 @@ builder.Services.AddTransient<IStoreRepository, StoreRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IItemRepository, ItemRepository>();
+builder.Services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 
 
 var app = builder.Build();

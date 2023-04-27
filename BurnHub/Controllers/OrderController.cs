@@ -70,32 +70,6 @@ namespace BurnHub.Controllers
         }
 
 
-        // ---- ORDER ITEM ----
-
-        [HttpPost("addOrderItem")]
-        public IActionResult PostOrderItem(OrderItem orderItem)
-        {
-            _orderRepo.AddOrderItem(orderItem);
-            return CreatedAtAction("Get", new { id = orderItem.Id }, orderItem);
-        }
-
-        [HttpPut("orderItem/{id}")]
-        public IActionResult PutOrderItem(int id, OrderItem orderItem)
-        {
-            if (id != orderItem.Id)
-            {
-                return BadRequest();
-            }
-
-            _orderRepo.UpdateOrderItem(orderItem);
-            return NoContent();
-        }
-
-        [HttpDelete("orderItem/{id}")]
-        public IActionResult DeleteOrderItem(int id)
-        {
-            _orderRepo.DeleteOrderItem(id);
-            return NoContent();
-        }
+        
     }
 }
