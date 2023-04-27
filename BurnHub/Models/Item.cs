@@ -12,4 +12,5 @@ public class Item
     public string Image { get; set; }
     public Category? Category { get; set; }
     public Store? Store { get; set; }
+    public Favorite? Favorite { get; set; }
 }
