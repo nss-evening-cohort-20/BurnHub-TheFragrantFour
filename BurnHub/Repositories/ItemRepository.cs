@@ -81,6 +81,81 @@ public class ItemRepository : BaseRepository, IItemRepository
         }
     }
 
+    public List<Item> GetPagedItems(int pageNumber, int pageSize)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT
+                                        i.id,
+                                        i.name,
+                                        i.categoryId,
+                                        i.storeId,
+                                        i.quantity,
+                                        i.description,
+                                        i.price,
+                                        i.image,
+	                                    s.userId as storeUserId,
+	                                    s.dateCreated as storeDateCreated,
+	                                    s.name as storeName,
+	                                    s.profileImage as storeProfileImage,
+	                                    s.image as storeImage,
+	                                    c.name as categoryName,
+	                                    c.image as categoryImage
+                                    FROM Item i
+                                    JOIN Store s
+	                                    ON i.storeId = s.id
+                                    JOIN Category c
+	                                    ON i.categoryId = c.id
+                                    Order by i.id
+                                    OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                
+                DbUtils.AddParameter(cmd, "@Offset", (pageNumber - 1) * pageSize);
+                DbUtils.AddParameter(cmd, "@PageSize", pageSize);
+
+                var reader = cmd.ExecuteReader();
+                var items = new List<Item>();
+
+                while (reader.Read())
+                {
+                    var item = new Item()
+                    {
+                        Id = DbUtils.GetInt(reader, "id"),
+                        Name = DbUtils.GetString(reader, "name"),
+                        CategoryId = DbUtils.GetInt(reader, "categoryId"),
+                        StoreId = DbUtils.GetInt(reader, "storeId"),
+                        Quantity = DbUtils.GetInt(reader, "quantity"),
+                        Description = DbUtils.GetString(reader, "description"),
+                        Price = DbUtils.GetInt(reader, "price"),
+                        Image = DbUtils.GetString(reader, "image"),
+                        Category = new Category()
+                        {
+                            Id = DbUtils.GetInt(reader, "categoryId"),
+                            Name = DbUtils.GetString(reader, "categoryName"),
+                            Image = DbUtils.GetString(reader, "categoryImage")
+                        },
+                        Store = new Store()
+                        {
+                            Id = DbUtils.GetInt(reader, "storeId"),
+                            UserId = DbUtils.GetInt(reader, "storeUserId"),
+                            DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
+                            Name = DbUtils.GetString(reader, "storeName"),
+                            ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
+                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                        }
+                    };
+
+                    items.Add(item);
+                }
+
+                reader.Close();
+                return items;
+            }
+        }
+    }
+
     public List<Item> GetAll()
     {
         using (var conn = Connection)
