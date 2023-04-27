@@ -7,7 +7,7 @@ public class OptionRepository : BaseRepository, IOptionRepository
 {
     public OptionRepository(IConfiguration configuration) : base(configuration) { }
 
-    public List<Option> GetOptions()
+    public List<Option> GetAll()
     {
         using (var conn = Connection)
         {
@@ -40,7 +40,7 @@ public class OptionRepository : BaseRepository, IOptionRepository
         }
     }
 
-    public Option GetOptionById(int id)
+    public Option GetById(int id)
     {
         using (var conn = Connection)
         {
@@ -76,7 +76,7 @@ public class OptionRepository : BaseRepository, IOptionRepository
         }
     }
 
-    public void AddOption(Option option)
+    public void Add(Option option)
     {
         using (var conn = Connection)
         {
@@ -97,7 +97,7 @@ public class OptionRepository : BaseRepository, IOptionRepository
         }
     }
 
-    public void UpdateOption(Option option)
+    public void Update(Option option)
     {
         using (var conn = Connection)
         {
@@ -117,7 +117,7 @@ public class OptionRepository : BaseRepository, IOptionRepository
         }
     }
 
-    public void DeleteOption(int id)
+    public void Delete(int id)
     {
         using (var conn = Connection)
         {

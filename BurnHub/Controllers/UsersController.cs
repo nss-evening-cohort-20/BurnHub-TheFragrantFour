@@ -4,57 +4,57 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BurnHub.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class StoreController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly IStoreRepository _storeRepo;
+        private readonly IUserRepository _userRepo;
 
-        public StoreController(IStoreRepository storeRepo)
+        public UsersController(IUserRepository userRepo)
         {
-            _storeRepo = storeRepo;
+            _userRepo = userRepo;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_storeRepo.GetAll());
+            return Ok(_userRepo.GetAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var store = _storeRepo.GetById(id);
-            if (store == null)
+            var user = _userRepo.GetById(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return Ok(store);
+            return Ok(user);
         }
 
         [HttpPost]
-        public IActionResult Post(Store store)
+        public IActionResult Post(User user)
         {
-            _storeRepo.Add(store);
-            return CreatedAtAction("Get", new { id = store.Id }, store);
+            _userRepo.Add(user);
+            return CreatedAtAction("Get", new { id = user.Id }, user);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Store store)
+        public IActionResult Put(int id, User user)
         {
-            if (id != store.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _storeRepo.Update(store);
+            _userRepo.Update(user);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _storeRepo.Delete(id);
+            _userRepo.Delete(id);
             return NoContent();
         }
     }

@@ -6,11 +6,11 @@ namespace BurnHub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FavoriteController : ControllerBase
+    public class FavoritesController : ControllerBase
     {
         private readonly IFavoriteRepository _favoriteRepo;
 
-        public FavoriteController(IFavoriteRepository favoriteRepo)
+        public FavoritesController(IFavoriteRepository favoriteRepo)
         {
             _favoriteRepo = favoriteRepo;
         }

@@ -7,11 +7,11 @@ namespace BurnHub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderItemController : ControllerBase
+    public class OrderItemsController : ControllerBase
 	{
         private readonly IOrderItemRepository _orderItemRepo;
 
-        public OrderItemController(IOrderItemRepository orderItemRepo)
+        public OrderItemsController(IOrderItemRepository orderItemRepo)
         {
             _orderItemRepo = orderItemRepo;
         }
