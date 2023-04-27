@@ -13,9 +13,7 @@ namespace BurnHub.Repositories
         void Update(OrderBasic order);
         void Delete(int id);
 
-        // ---- ORDER ITEM ----
-        void AddOrderItem(OrderItem orderItem);
-        void UpdateOrderItem(OrderItem orderItem);
-        void DeleteOrderItem(int id);
+        
+     
     }
 }

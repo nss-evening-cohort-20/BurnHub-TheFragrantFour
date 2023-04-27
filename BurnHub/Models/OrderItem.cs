@@ -7,4 +7,6 @@ public class OrderItem
     public int ItemId { get; set; }
     public int ItemQuantity { get; set; }
     public Item? Item { get; set; }
+    public Store? Store { get; set; }
+    public Order? Order { get; set; }
 }
