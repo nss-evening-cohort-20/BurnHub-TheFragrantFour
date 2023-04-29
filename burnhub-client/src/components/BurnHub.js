@@ -1,9 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import { Authorized } from "./views/Authorized";
 import { ApplicationViews } from "./views/ApplicationViews";
 import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
-import { NavBar } from "./nav/NavBar";
 
 export const BurnHub = () => {
   return (
@@ -14,12 +12,9 @@ export const BurnHub = () => {
       <Route
         path="*"
         element={
-          <Authorized>
-            <NavBar />
             <ApplicationViews />
-          </Authorized>
         }
       />
     </Routes>
-  )
-}
+  );
+};
