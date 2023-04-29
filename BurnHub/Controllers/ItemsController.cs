@@ -26,6 +26,12 @@ namespace BurnHub.Controllers
             return Ok(_itemRepo.GetAll());
         }
 
+        [HttpGet("paged")]
+        public IActionResult GetPagedItems(int pageNumber, int pageSize)
+        {
+            return Ok(_itemRepo.GetPagedItems(pageNumber, pageSize));
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
