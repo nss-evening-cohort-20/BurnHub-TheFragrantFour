@@ -61,12 +61,12 @@ export const Login = () => {
             />
             </fieldset>
             <fieldset>
-            <button type="submit">Sign in</button>
+            <button type="submit" className="border border-black">Sign in</button>
             </fieldset>
         </form>
         </section>
         <section className="link--register">
-        <Link to="/register">Not a member yet?</Link>
+        <Link to="/register" className="border border-black">Not a member yet?</Link>
         </section>
         <h2>Login With Google?</h2>
         <button type="submit" onClick={onSubmitLoginGoogle}>

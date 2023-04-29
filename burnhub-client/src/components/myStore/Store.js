@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 export const Store = () => {
 
     return <main>
@@ -9,5 +11,8 @@ export const Store = () => {
         <div>Store</div>
         <div>Store</div>
         <div>Store</div>
+
+
+
     </main>
 }
