@@ -4,7 +4,7 @@ import {
     signInWithEmailAndPassword,
     signOut,
     updateProfile,
-  } from "firebase/auth";
+} from "firebase/auth";
   
   // userObject expected ---->
   // {
@@ -31,7 +31,7 @@ import {
                 type: "email",
               };
               // Saves the user to localstorage
-              localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+              localStorage.setItem("user", JSON.stringify(userAuth));
               // Navigate us back to home
               navigate("/");
             },
@@ -61,7 +61,7 @@ import {
               type: "email",
             };
             // Saves the user to localstorage
-            localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+            localStorage.setItem("user", JSON.stringify(userAuth));
             // Navigate us back to home
             navigate("/");
           })
@@ -78,9 +78,9 @@ import {
       signOut(auth)
         .then(() => {
           // Remove the user from localstorage
-          localStorage.removeItem("capstone_user");
+          localStorage.removeItem("user");
           // Navigate us back to home
-          navigate("/");
+          navigate("/login");
           console.log("Sign Out Success!");
         })
         .catch((error) => {

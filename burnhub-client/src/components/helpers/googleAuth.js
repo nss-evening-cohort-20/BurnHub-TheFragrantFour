@@ -23,7 +23,7 @@ import {
               type: "google",
             };
             // Add user object to localStorage
-            localStorage.setItem("capstone_user", JSON.stringify(userAuth));
+            localStorage.setItem("user", JSON.stringify(userAuth));
             // Navigate us back home
             navigate("/");
             console.log("you did it");
@@ -42,9 +42,9 @@ import {
       signOut(auth)
         .then(() => {
           // Remove user from localStorage
-          localStorage.removeItem("capstone_user");
+          localStorage.removeItem("user");
           // Navigate us back home
-          navigate("/");
+          navigate("/login");
           console.log("Sign Out Success!");
         })
         .catch((error) => {
