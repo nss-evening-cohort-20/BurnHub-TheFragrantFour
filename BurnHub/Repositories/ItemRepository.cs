@@ -28,7 +28,7 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.dateCreated as storeDateCreated,
 	                                    s.name as storeName,
 	                                    s.profileImage as storeProfileImage,
-	                                    s.image as storeImage,
+	                                    s.coverImage as storeCoverImage,
 	                                    c.name as categoryName,
 	                                    c.image as categoryImage
                                     FROM Item i
@@ -68,7 +68,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                             DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
                             Name = DbUtils.GetString(reader, "storeName"),
                             ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
-                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                            CoverImage = DbUtils.GetString(reader, "storeCoverImage")
                         }
                     };
 
@@ -101,7 +101,7 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.dateCreated as storeDateCreated,
 	                                    s.name as storeName,
 	                                    s.profileImage as storeProfileImage,
-	                                    s.image as storeImage,
+	                                    s.coverImage as storeCoverImage,
 	                                    c.name as categoryName,
 	                                    c.image as categoryImage
                                     FROM Item i
@@ -143,7 +143,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                             DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
                             Name = DbUtils.GetString(reader, "storeName"),
                             ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
-                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                            CoverImage = DbUtils.GetString(reader, "storeCoverImage")
                         }
                     };
 
@@ -176,7 +176,7 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.dateCreated as storeDateCreated,
 	                                    s.name as storeName,
 	                                    s.profileImage as storeProfileImage,
-	                                    s.image as storeImage,
+	                                    s.coverImage as storeCoverImage,
 	                                    c.name as categoryName,
 	                                    c.image as categoryImage
                                     FROM Item i
@@ -213,7 +213,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                             DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
                             Name = DbUtils.GetString(reader, "storeName"),
                             ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
-                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                            CoverImage = DbUtils.GetString(reader, "storeCoverImage")
                         }
                     };
 
@@ -246,7 +246,7 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.dateCreated as storeDateCreated,
 	                                    s.name as storeName,
 	                                    s.profileImage as storeProfileImage,
-	                                    s.image as storeImage,
+	                                    s.coverImage as storeCoverImage,
 	                                    c.name as categoryName,
 	                                    c.image as categoryImage
                                     FROM Item i
@@ -286,7 +286,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                             DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
                             Name = DbUtils.GetString(reader, "storeName"),
                             ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
-                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                            CoverImage = DbUtils.GetString(reader, "storeCoverImage")
                         }
                     };
                 }
@@ -317,7 +317,7 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.dateCreated as storeDateCreated,
 	                                    s.name as storeName,
 	                                    s.profileImage as storeProfileImage,
-	                                    s.image as storeImage,
+	                                    s.coverImage as storeCoverImage,
 	                                    c.name as categoryName,
 	                                    c.image as categoryImage
                                     FROM Item i
@@ -356,7 +356,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                             DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
                             Name = DbUtils.GetString(reader, "storeName"),
                             ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
-                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                            CoverImage = DbUtils.GetString(reader, "storeCoverImage")
                         }
                     };
 
@@ -389,7 +389,7 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    s.dateCreated as storeDateCreated,
 	                                    s.name as storeName,
 	                                    s.profileImage as storeProfileImage,
-	                                    s.image as storeImage,
+	                                    s.coverImage as storeCoverImage,
 	                                    c.name as categoryName,
 	                                    c.image as categoryImage
                                     FROM Item i
@@ -428,7 +428,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                             DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
                             Name = DbUtils.GetString(reader, "storeName"),
                             ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
-                            CoverImage = DbUtils.GetString(reader, "storeImage")
+                            CoverImage = DbUtils.GetString(reader, "storeCoverImage")
                         }
                     };
 
