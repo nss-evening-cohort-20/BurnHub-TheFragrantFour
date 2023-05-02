@@ -37,7 +37,7 @@ public class OrderItemRepository : BaseRepository, IOrderItemRepository
                                         s.dateCreated as storeDateCreated,
                                         s.name as storeName,
                                         s.profileImage as storeProfileImage,
-                                        s.image as storeImage
+                                        s.coverImage as storeCoverImage
                                     FROM [OrderItem] oI
                                     JOIN [Order] o
                                     ON oI.orderId = o.id
@@ -88,7 +88,7 @@ public class OrderItemRepository : BaseRepository, IOrderItemRepository
                                 DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
                                 Name = DbUtils.GetString(reader, "storeName"),
                                 ProfileImage = DbUtils.GetString(reader, "storeProfileImage"),
-                                CoverImage = DbUtils.GetString(reader, "storeImage")
+                                CoverImage = DbUtils.GetString(reader, "storeCoverImage")
                             },
                         };
                     }
