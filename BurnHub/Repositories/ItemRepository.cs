@@ -254,7 +254,7 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    ON i.storeId = s.id
                                     JOIN Category c
 	                                    ON i.categoryId = c.id
-                                    WHERE id = @id";
+                                    WHERE i.id = @id";
 
                 DbUtils.AddParameter(cmd, "@id", id);
 
