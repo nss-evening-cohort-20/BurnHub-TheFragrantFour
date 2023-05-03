@@ -1,12 +1,48 @@
-import candle1 from "../../images/candle-1.jpg"
+import { HomeCard } from "./HomeCard"
+import candle1 from "../../images/homeCandle-1.jpg"
+import candle2 from "../../images/homeCandle-2.png"
+import candle3 from "../../images/homeCandle-3.jpg"
+import candle4 from "../../images/homeCandle-4.jpg"
+import incense1 from "../../images/homeIncense-1.jpg"
+import candleHolder1 from "../../images/homeCandleHolder-1.jpg"
+import store1 from "../../images/homeStore-1.jpg"
+import store2 from "../../images/homeStore-2.jpg"
+import store3 from "../../images/homeStore-3.jpg"
 
 export const Home = () => {
 
-    return <a href="#" className="h-40 flex justify-between items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-        <div className="flex flex-col justify-between p-4 leading-normal">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">View all products</h5>
-        </div>
-        <img className="object-cover w-full rounded-t-lg md:h-full md:w-6/12 md:rounded-none md:rounded-l-lg" src={candle1} alt=""/>
-    </a>
+
+    return <div className="w-3/4 m-auto mt-12 flex flex-col justify-center items-center gap-12">
+        <HomeCard
+            navRoute={'/allProducts'}
+            text={'View All Products'}
+            img1={incense1}
+            img1AltText={''}
+            img2={candle4}
+            img2AltText={''}
+            img3={candleHolder1}
+            img3AltText={''}
+        />
+        <HomeCard
+            navRoute={'/candles'}
+            text={'View All Candles'}
+            img1={candle1}
+            img1AltText={''}
+            img2={candle2}
+            img2AltText={''}
+            img3={candle3}
+            img3AltText={''}
+        />
+        <HomeCard
+            navRoute={'/stores'}
+            text={'View All Stores'}
+            img1={store1}
+            img1AltText={''}
+            img2={store2}
+            img2AltText={''}
+            img3={store3}
+            img3AltText={''}
+        />
+    </div>
     
 }
