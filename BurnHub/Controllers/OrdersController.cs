@@ -39,14 +39,14 @@ namespace BurnHub.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(OrderBasic order)
+        public IActionResult Post(Order order)
         {
             _orderRepo.Add(order);
             return CreatedAtAction("Get", new { id = order.Id }, order);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, OrderBasic order)
+        public IActionResult Put(int id, Order order)
         {
             if (id != order.Id)
             {

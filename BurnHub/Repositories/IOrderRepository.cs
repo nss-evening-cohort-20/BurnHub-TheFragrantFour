@@ -7,8 +7,8 @@ namespace BurnHub.Repositories
         List<Order> GetAll();
         Order GetById(int id);
         List<Order> GetAllByUserId(int id, bool complete);
-        void Add(OrderBasic order);
-        void Update(OrderBasic order);
+        void Add(Order order);
+        void Update(Order order);
         void Delete(int id);
 
         
