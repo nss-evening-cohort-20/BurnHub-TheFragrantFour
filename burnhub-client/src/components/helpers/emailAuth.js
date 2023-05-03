@@ -12,6 +12,30 @@ import {
   //   password: "",
   //   fullName: "",
   // }
+
+  // const addUserToDB = async (userObj) => {
+  //   const newUser = {
+  //     name: userObj.displayName,
+  //     isSeller: false,
+  //     dateCreated: new Date(Date.now()),
+  //     email: userObj.email,
+  //     firebaseId: userObj.uid,
+  //     image: null
+  //   }
+
+  //   const sendData = async () => {
+  //     const options = {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify(newUser)
+  //     }
+  //     await fetch(`http://localhost:7069/Users`, options)
+  //   }
+
+  //   sendData()
+  // }
   
   export const emailAuth = {
     // Register New User
@@ -32,6 +56,7 @@ import {
               };
               // Saves the user to localstorage
               localStorage.setItem("user", JSON.stringify(userAuth));
+              // addUserToDB(userAuth)
               // Navigate us back to home
               navigate("/");
             },
