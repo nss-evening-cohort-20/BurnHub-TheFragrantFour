@@ -80,7 +80,7 @@ CREATE TABLE [Store] (
   [dateCreated] datetime not null,
   [name] nvarchar(255) not null,
   [profileImage] nvarchar(255),
-  [image] nvarchar(255)
+  [coverImage] nvarchar(255)
 )
 GO
 
