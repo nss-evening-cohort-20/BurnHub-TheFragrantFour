@@ -295,7 +295,7 @@ public class OrderRepository : BaseRepository, IOrderRepository
         }
     }
 
-    public void Add(OrderBasic order)
+    public void Add(Order order)
     {
         using (var conn = Connection)
         {
@@ -321,7 +321,7 @@ public class OrderRepository : BaseRepository, IOrderRepository
         }
     }
 
-    public void Update(OrderBasic order)
+    public void Update(Order order)
     {
         using (var conn = Connection)
         {
