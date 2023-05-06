@@ -4,53 +4,64 @@ import {
     GoogleAuthProvider,
     signOut,
   } from "firebase/auth";
+import { AddUser, FetchUserByFirebaseId } from "../APIManager";
   
   // SignIn brings up the google sign in pop up AND works
   // for both signing in AND registering a user
   
   export const googleAuth = {
     // Works to sign in AND register a user
-    signInRegister: function(navigate) {
+    signInRegister: function(setUserState, setIsLoginModalOpen) {
       return new Promise((res) => {
-        const provider = new GoogleAuthProvider();
-        const auth = getAuth();
+        const provider = new GoogleAuthProvider()
+        const auth = getAuth()
         signInWithPopup(auth, provider)
-          .then((userCredential) => {
+          .then(async (userCredential) => {
+            let dbUser = await FetchUserByFirebaseId(userCredential.user.uid)
+            if (dbUser.title === "Not Found") {
+              dbUser = {
+                name: userCredential.user.displayName,
+                isSeller: false,
+                dateCreated: new Date(),
+                email: userCredential.user.email,
+                firebaseId: userCredential.user.uid,
+                image: null
+              }
+              await AddUser(dbUser)
+            }
+            setUserState(dbUser)
             const userAuth = {
               email: userCredential.user.email,
-              displayName: userCredential.user.displayName,
+              isSeller: dbUser.isSeller,
               uid: userCredential.user.uid,
               type: "google",
-            };
-            // Add user object to localStorage
-            localStorage.setItem("user", JSON.stringify(userAuth));
-            // Navigate us back home
-            navigate("/");
-            console.log("you did it");
+            }
+            localStorage.setItem("user", JSON.stringify(userAuth))
+            setIsLoginModalOpen(false)
           })
           .catch((error) => {
-            console.log("Google Sign In Error");
-            console.log("error code", error.code);
-            console.log("error message", error.message);
-            console.log("error email", error.email);
+            console.log("Google Sign In Error")
+            console.log("error code", error.code)
+            console.log("error message", error.message)
+            console.log("error email", error.email)
+            window.alert('Invalid Credentials')
           });
       });
     },
     // Sign out a user
-    signOut: function(navigate) {
+    signOut: function(setUserState) {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
-          // Remove user from localStorage
-          localStorage.removeItem("user");
-          // Navigate us back home
-          navigate("/login");
-          console.log("Sign Out Success!");
+          localStorage.removeItem("user")
+          setUserState("")
+          console.log("Sign Out Success!")
         })
         .catch((error) => {
-          console.log("Google SignOut Error");
-          console.log("error code", error.code);
-          console.log("error message", error.message);
-        });
+          console.log("Google SignOut Error")
+          console.log("error code", error.code)
+          console.log("error message", error.message)
+          window.alert('Sign Out Error')
+        })
     },
-  };
+  }

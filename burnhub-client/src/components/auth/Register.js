@@ -4,7 +4,7 @@ import { googleAuth } from "../helpers/googleAuth";
 import { emailAuth } from "../helpers/emailAuth";
 import { Dialog } from "@headlessui/react";
 
-export const Register = ({ isOpen, setIsOpen, setIsLoginOpen }) => {
+export const Register = ({ isOpen, setIsOpen, setUserObj }) => {
     const [user, setUser] = useState({
         email: "",
         fullName: "",
@@ -13,18 +13,18 @@ export const Register = ({ isOpen, setIsOpen, setIsLoginOpen }) => {
     let navigate = useNavigate();
 
     const handleRegister = async (e) => {
-        e.preventDefault();
-        emailAuth.register(user, navigate);
+        e.preventDefault()
+        emailAuth.register(user, setUserObj, setIsOpen)
     }
 
     const updateUser = (evt) => {
-        const copy = { ...user };
-        copy[evt.target.id] = evt.target.value;
-        setUser(copy);
+        const copy = { ...user }
+        copy[evt.target.id] = evt.target.value
+        setUser(copy)
     }
 
     const onSubmitLogin = async () => {
-        googleAuth.signInRegister(navigate);
+        googleAuth.signInRegister(setUserObj, setIsOpen)
     }
 
     return (

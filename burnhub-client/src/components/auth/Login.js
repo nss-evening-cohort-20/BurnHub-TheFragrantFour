@@ -1,105 +1,112 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { emailAuth } from "../helpers/emailAuth";
 import { googleAuth } from "../helpers/googleAuth";
 import { Dialog } from "@headlessui/react";
 
-export const Login = ({ isOpen, setIsOpen, setIsRegisterOpen }) => {
+export const Login = ({ isOpen, setIsOpen, setIsRegisterOpen, setUserObj }) => {
     const [login, setLogin] = useState({
         email: "",
         password: "",
     })
-    const navigate = useNavigate();
 
     const updateLogin = (evt) => {
-        const copy = { ...login };
-        copy[evt.target.id] = evt.target.value;
-        setLogin(copy);
+        const copy = { ...login }
+        copy[evt.target.id] = evt.target.value
+        setLogin(copy)
     }
 
     const onSubmitLoginEmail = async (e) => {
-        e.preventDefault();
-        emailAuth.signIn(login);
-        setIsOpen(false)
+        e.preventDefault()
+        emailAuth.signIn(login, setUserObj, setIsOpen, setLogin)
     }
 
     const onSubmitLoginGoogle = async () => {
-        googleAuth.signInRegister(navigate);
+        googleAuth.signInRegister(setUserObj, setIsOpen, setLogin)
     }
 
-        return (
-            <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-                <div className="w-1/4 h-2/3 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 fixed inset-0 flex flex-col justify-between items-center bg-gray-800 text-gray-300 rounded-lg shadow-2xl shadow-gray-900">
-                    <header className="mt-8 mb-8 text-3xl">
-                        Sign In
-                    </header>
-                    <form
-                        className="w-full flex flex-col items-center gap-8"
-                        onSubmit={onSubmitLoginEmail}
-                    >
-                        <fieldset className="w-2/3 flex">
-                            <svg className="w-5 fill-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
-                            </svg>
-                            <input
-                                type="email"
-                                value={login.email}
-                                id="email"
-                                onChange={(evt) => updateLogin(evt)}
-                                className="w-full ml-2 pl-1 text-left text-xl border-b border-gray-400 bg-transparent focus:outline-none placeholder:font-light placeholder:text-gray-500"
-                                placeholder="Email"
-                                required
-                                autoFocus
-                            />
-                        </fieldset>
-                        <fieldset className="w-2/3 flex">
-                            <svg className="w-5 fill-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
-                            </svg>
-                            <input
-                                type="password"
-                                value={login.password}
-                                id="password"
-                                onChange={(evt) => updateLogin(evt)}
-                                className="w-full ml-2 pl-1 text-left text-xl border-b border-gray-400 bg-transparent focus:outline-none placeholder:font-light placeholder:text-gray-500"
-                                placeholder="Password"
-                                required
-                                autoFocus
-                            />
-                        </fieldset>
-                        <fieldset className="mt-4 flex flex-col justify-center items-center">
-                            <button type="submit" className="text-xl px-2 py-1/2 text-amber-500 rounded hover:text-amber-400">Sign in</button>
-                        </fieldset>
-                    </form>
+    useEffect(
+        () => {
+            if (!isOpen) {
+                setLogin("")
+            }
+        },
+        [isOpen]
+    )
 
-                    <section className="flex flex-col items-center">
-                        <span className="block mb-4 font-thin">or</span>
 
-                        <button type="submit" className="mb-12 px-3 py-1 border border-gray-400 rounded hover:text-gray-200" onClick={onSubmitLoginGoogle}>
-                            <svg className="w-5 inline mr-2 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
-                            </svg>
-                            <span>Login with Google</span>
-                        </button>
-
-                        <div className="mb-3">
-                            <span>Not a user yet? </span>
-                            <span
-                                onClick={() => {
-                                    setIsOpen(false)
-                                    setIsRegisterOpen(true)
-                                }}
-                                className="underline text-amber-500 hover:text-amber-400 hover:cursor-pointer"
-                            >Click here to register</span>
-                        </div>
-
-                        {/* Exit Button */}
-                        <svg className="w-3 absolute top-4 right-4 fill-amber-500 hover:fill-amber-400 hover:cursor-pointer" onClick={() => setIsOpen(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                            <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
+    return (
+        <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+            <div className="w-1/4 h-2/3 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 fixed inset-0 flex flex-col justify-between items-center bg-gray-800 text-gray-300 rounded-lg shadow-2xl shadow-gray-900">
+                <header className="mt-8 mb-8 text-3xl">
+                    Sign In
+                </header>
+                <form
+                    className="w-full flex flex-col items-center gap-8"
+                    onSubmit={onSubmitLoginEmail}
+                >
+                    <fieldset className="w-2/3 flex">
+                        <svg className="w-5 fill-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
                         </svg>
-                    </section>
-                </div>
-            </Dialog>
-        )
+                        <input
+                            type="email"
+                            value={login.email}
+                            id="email"
+                            onChange={(evt) => updateLogin(evt)}
+                            className="w-full ml-2 pl-1 text-left text-xl border-b border-gray-400 bg-transparent focus:outline-none placeholder:font-light autofill:text-green-200 placeholder:text-gray-500"
+                            placeholder="Email"
+                            required
+                            autoFocus
+                        />
+                    </fieldset>
+                    <fieldset className="w-2/3 flex">
+                        <svg className="w-5 fill-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
+                        </svg>
+                        <input
+                            type="password"
+                            value={login.password}
+                            id="password"
+                            onChange={(evt) => updateLogin(evt)}
+                            className="w-full ml-2 pl-1 text-left text-xl border-b border-gray-400 bg-transparent focus:outline-none placeholder:font-light placeholder:text-gray-500"
+                            placeholder="Password"
+                            required
+                            autoFocus
+                        />
+                    </fieldset>
+                    <fieldset className="mt-4 flex flex-col justify-center items-center">
+                        <button type="submit" className="text-xl px-2 py-1/2 text-amber-500 rounded hover:text-amber-400">Sign in</button>
+                    </fieldset>
+                </form>
+
+                <section className="flex flex-col items-center">
+                    <span className="block mb-4 font-thin">or</span>
+
+                    <button type="submit" className="mb-12 px-3 py-1 border border-gray-400 rounded hover:text-gray-200" onClick={onSubmitLoginGoogle}>
+                        <svg className="w-5 inline mr-2 fill-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+                            <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
+                        </svg>
+                        <span>Login with Google</span>
+                    </button>
+
+                    <div className="mb-3">
+                        <span>Not a user yet? </span>
+                        <span
+                            onClick={() => {
+                                setIsOpen(false)
+                                setIsRegisterOpen(true)
+                            }}
+                            className="underline text-amber-500 hover:text-amber-400 hover:cursor-pointer"
+                        >Click here to register</span>
+                    </div>
+
+                    {/* Exit Button */}
+                    <svg className="w-3 absolute top-4 right-4 fill-amber-500 hover:fill-amber-400 hover:cursor-pointer" onClick={() => setIsOpen(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
+                    </svg>
+                </section>
+            </div>
+        </Dialog>
+    )
 }

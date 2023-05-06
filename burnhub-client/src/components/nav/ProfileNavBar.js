@@ -3,23 +3,16 @@ import { Menu, Transition } from "@headlessui/react"
 import { Fragment } from "react"
 import { Link, useNavigate } from 'react-router-dom'
 
-export const ProfileNavBar = ({ getUser }) => {
+export const ProfileNavBar = ({ user, setUser }) => {
     const navigate = useNavigate()
 
-    const user = {
-        name: 'Tom Cook',
-        email: 'tom@example.com',
-        isSeller: true,
-        imageUrl:
-          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      }
     const userNavigation = [
         { name: 'Profile', to: '/profile' },
         { name: 'Favorites', to: '/favorites' },
-      ]
-      function classNames(...classes) {
+    ]
+    function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
-      }
+    }
     
     
     return <div className="hidden lg:relative lg:z-10 lg:ml-4 lg:flex lg:items-center">
@@ -28,8 +21,12 @@ export const ProfileNavBar = ({ getUser }) => {
         <Menu as="div" className="relative ml-4 flex-shrink-0">
             <div>
                 <Menu.Button className="flex rounded-full bg-gray-800 text-sm text-white hover:outline-none hover:ring-2 hover:ring-white hover:ring-offset-2 hover:ring-offset-gray-800">
-                <span className="sr-only">Open user menu</span>
-                <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                    <span className="sr-only">Open user menu</span>
+                    {
+                        user.image
+                            ? <img className="h-8 w-8 rounded-full" src={user.image} alt="" />
+                            : <span className="h-8 w-8 bg-amber-500 text-center text-xl font-semibold text-gray-800 rounded-full">{user.name[0]}</span>
+                    }
                 </Menu.Button>
             </div>
             <Transition
@@ -88,7 +85,7 @@ export const ProfileNavBar = ({ getUser }) => {
                     <Menu.Item key="Sign Out">
                         {({ active }) => (
                             <span
-                                onClick={() => logout.logout()}
+                                onClick={() => logout.logout(setUser)}
                                 className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer'

@@ -7,6 +7,7 @@ import { logout } from "../helpers/logout"
 import { ProfileNavBar } from './ProfileNavBar'
 import { Login } from '../auth/Login'
 import { Register } from '../auth/Register'
+import { FetchUserByFirebaseId } from '../APIManager'
 
 export const NavBar = () => {
   const navigate = useNavigate()
@@ -15,69 +16,64 @@ export const NavBar = () => {
 
 
     const [user, setUser] = useState({
-        name: "",
-        email: "",
-        firebaseUid: "",
-        isSeller: false,
-        imageUrl:"",
-      })
+      name: "",
+      isSeller: false,
+      dateCreated: "",
+      email: "",
+      firebaseId: "",
+      image: ""
+    })
 
-      const [isLoginOpen, setIsLoginOpen] = useState(false)
-      const [isRegisterOpen, setIsRegisterOpen] = useState(false)
+    const [isLoginOpen, setIsLoginOpen] = useState(false)
+    const [isRegisterOpen, setIsRegisterOpen] = useState(false)
 
-      const getUser = () => {
-        if (currentUser) {
-          setUser({
-            name: currentUser.displayName,
-            email: currentUser.email,
-            firebaseUid: currentUser.uid,
-            isSeller: true,
-            imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-          })
-        }
+    const getUser = async () => {
+      if (currentUser) {
+        const response = await FetchUserByFirebaseId(currentUser.uid)
+        setUser(response)
       }
+    }
 
-      useEffect(
-        () => {
-          getUser()
-        },
-        []
-      )
+    useEffect(
+      () => {
+        getUser()
+      },
+      []
+    )
 
-      const productsNav = [
-        { name: 'All Products', to: '/products', },
-        { name: 'Candles', to: '/products/candles', },
-        { name: 'Incense', to: '/products/incense', },
-        { name: 'Accessories', to: '/products/accessories' }
-      ]
-      const userNavigation = [
-        { name: 'Profile', to: '/profile' },
-        { name: 'Favorites', to: '/favorites' },
-      ]
-      
-      function classNames(...classes) {
-        return classes.filter(Boolean).join(' ')
-      }
+    const productsNav = [
+      { name: 'All Products', to: '/Items', },
+      { name: 'Candles', to: '/Items/candles', },
+      { name: 'Incense', to: '/Items/incense', },
+      { name: 'Accessories', to: '/Items/accessories' }
+    ]
+    const userNavigation = [
+      { name: 'Profile', to: '/profile' },
+      { name: 'Favorites', to: '/favorites' },
+    ]
+    
+    function classNames(...classes) {
+      return classes.filter(Boolean).join(' ')
+    }
 
 
-      const blurBackground = () => {
-        if (isLoginOpen || isRegisterOpen) {
-          document.getElementById('nav').classList.add("blur")
-          document.getElementById('home').classList.add("blur")
-          // will need to add more once we get id's for other components
-        } else {
-          document.getElementById('nav').classList.remove("blur")
-          document.getElementById('home').classList.remove("blur")
-        }
-      }
+    const blurBackground = () => {
+      // if (isLoginOpen || isRegisterOpen) {
+      //   document.getElementById('nav').classList.add("blur")
+      //   document.getElementById('home').classList.add("blur")
+      //   // will need to add more once we get id's for other components
+      // } else {
+      //   document.getElementById('nav').classList.remove("blur")
+      //   document.getElementById('home').classList.remove("blur")
+      // }
+    }
 
-      useEffect(
-        () => {
-          blurBackground()
-        },
-        [isLoginOpen, isRegisterOpen]
-      )
+    useEffect(
+      () => {
+        blurBackground()
+      },
+      [isLoginOpen, isRegisterOpen]
+    )
 
 
     return (
@@ -130,18 +126,22 @@ export const NavBar = () => {
                 {/* Profile NavBar */}
                 {
                   currentUser
-                    ? <ProfileNavBar />
+                    ? <ProfileNavBar
+                      user={user}
+                      setUser={setUser}
+                    />
                     : <span onClick={() => setIsLoginOpen(true)} className="lg:z-10 lg:flex lg:items-center text-gray-300 hover:text-amber-500 hover:cursor-pointer">Sign In</span>
                 }
                 <Login
                   isOpen={isLoginOpen}
                   setIsOpen={setIsLoginOpen}
                   setIsRegisterOpen={setIsRegisterOpen}
+                  setUserObj={setUser}
                 />
                 <Register
                   isOpen={isRegisterOpen}
                   setIsOpen={setIsRegisterOpen}
-                  setIsLoginOpen={setIsLoginOpen}
+                  setUserObj={setUser}
                 />
 
               </div>
