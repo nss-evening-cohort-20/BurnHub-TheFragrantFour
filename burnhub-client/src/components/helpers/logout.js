@@ -10,7 +10,7 @@ export const logout = {
     if (userRecord.type === "google") {
       googleAuth.signOut(navigate);
     } else if (userRecord.type === "email") {
-      emailAuth.signOut(navigate);
+      emailAuth.signOut();
     }
   },
 };

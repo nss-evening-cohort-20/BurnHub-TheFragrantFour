@@ -74,7 +74,7 @@ import {
         });
     },
     // Sign in existing user
-    signIn: function(userObj, navigate) {
+    signIn: function(userObj) {
       return new Promise((res) => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, userObj.email, userObj.password)
@@ -87,8 +87,6 @@ import {
             };
             // Saves the user to localstorage
             localStorage.setItem("user", JSON.stringify(userAuth));
-            // Navigate us back to home
-            navigate("/");
           })
           .catch((error) => {
             console.log("Email SignIn Error");
@@ -98,14 +96,13 @@ import {
       });
     },
     // Sign out
-    signOut: function(navigate) {
+    signOut: function(getUser) {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
           // Remove the user from localstorage
           localStorage.removeItem("user");
           // Navigate us back to home
-          navigate("/login");
           console.log("Sign Out Success!");
         })
         .catch((error) => {
