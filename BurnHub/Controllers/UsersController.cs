@@ -32,6 +32,17 @@ namespace BurnHub.Controllers
             return Ok(user);
         }
 
+        [HttpGet("uid/{uid}")]
+        public IActionResult GetByFirebaseId(string uid)
+        {
+            var user = _userRepo.GetByFirebaseId(uid);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public IActionResult Post(User user)
         {
