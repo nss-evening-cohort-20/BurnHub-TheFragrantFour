@@ -215,15 +215,15 @@ INSERT INTO [Item]
             ('Summer Time Smiles', 1 , 5 , 11 , 'Soy with slow burn wick and smells like summer', 11, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/summer-time-smiles.jpg?alt=media&token=a72bc48e-75a7-4159-bf75-289e180d6889'),
             ('Crisp Fall Air', 1 , 5 , 12 , 'Soy with slow burn wick and smells like fall', 12, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/crisp-fall-air.jpg?alt=media&token=c571326c-7646-426b-b37c-6b36bf9e1ad4'),
             ('Christmas Spirit', 1 , 6 , 4 , 'French vanilla candle', 15, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/christmas-spirit.jpg?alt=media&token=2a456f78-2949-4878-b26d-050ce768bd99'),
-            ('Sweet Apples', 1 , 6 , 9 , 'Apple candle', 16, NULL),
-            ('Rose', 1 , 7 , 8 , '200hr burn time with the smell of roses', 40, NULL),
-            ('Laundry Day', 1 , 7 , 12 , '500hr burn time with the smell of fresh laundry', 60, NULL),
-            ('Cinnamon Bun', 1 , 8 , 3 ,  null, 12, NULL),
-            ('Lavender', 1 , 8 , 18 , null, 14, NULL),
-            ('Fresh Peaches On The Farm In The Morning', 1 , 9 , 12 , 'peach truck summer day in mason jar', 20, NULL),
-            ('Spring Flowers', 1 , 9 , 10 , 'wild flower walk in the sun in large mason jar', 35, NULL),
-            ('Shamrockin'' Flavor', 1 , 10 , 2 , '10oz mint green refresher', 18, NULL),
-            ('Sparkling Limeade', 1 , 10 , 8 , '12oz lemon-lime refresher', 26, NULL)
+            ('Sweet Apples', 1 , 6 , 9 , 'Apple candle', 16, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/sweet-apples.jpg?alt=media&token=f53c6552-0964-4888-be45-792e05f1ddea'),
+            ('Rose', 1 , 7 , 8 , '200hr burn time with the smell of roses', 40, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/roses.jpg?alt=media&token=4e46e6d9-9d76-4a84-aecd-cd1d3887cf52'),
+            ('Laundry Day', 1 , 7 , 12 , '500hr burn time with the smell of fresh laundry', 60, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/laundry-day.jpg?alt=media&token=64ad1aa1-cafa-470a-ad7b-7c7e92873a3f'),
+            ('Cinnamon Bun', 1 , 8 , 3 ,  null, 12, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/cinnamon-bun.jpg?alt=media&token=ca933ebb-a852-47da-a716-b1e1e805020f'),
+            ('Lavender', 1 , 8 , 18 , null, 14, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/lavender.jpg?alt=media&token=a1771686-fcca-4141-a14c-0c97d529f81f'),
+            ('Fresh Peaches On The Farm In The Morning', 1 , 9 , 12 , 'peach truck summer day in mason jar', 20, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/peach-candle.jpg?alt=media&token=18087ee2-2daa-4be0-8e2c-dd2daba0680a'),
+            ('Spring Flowers', 1 , 9 , 10 , 'wild flower walk in the sun in large mason jar', 35, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/spring-flowers.jpg?alt=media&token=374fd515-586a-4276-b87c-2b07489e26c1'),
+            ('Shamrockin'' Flavor', 1 , 10 , 2 , '10oz mint green refresher', 18, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/shamrockin.jpg?alt=media&token=3c53a98d-cc8c-4459-b582-960397999e42'),
+            ('Sparkling Limeade', 1 , 10 , 8 , '12oz lemon-lime refresher', 26, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/sparkling-limeade.jpg?alt=media&token=dc1cabf8-2f26-43ec-8906-033410ce811a')
 GO
 
 INSERT INTO [Favorite]
