@@ -3,14 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 export const ProductForm = () => {
     const [product, setProduct] = useState({
-        userId: "",
         name: "",
-        category: "",
         description: "",
         price: "",
+        quantity: "",
         image: "",
     });
-    const [products, setProducts] = useState([]);
     const navigate = useNavigate();
 
     const localProjectUser = localStorage.getItem("project_user");
@@ -19,22 +17,23 @@ export const ProductForm = () => {
     const handleSaveButtonClick = (e) => {
         e.preventDefault();
 
-        const productToSentToAPI = {
-            userId: projectUserObject.id,
+        const productToSendToAPI = {
             name: product.name,
-            category: product.category,
+            categoryId: 1,
+            storeId: 1,
             description: product.description,
             price: product.price,
+            quantity: product.quantity,
             image: product.image
         }
     
 
-    const productData = fetch(`http://localhost:7069/Items`, {
+    const productData = fetch(`https://localhost:7069/Items`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(productToSentToAPI),
+        body: JSON.stringify(productToSendToAPI),
     })
         .then((response) => response.json())
         .then(() => {
@@ -89,16 +88,16 @@ export const ProductForm = () => {
             <fieldset>
                 <div>
                     <section>
-                        <label htmlFor="product">Category</label>
+                        <label htmlFor="product">Quantity</label>
                         <div></div>
                         <input
                           required
                           autoFocus
                           type="string"
-                          value={product.category}
+                          value={product.quantity}
                           onChange={(evt) => {
                             const copy = { ...product };
-                            copy.category = evt.target.value;
+                            copy.quantity = evt.target.value;
                             setProduct(copy)
                           }}
                           />                          
@@ -108,7 +107,7 @@ export const ProductForm = () => {
             <fieldset>
                 <div>
                     <section>
-                        <label htmlFor="productImage">Description</label>
+                        <label htmlFor="product">Description</label>
                         <div></div>
                         <input
                           required
@@ -127,7 +126,7 @@ export const ProductForm = () => {
             <fieldset>
                 <div>
                     <section>
-                        <label htmlFor="productImage">Price</label>
+                        <label htmlFor="product">Price</label>
                         <div></div>
                         <input
                           required
