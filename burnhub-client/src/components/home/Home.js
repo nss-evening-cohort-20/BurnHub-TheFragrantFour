@@ -12,9 +12,9 @@ import store3 from "../../images/homeStore-3.jpg"
 export const Home = () => {
 
 
-    return <div className="w-3/4 m-auto mt-12 flex flex-col justify-center items-center gap-12">
+    return <div id="home" className="w-1/2 m-auto mt-12 flex flex-col justify-center items-center gap-12">
         <HomeCard
-            navRoute={'/allProducts'}
+            navRoute={'/Items'}
             text={'View All Products'}
             img1={incense1}
             img1AltText={''}

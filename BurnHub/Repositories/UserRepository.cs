@@ -91,6 +91,48 @@ public class UserRepository : BaseRepository, IUserRepository
         }
     }
 
+    public User GetByFirebaseId(string uid)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT
+                                        id,
+	                                    name,
+	                                    isSeller,
+	                                    dateCreated,
+	                                    email,
+	                                    firebaseId,
+	                                    image
+                                    FROM [User]
+                                    WHERE firebaseId = @uid";
+                DbUtils.AddParameter(cmd, "@uid", uid);
+
+                var reader = cmd.ExecuteReader();
+
+                User user = null;
+                if (reader.Read())
+                {
+                    user = new User()
+                    {
+                        Id = DbUtils.GetInt(reader, "id"),
+                        Name = DbUtils.GetString(reader, "name"),
+                        IsSeller = DbUtils.GetBoolean(reader, "isSeller"),
+                        DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
+                        Email = DbUtils.GetString(reader, "email"),
+                        FirebaseId = DbUtils.GetString(reader, "firebaseId"),
+                        Image = DbUtils.GetString(reader, "image")
+                    };
+                }
+
+                reader.Close();
+                return user;
+            }
+        }
+    }
+
     public void Add(User user)
     {
         using (var conn = Connection)

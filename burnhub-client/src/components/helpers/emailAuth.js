@@ -5,113 +5,94 @@ import {
     signOut,
     updateProfile,
 } from "firebase/auth";
-  
-  // userObject expected ---->
-  // {
-  //   email: "",
-  //   password: "",
-  //   fullName: "",
-  // }
+import { AddUser, FetchUserByFirebaseId } from "../APIManager";
 
-  // const addUserToDB = async (userObj) => {
-  //   const newUser = {
-  //     name: userObj.displayName,
-  //     isSeller: false,
-  //     dateCreated: new Date(Date.now()),
-  //     email: userObj.email,
-  //     firebaseId: userObj.uid,
-  //     image: null
-  //   }
-
-  //   const sendData = async () => {
-  //     const options = {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify(newUser)
-  //     }
-  //     await fetch(`http://localhost:7069/Users`, options)
-  //   }
-
-  //   sendData()
-  // }
   
   export const emailAuth = {
     // Register New User
-    register: function(userObj, navigate) {
+    register: function(userObj, setUserState, setIsRegisterOpen) {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, userObj.email, userObj.password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const auth = getAuth();
-          updateProfile(auth.currentUser, {
+          await updateProfile(auth.currentUser, {
             displayName: userObj.fullName,
           }).then(
             function() {
+              //add to local storage
               const userAuth = {
                 email: userCredential.user.email,
-                displayName: userObj.fullName,
+                isSeller: false,
                 uid: userCredential.user.uid,
-                type: "email",
-              };
-              // Saves the user to localstorage
+                type: "email"
+              }
               localStorage.setItem("user", JSON.stringify(userAuth));
-              // addUserToDB(userAuth)
-              // Navigate us back to home
-              navigate("/");
+              //add to DB
+              const dbUser = {
+                name: userCredential.user.displayName,
+                isSeller: false,
+                dateCreated: new Date(),
+                email: userCredential.user.email,
+                firebaseId: userCredential.user.uid,
+                image: null
+              }
+              AddUser(dbUser)
+              setUserState(dbUser)
+              setIsRegisterOpen(false)
             },
             function(error) {
-              console.log("Email Register Name Error");
-              console.log("error code", error.code);
-              console.log("error message", error.message);
+              console.log("Email Register Name Error")
+              console.log("error code", error.code)
+              console.log("error message", error.message)
+              window.alert('Invalid Credentials')
             }
           );
         })
         .catch((error) => {
-          console.log("Email Register Error");
-          console.log("error code", error.code);
-          console.log("error message", error.message);
+          console.log("Email Register Error")
+          console.log("error code", error.code)
+          console.log("error message", error.message)
+          window.alert('Invalid Credentials')
         });
     },
     // Sign in existing user
-    signIn: function(userObj, navigate) {
+    signIn: function(userObj, setUserState, setIsLoginModalOpen) {
       return new Promise((res) => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, userObj.email, userObj.password)
-          .then((userCredential) => {
+          .then(async (userCredential) => {
+            const dbUser = await FetchUserByFirebaseId(userCredential.user.uid)
+            setUserState(dbUser)
             const userAuth = {
               email: userCredential.user.email,
-              displayName: userCredential.user.displayName,
+              isSeller: dbUser.isSeller,
               uid: userCredential.user.uid,
-              type: "email",
-            };
-            // Saves the user to localstorage
-            localStorage.setItem("user", JSON.stringify(userAuth));
-            // Navigate us back to home
-            navigate("/");
+              type: "email"
+            }
+            localStorage.setItem("user", JSON.stringify(userAuth))
+            setIsLoginModalOpen(false)
           })
           .catch((error) => {
-            console.log("Email SignIn Error");
-            console.log("error code", error.code);
-            console.log("error message", error.message);
+            console.log("Email SignIn Error")
+            console.log("error code", error.code)
+            console.log("error message", error.message)
+            window.alert('Invalid Credentials')
           });
       });
     },
     // Sign out
-    signOut: function(navigate) {
+    signOut: function(setUserState) {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
-          // Remove the user from localstorage
-          localStorage.removeItem("user");
-          // Navigate us back to home
-          navigate("/login");
-          console.log("Sign Out Success!");
+          localStorage.removeItem("user")
+          setUserState("")
+          console.log("Sign Out Success!")
         })
         .catch((error) => {
-          console.log("signOut Error");
-          console.log("error code", error.code);
-          console.log("error message", error.message);
-        });
+          console.log("signOut Error")
+          console.log("error code", error.code)
+          console.log("error message", error.message)
+        })
     },
-  };
+  }
