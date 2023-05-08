@@ -1,27 +1,75 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router"
-import { FetchItem } from "../APIManager"
+import { FetchItem, FetchUserByFirebaseId } from "../APIManager"
+import { Login } from '../auth/Login'
+import { Register } from '../auth/Register'
+import { FetchUserOpenOrder, AddOrder, AddOrderItem } from "../APIManager"
 
 export const ItemDetail = () => {
 
   const { itemId } = useParams()
   const [item, setItem] = useState([])
+  const [orderItem, setOrderItem] = useState({
+    quantity: 1
+  })
+  const [isLoginOpen, setIsLoginOpen] = useState(false)
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false)
+  const [user, setUser] = useState({
+    name: "",
+    isSeller: false,
+    dateCreated: "",
+    email: "",
+    firebaseId: "",
+    image: ""
+  })
+  
   const navigate = useNavigate()
+  const localUser = localStorage.getItem("user");
+  const currentUser = JSON.parse(localUser);
 
   const fetchItem = async () => {
     const item = await FetchItem(itemId)
     setItem(item)
-    setItem(item)
+  }
+
+  const getUser = async () => {
+    if (currentUser) {
+      const response = await FetchUserByFirebaseId(currentUser.uid)
+      setUser(response)
+    }
   }
 
   useEffect(() => {
     fetchItem()
   }, [itemId])
 
-  console.log(item)
+  useEffect(() => {
+    getUser()
+  },
+  []
+  )
 
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+  const addToCart = async (e) => {
+    e.preventDefault();
+
+    let userOpenOrders = await FetchUserOpenOrder(user.id)
+
+    if (userOpenOrders.length === 0) {
+      const newOrder = {
+        userId: user.id,
+        dateCreated: new Date()
+      }
+      await AddOrder(newOrder)
+    }
+
+    userOpenOrders = await FetchUserOpenOrder(user.id)
+
+    const newOrderItem = {
+      orderId: userOpenOrders[0].id,
+      itemId: item.id,
+      itemQuantity: orderItem.quantity
+    }
+    await AddOrderItem(newOrderItem)
   }
 
   return (
@@ -40,7 +88,7 @@ export const ItemDetail = () => {
               <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{item.name}</h1>from <div onClick={() => navigate(`/stores/${item.store?.id}`)}>{item.store?.name}</div>
             </div>
             <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-              <h3 className="sr-only">Description</h3>product
+              <h3 className="sr-only">Description</h3>
               <div className="space-y-6">
                 <p className="text-base text-gray-900">{item.description}</p>
               </div>
@@ -48,40 +96,53 @@ export const ItemDetail = () => {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">${item.price}</p>
-              {/* QUANTITY */}
-              <div>
-                <label for="Quantity" className="sr-only"> Quantity </label>
-
-                <div className="flex items-center border border-gray-200 rounded">
-                  <button
-                    type="button"
-                    className="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75"
-                  >
-                    &minus;
-                  </button>
-
-                  <input
-                    type="number"
-                    id="Quantity"
-                    value="1"
-                    className="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
-                  />
-
-                  <button
-                    type="button"
-                    className="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75"
-                  >
-                    &plus;
-                  </button>
-                </div>
-              </div>
               <form className="mt-10">
+                <fieldset>
+                <div>
+                    <section>
+                        <label htmlFor="product">Quantity</label>
+                        <div></div>
+                        <input
+                          required
+                          autoFocus
+                          type="number"
+                          value={orderItem.quantity}
+                          onChange={(evt) => {
+                            const copy = { ...orderItem }
+                            copy.quantity = evt.target.value;
+                            setOrderItem(copy)
+                          }}
+                          />                          
+                    </section>
+                </div>
+                </fieldset>
+                {
+                currentUser
+                    ?
                 <button
-                  type="submit"
                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  onClick={addToCart}
                 >
                   Add to cart
-                </button>
+                </button> :
+                <span
+                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                   onClick={() => setIsLoginOpen(true)}
+                >
+                  Login/Register to shop!
+                </span>
+                }
+                <Login
+                  isOpen={isLoginOpen}
+                  setIsOpen={setIsLoginOpen}
+                  setIsRegisterOpen={setIsRegisterOpen}
+                  setUserObj={setUser}
+                />
+                <Register
+                  isOpen={isRegisterOpen}
+                  setIsOpen={setIsRegisterOpen}
+                  setUserObj={setUser}
+                />
               </form>
             </div>
           </div>

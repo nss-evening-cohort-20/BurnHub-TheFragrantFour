@@ -12,68 +12,110 @@
   }
   ```
 */
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { Items } from '../item/Items'
+import { ItemCard } from '../item/ItemCard'
+import { GetCategories, FetchItems } from '../APIManager'
 
 export const Filter = () => {
-const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false },
-]
-const subCategories = [
-  { name: 'Totes', href: '#' },
-  { name: 'Backpacks', href: '#' },
-  { name: 'Travel Bags', href: '#' },
-  { name: 'Hip Bags', href: '#' },
-  { name: 'Laptop Sleeves', href: '#' },
-]
-const filters = [
-  {
-    id: 'color',
-    name: 'Color',
-    options: [
-      { value: 'white', label: 'White', checked: false },
-      { value: 'beige', label: 'Beige', checked: false },
-      { value: 'blue', label: 'Blue', checked: true },
-      { value: 'brown', label: 'Brown', checked: false },
-      { value: 'green', label: 'Green', checked: false },
-      { value: 'purple', label: 'Purple', checked: false },
-    ],
-  },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-      { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
-      { value: 'organization', label: 'Organization', checked: false },
-      { value: 'accessories', label: 'Accessories', checked: false },
-    ],
-  },
-  {
-    id: 'size',
-    name: 'Size',
-    options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true },
-    ],
-  },
-]
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+  const [categories, setCategories] = useState([])
+  const [category, setCategory] = useState(0)
+  const [items, setItems] = useState([])
+  const [filteredItems, setFilteredItems] = useState([])
+
+  const fetchCategories = async () => {
+    const categories = await GetCategories()
+    setCategories(categories)
+  }
+
+  const fetchItems = async () => {
+    const itemsArray = await FetchItems()
+    setItems(itemsArray)
+  }
+
+  useEffect(() => {
+    fetchItems()
+  }, [])
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  useEffect(() => {
+    if (category > 0) {
+      const itemsInCategory = items.filter(
+        (item) => item.category.id === category
+      )
+      setFilteredItems(itemsInCategory)
+    } else {
+      setFilteredItems(items)
+    }
+  }, [category, items])
+
+  const handleFilterClick = event => {
+    const categoryId = parseInt(event.currentTarget.id);
+    setCategory(categoryId)
+  }
+
+  const sortOptions = [
+    { name: 'Most Popular', href: '#', current: true },
+    { name: 'Best Rating', href: '#', current: false },
+    { name: 'Newest', href: '#', current: false },
+    { name: 'Price: Low to High', href: '#', current: false },
+    { name: 'Price: High to Low', href: '#', current: false },
+  ]
+  const subCategories = [
+    { name: 'Totes', href: '#' },
+    { name: 'Backpacks', href: '#' },
+    { name: 'Travel Bags', href: '#' },
+    { name: 'Hip Bags', href: '#' },
+    { name: 'Laptop Sleeves', href: '#' },
+  ]
+  const filters = [
+    {
+      id: 'color',
+      name: 'Color',
+      options: [
+        { value: 'white', label: 'White', checked: false },
+        { value: 'beige', label: 'Beige', checked: false },
+        { value: 'blue', label: 'Blue', checked: true },
+        { value: 'brown', label: 'Brown', checked: false },
+        { value: 'green', label: 'Green', checked: false },
+        { value: 'purple', label: 'Purple', checked: false },
+      ],
+    },
+    {
+      id: 'category',
+      name: 'Category',
+      options: [
+        { value: 'new-arrivals', label: 'New Arrivals', checked: false },
+        { value: 'sale', label: 'Sale', checked: false },
+        { value: 'travel', label: 'Travel', checked: true },
+        { value: 'organization', label: 'Organization', checked: false },
+        { value: 'accessories', label: 'Accessories', checked: false },
+      ],
+    },
+    {
+      id: 'size',
+      name: 'Size',
+      options: [
+        { value: '2l', label: '2L', checked: false },
+        { value: '6l', label: '6L', checked: false },
+        { value: '12l', label: '12L', checked: false },
+        { value: '18l', label: '18L', checked: false },
+        { value: '20l', label: '20L', checked: false },
+        { value: '40l', label: '40L', checked: true },
+      ],
+    },
+  ]
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
 
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
@@ -123,7 +165,7 @@ function classNames(...classes) {
                   <form className="mt-4 border-t border-gray-200">
                     <h3 className="sr-only">Categories</h3>
                     <ul role="list" className="px-2 py-3 font-medium text-gray-900">
-                      {subCategories.map((category) => (
+                      {categories.map((category) => (
                         <li key={category.name}>
                           <a href={category.href} className="block px-2 py-3">
                             {category.name}
@@ -254,10 +296,10 @@ function classNames(...classes) {
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
-                    </li>
+                  {categories.map((category) => (
+                    <>
+                    <span type="button" key={category.id} id={category.id} onClick={(event) => {setCategory(parseInt(event.currentTarget.id))}}>{category.name}</span><br></br>
+                    </>
                   ))}
                 </ul>
 
@@ -307,7 +349,28 @@ function classNames(...classes) {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <Items />
+                <main>
+
+                  <div className="bg-white">
+                    <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                      <h2 className="sr-only">Products</h2>
+
+                      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                        {filteredItems.map((item) => {
+                          return (
+                            <ItemCard
+                              itemId={item.id}
+                              image={item.image}
+                              name={item.name}
+                              price={item.price}
+                            />
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                </main>
               </div>
             </div>
           </section>

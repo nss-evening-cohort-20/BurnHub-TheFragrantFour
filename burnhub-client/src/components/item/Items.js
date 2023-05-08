@@ -2,9 +2,10 @@ import { useState, useEffect } from "react"
 import { FetchItems } from "../APIManager"
 import { ItemCard } from "./ItemCard"
 
-export const Items = () => {
+export const Items = ({ itemCategory }) => {
 
     const [items, setItems] = useState([])
+    const [filteredItems, setFilteredItems] = useState([])
 
     const fetchItems = async () => {
         const itemsArray = await FetchItems()
@@ -15,6 +16,17 @@ export const Items = () => {
         fetchItems()
     }, [])
 
+    useEffect(() => {
+        if (itemCategory) {
+            const categoryTickets = items.filter(
+                (item) => item.categoryId === 1
+            );
+            setFilteredItems(categoryTickets);
+        } else {
+            setFilteredItems(items);
+        }
+    }, [itemCategory])
+
     return (
 
         <main>
@@ -24,7 +36,7 @@ export const Items = () => {
                     <h2 className="sr-only">Products</h2>
 
                     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                        {items.map((item) => {
+                        {filteredItems.map((item) => {
                             return (
                                 <ItemCard
                                     itemId={item.id}
