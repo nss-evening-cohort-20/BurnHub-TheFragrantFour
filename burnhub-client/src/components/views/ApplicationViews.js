@@ -20,6 +20,7 @@ export const ApplicationViews = () => {
             <Route path="/" element={ <Home /> } />
             <Route path="ProductForm" element={<ProductForm />} />
             <Route path="Items" element={<Items />} />
+            <Route path="items/search/:searchCriterion" element={<Items />} />
             <Route path="items/:itemId" element={<ItemDetail />} />
             <Route path="/:userId" element={<Profile />} />
             <Route path="filters" element={<Filter />} />

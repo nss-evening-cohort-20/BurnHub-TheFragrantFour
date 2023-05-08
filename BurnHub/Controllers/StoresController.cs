@@ -15,6 +15,12 @@ namespace BurnHub.Controllers
             _storeRepo = storeRepo;
         }
 
+        [HttpGet("search")]
+        public IActionResult Search(string q)
+        {
+            return Ok(_storeRepo.Search(q));
+        }
+
         [HttpGet]
         public IActionResult Get()
         {

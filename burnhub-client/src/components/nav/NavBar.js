@@ -1,13 +1,12 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from 'react-router-dom'
-import { logout } from "../helpers/logout"
 import { ProfileNavBar } from './ProfileNavBar'
 import { Login } from '../auth/Login'
 import { Register } from '../auth/Register'
 import { FetchUserByFirebaseId } from '../APIManager'
+import { SearchBar } from './SearchBar'
 
 export const NavBar = () => {
   const navigate = useNavigate()
@@ -91,26 +90,7 @@ export const NavBar = () => {
                     <span className=" ml-2 text-lg text-amber-400">BurnHub</span>
                   </div>
                 </div>
-                <div className="relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0">
-                  {/* Search */}
-                  <div className="w-full sm:max-w-2xl">
-                    <label htmlFor="search" className="sr-only">
-                      Search
-                    </label>
-                    <div className="relative">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                      </div>
-                      <input
-                        id="search"
-                        name="search"
-                        className="block w-full rounded-md border-0 bg-gray-700 py-1.5 pl-10 pr-3 text-gray-300 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 focus:placeholder:text-gray-500 sm:text-sm sm:leading-6"
-                        placeholder="Search"
-                        type="search"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <SearchBar />
                 <div className="relative z-10 flex items-center lg:hidden">
                   {/* Mobile menu button */}
                   <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -150,7 +130,7 @@ export const NavBar = () => {
                 {/* Products Nav Dropdown */}
                 <Menu as="div" className="relative ml-4 flex-shrink-0">
                   <div>
-                    <Menu.Button className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">
+                    <Menu.Button className="z-10 text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">
                       <span className="pr-2">Products</span>
                       <svg className="w-3 fill-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
