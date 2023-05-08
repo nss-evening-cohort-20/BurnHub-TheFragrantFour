@@ -2,9 +2,11 @@
 export const FetchStores = async () => {
     const response = await fetch(`https://localhost:7069/Stores
     `);
+    
     const storesArray = await response.json();
     return storesArray
 }
+//check before getting stores array check for success 
 
 export const FetchStore = async (storeId) => {
     const response = await fetch(`https://localhost:7069/AllStores/${storeId}`)

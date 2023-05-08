@@ -21,7 +21,7 @@ export const ApplicationViews = () => {
             }>
             <Route path="/" element={ <Home /> } />
             <Route path="ProductForm" element={<ProductForm />} />
-            <Route path="AllStores" element={<AllStores />} />
+            <Route path="stores" element={<AllStores />} />
             <Route path="stores/:storeId" element={<StoreDetail />} />
             <Route path="Items" element={<Items />} />
             <Route path="items/:itemId" element={<ItemDetail />} />
