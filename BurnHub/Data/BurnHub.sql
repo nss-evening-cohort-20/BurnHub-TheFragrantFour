@@ -192,7 +192,8 @@ GO
 INSERT INTO [Category]
             ([name])
         VALUES
-            ('Candle')
+            ('Candle'),
+			('Incense')
 GO
 
 INSERT INTO [Item]
@@ -223,7 +224,8 @@ INSERT INTO [Item]
             ('Fresh Peaches On The Farm In The Morning', 1 , 9 , 12 , 'peach truck summer day in mason jar', 20, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/peach-candle.jpg?alt=media&token=18087ee2-2daa-4be0-8e2c-dd2daba0680a'),
             ('Spring Flowers', 1 , 9 , 10 , 'wild flower walk in the sun in large mason jar', 35, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/spring-flowers.jpg?alt=media&token=374fd515-586a-4276-b87c-2b07489e26c1'),
             ('Shamrockin'' Flavor', 1 , 10 , 2 , '10oz mint green refresher', 18, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/shamrockin.jpg?alt=media&token=3c53a98d-cc8c-4459-b582-960397999e42'),
-            ('Sparkling Limeade', 1 , 10 , 8 , '12oz lemon-lime refresher', 26, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/sparkling-limeade.jpg?alt=media&token=dc1cabf8-2f26-43ec-8906-033410ce811a')
+            ('Sparkling Limeade', 1 , 10 , 8 , '12oz lemon-lime refresher', 26, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/sparkling-limeade.jpg?alt=media&token=dc1cabf8-2f26-43ec-8906-033410ce811a'),
+			('P.F. Candle Co. Incense', 2, 1, 10, 'This incense will blow your mind', 11, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/incense.jpg?alt=media&token=96b57aca-49da-448b-9ba6-3cc55ea1c9db')
 GO
 
 INSERT INTO [Favorite]
