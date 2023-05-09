@@ -5,7 +5,7 @@ using System;
 
 namespace BurnHub.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class OrderItemsController : ControllerBase
 	{
@@ -29,7 +29,7 @@ namespace BurnHub.Controllers
         public IActionResult PostOrderItem(OrderItem orderItem)
         {
             _orderItemRepo.AddOrderItem(orderItem);
-            return CreatedAtAction("Get", new { id = orderItem.Id }, orderItem);
+            return Created("/OrderItems/" + orderItem.Id, orderItem);
         }
 
         [HttpPut("orderItem/{id}")]

@@ -88,7 +88,8 @@ namespace BurnHub.Repositories
                                                 image)
                                             OUTPUT INSERTED.ID
                                             VALUES
-                                                (@name)";
+                                                (@name,
+                                                 @image)";
 
                     DbUtils.AddParameter(command, "@name", category.Name);
                     DbUtils.AddParameter(command, "@image", category.Image);
