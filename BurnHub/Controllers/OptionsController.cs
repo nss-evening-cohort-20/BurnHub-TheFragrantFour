@@ -37,7 +37,7 @@ public class OptionsController : Controller
     public IActionResult Post(Option option)
     {
         _optionRepository.Add(option);
-        return Created("/api/option/" + option.Id, option);
+        return Created("/option/" + option.Id, option);
     }
 
     [HttpPut("{id}")]
