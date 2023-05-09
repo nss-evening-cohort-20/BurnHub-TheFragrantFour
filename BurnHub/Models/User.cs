@@ -10,5 +10,4 @@ public class User
     public string FirebaseId { get; set; }
     public string? Image { get; set; }
     public Store? Store { get; set; }
-    public string UserId { get; internal set; }
 }
