@@ -56,7 +56,7 @@ export const SearchBar = () => {
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
                                 e.preventDefault()
-                                submitSearch("Items")
+                                submitSearch("items")
                                 setSearchDropdown(false)
                             }
                         }}
@@ -69,7 +69,7 @@ export const SearchBar = () => {
                             <div className="pl-10 text-sm font-light italic text-gray-600 border-b border-gray-200">searching "{searchTerms}" in items</div>
                             <div
                                 onClick={() => {
-                                    submitSearch("Stores")
+                                    submitSearch("stores")
                                     setSearchDropdown(false)
                                 }}
                                 className="pl-10 font-semibold text-lg text-gray-900 hover:bg-gray-300 hover:cursor-pointer"
