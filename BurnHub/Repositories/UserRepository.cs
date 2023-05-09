@@ -99,14 +99,21 @@ public class UserRepository : BaseRepository, IUserRepository
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = @"SELECT
-                                        id,
-	                                    name,
-	                                    isSeller,
-	                                    dateCreated,
-	                                    email,
-	                                    firebaseId,
-	                                    image
-                                    FROM [User]
+                                        u.id,
+	                                    u.name,
+	                                    u.isSeller,
+	                                    u.dateCreated,
+	                                    u.email,
+	                                    u.firebaseId,
+	                                    u.image,
+                                        s.id as storeId,
+                                        s.userId as storeUserId,
+                                        s.dateCreated as storeDateCreated,
+                                        s.name as storeName,
+                                        s.profileImage,
+                                        s.coverImage
+                                    FROM [User] u
+                                    LEFT JOIN Store s ON u.id = s.userId
                                     WHERE firebaseId = @uid";
                 DbUtils.AddParameter(cmd, "@uid", uid);
 
@@ -123,9 +130,22 @@ public class UserRepository : BaseRepository, IUserRepository
                         DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
                         Email = DbUtils.GetString(reader, "email"),
                         FirebaseId = DbUtils.GetString(reader, "firebaseId"),
-                        Image = DbUtils.GetString(reader, "image")
+                        Image = DbUtils.GetString(reader, "image")                       
                     };
-                }
+
+                    if (DbUtils.IsNotDbNull(reader, "storeId"))
+                    {
+                        user.Store = new Store() 
+                        {
+                            Id = DbUtils.GetInt(reader, "storeId"),
+                            UserId = DbUtils.GetInt(reader, "storeUserId"),
+                            DateCreated = DbUtils.GetDateTime(reader, "storeDateCreated"),
+                            Name = DbUtils.GetString(reader, "storeName"),
+                            ProfileImage = DbUtils.GetString(reader, "profileImage"),
+                            CoverImage = DbUtils.GetString(reader, "coverImage")
+                        };
+                    }
+                };
 
                 reader.Close();
                 return user;

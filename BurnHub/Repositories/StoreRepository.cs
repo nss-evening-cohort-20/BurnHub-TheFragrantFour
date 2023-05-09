@@ -87,6 +87,49 @@ public class StoreRepository : BaseRepository, IStoreRepository
         }
     }
 
+    public List<Store> Search(string criterion)
+    {
+        using (var conn = Connection)
+        {
+            conn.Open();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"SELECT
+                                        id,
+	                                    userId,
+	                                    dateCreated,
+	                                    name,
+                                        profileImage,
+                                        coverImage
+                                    FROM [Store]
+                                    WHERE name LIKE @Criterion";
+
+                DbUtils.AddParameter(cmd, "@Criterion", $"%{criterion}%");
+
+                var reader = cmd.ExecuteReader();
+                var stores = new List<Store>();
+
+                while (reader.Read())
+                {
+                    var store = new Store()
+                    {
+                        Id = DbUtils.GetInt(reader, "id"),
+                        UserId = DbUtils.GetInt(reader, "userId"),
+                        DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
+                        Name = DbUtils.GetString(reader, "name"),
+                        ProfileImage = DbUtils.GetString(reader, "profileImage"),
+                        CoverImage = DbUtils.GetString(reader, "coverImage")
+                    };
+
+                    stores.Add(store);
+                }
+
+                reader.Close();
+                return stores;
+            }
+        }
+    }
+
     public void Add(Store store)
     {
         using (var conn = Connection)
