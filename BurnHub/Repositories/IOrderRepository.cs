@@ -6,7 +6,7 @@ namespace BurnHub.Repositories
     {
         List<Order> GetAll();
         Order GetById(int id);
-        List<Order> GetAllByUserId(int id, bool complete);
+        List<Order> GetAllByUserFirebaseId(string userFirebaseId, bool complete);
         void Add(Order order);
         void Update(Order order);
         void Delete(int id);

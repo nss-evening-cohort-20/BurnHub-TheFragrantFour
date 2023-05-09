@@ -56,3 +56,9 @@ export const FetchStoresBySearch = async (criterion) => {
     const storesArray = await response.json()
     return storesArray
 }
+
+export const FetchOrdersByUserFirebaseId = async (firebaseId, orderComplete) => {
+    const response = await fetch(`https://localhost:7069/Orders/byUser?userFirebaseId=${firebaseId}&complete=${orderComplete}`)
+    const ordersArray = await response.json()
+    return ordersArray
+}

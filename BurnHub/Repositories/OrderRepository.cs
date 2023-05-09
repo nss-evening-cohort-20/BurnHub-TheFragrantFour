@@ -190,7 +190,7 @@ public class OrderRepository : BaseRepository, IOrderRepository
         }
     }
 
-    public List<Order> GetAllByUserId(int userId, bool complete)
+    public List<Order> GetAllByUserFirebaseId(string userFirebaseId, bool complete)
     {
         using (var conn = Connection)
         {
@@ -223,7 +223,7 @@ public class OrderRepository : BaseRepository, IOrderRepository
 	                            ON o.id = oi.orderId
                             LEFT JOIN Item i
 	                            ON oi.itemId = i.id
-                            WHERE o.userId = @userId AND o.dateComplete";
+                            WHERE u.firebaseId = @userFirebaseId AND o.dateComplete";
 
                 if (complete)
                 {
@@ -235,7 +235,7 @@ public class OrderRepository : BaseRepository, IOrderRepository
                 }
 
                 cmd.CommandText = sql;
-                DbUtils.AddParameter(cmd, "@userId", userId);
+                DbUtils.AddParameter(cmd, "@userFirebaseId", userFirebaseId);
                 var reader = cmd.ExecuteReader();
                 
                 var orders = new List<Order>();
