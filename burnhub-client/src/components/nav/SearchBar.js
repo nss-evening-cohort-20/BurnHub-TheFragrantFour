@@ -65,7 +65,7 @@ export const SearchBar = () => {
                 {
                     !searchDropdown
                         ? ""
-                        : <div className='absolute w-full sm:max-w-2xl bg-white'>
+                        : <div className='absolute z-50 w-full sm:max-w-2xl bg-white'>
                             <div className="pl-10 text-sm font-light italic text-gray-600 border-b border-gray-200">searching "{searchTerms}" in items</div>
                             <div
                                 onClick={() => {

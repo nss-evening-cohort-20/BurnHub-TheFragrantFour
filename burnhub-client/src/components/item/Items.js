@@ -37,7 +37,6 @@ export const Items = () => {
     return (
 
         <main>
-
             <div className="bg-white">
                 {
                     searchCriterion

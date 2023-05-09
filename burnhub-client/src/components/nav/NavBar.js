@@ -128,7 +128,7 @@ export const NavBar = () => {
               {/* main Nav items */}
               <nav className="hidden lg:flex lg:justify-center lg:gap-32 lg:space-x-8 lg:py-2" aria-label="Global">
                 {/* Products Nav Dropdown */}
-                <Menu as="div" className="relative ml-4 flex-shrink-0">
+                <Menu as="div" className="ml-4 flex-shrink-0">
                   <div>
                     <Menu.Button className="z-10 text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">
                       <span className="pr-2">Products</span>
