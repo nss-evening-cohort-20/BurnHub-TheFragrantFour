@@ -130,8 +130,12 @@ public class UserRepository : BaseRepository, IUserRepository
                         DateCreated = DbUtils.GetDateTime(reader, "dateCreated"),
                         Email = DbUtils.GetString(reader, "email"),
                         FirebaseId = DbUtils.GetString(reader, "firebaseId"),
-                        Image = DbUtils.GetString(reader, "image"),
-                        Store = new Store()
+                        Image = DbUtils.GetString(reader, "image")                       
+                    };
+
+                    if (DbUtils.IsNotDbNull(reader, "storeId"))
+                    {
+                        user.Store = new Store() 
                         {
                             Id = DbUtils.GetInt(reader, "storeId"),
                             UserId = DbUtils.GetInt(reader, "storeUserId"),
@@ -139,9 +143,9 @@ public class UserRepository : BaseRepository, IUserRepository
                             Name = DbUtils.GetString(reader, "storeName"),
                             ProfileImage = DbUtils.GetString(reader, "profileImage"),
                             CoverImage = DbUtils.GetString(reader, "coverImage")
-                        },
-                    };
-                }
+                        };
+                    }
+                };
 
                 reader.Close();
                 return user;

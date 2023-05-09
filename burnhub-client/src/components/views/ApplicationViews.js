@@ -21,7 +21,7 @@ export const ApplicationViews = () => {
             <Route path="ProductForm" element={<ProductForm />} />
             <Route path="Items" element={<Items />} />
             <Route path="items/:itemId" element={<ItemDetail />} />
-            <Route path="/:userId" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="filters" element={<Filter />} />
             {/* <Route path="/store" element={ <Store /> } />
             <Route path="/" element={ <ItemPage /> } />
