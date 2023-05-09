@@ -9,7 +9,7 @@ export const FetchStores = async () => {
 //check before getting stores array check for success 
 
 export const FetchStore = async (storeId) => {
-    const response = await fetch(`https://localhost:7069/AllStores/${storeId}`)
+    const response = await fetch(`https://localhost:7069/Items/store/${storeId}`)
     const store = await response.json();
     return store
 }
