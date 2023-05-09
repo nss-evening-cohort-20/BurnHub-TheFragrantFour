@@ -38,7 +38,10 @@ export const AllStores = () => {
     return (
 
         <main>
-            <div className="bg-white">
+            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <div className="bg-white">    
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">Stores</h1>
+            
                 {
                     searchCriterion
                         ? <div className="text-center pt-2">{searchCountMessage()}</div>
@@ -53,7 +56,7 @@ export const AllStores = () => {
                             return (
                                 <StoreCard
                                     key={`store--${store.id}`}
-                                    itemId={store.id}
+                                    storeId={store.id}
                                     profileImage={store.profileImage}
                                     name={store.name}
                                     
@@ -63,7 +66,7 @@ export const AllStores = () => {
                     </div>
                 </div>
             </div>
-
+            </div>
         </main>
 
     )
