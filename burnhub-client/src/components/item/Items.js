@@ -9,13 +9,32 @@ import ReactPaginate from "react-paginate"
 
 export const Items = () => {
 
+    // const sortOptions = [
+    //     { name: 'Name', value: 'Name', current: true },
+    //     { name: 'Price: Low to High', value: 'PriceAscending', current: false },
+    //     { name: 'Price: High to Low', value: 'PriceDescending', current: false }
+    // ]
+
     const {searchCriterion} = useParams()
     const [items, setItems] = useState([])
     const [pageCount, setpageCount] = useState(0)
     const [filteredItems, setFilteredItems] = useState([])
     const [categories, setCategories] = useState([])
     const [category, setCategory] = useState(0)
+    const [sortOptions, setSortOptions] = useState([
+        { name: 'Name', value: 'Name' },
+        { name: 'Price: Low to High', value: 'PriceAscending' },
+        { name: 'Price: High to Low', value: 'PriceDescending' }
+    ])
+    const [sortOption, setSortOption] = useState(sortOptions[0])
+   
     let limit = 8;
+
+    // useEffect(() => {
+    //     setSortOptions()
+    // }, [])
+
+    
 
     const fetchItems = async () => {
         const itemsArray = await FetchItems()
@@ -41,9 +60,14 @@ export const Items = () => {
     }
 
     const fetchPageOne = async () => {
-        const pageOne = await FetchPagedItems(1, limit)
+        const pageOne = await FetchPagedItems(1, limit, sortOption.value)
         setFilteredItems(pageOne)
     }
+
+    useEffect(() => {
+        fetchPageOne()
+        
+    }, [sortOption])
 
     useEffect(() => {
         const getItems = async () => {
@@ -53,7 +77,7 @@ export const Items = () => {
             const data = await res.json()
             const total = data.length
             setpageCount(Math.ceil(total / limit))
-            fetchPageOne(1, limit)
+            fetchPageOne(1, limit, sortOption.value)
         }
         getItems()
 
@@ -67,7 +91,7 @@ export const Items = () => {
 
     const fetchPagedItems = async (currentPage) => {
         const res = await fetch(
-            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=Name`
+            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=${sortOption.value}`
         )
         const data = await res.json()
         return data
@@ -80,8 +104,6 @@ export const Items = () => {
 
         setFilteredItems(items)
     }
-
-    
 
     useEffect(() => {
         if (searchCriterion) {
@@ -108,13 +130,6 @@ export const Items = () => {
         }
     }, [category, items])
 
-    const sortOptions = [
-        { name: 'Most Popular', href: '#', current: true },
-        { name: 'Best Rating', href: '#', current: false },
-        { name: 'Newest', href: '#', current: false },
-        { name: 'Price: Low to High', href: '#', current: false },
-        { name: 'Price: High to Low', href: '#', current: false },
-    ]
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -239,23 +254,36 @@ export const Items = () => {
                                 >
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <div className="py-1">
-                                            {sortOptions.map((option) => (
+                                            {sortOptions.map((option, idx) => (
                                                 <Menu.Item key={option.name}>
                                                     {({ active }) => (
                                                         <a
-                                                            href={option.href}
+                                                            value={option.value}
                                                             className={classNames(
-                                                                option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                sortOption.name === option.name ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                 active ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm'
                                                             )}
                                                             
+                                                            onClick={() => {
+                                                                setSortOption(option)
+                                                                // sortOptions[idx].current = true
+                                                                console.log(sortOptions[idx].current)
+                                                                
+                                                                // setSortOption(option.value = true)
+                                                            }}
                                                         >
                                                             {option.name}
                                                         </a>
                                                     )}
                                                 </Menu.Item>
                                             ))}
+                                            {/* <label>Sort by:</label>
+                                            <select id="sort-order" value={sortOrder} onChange={(event) => setSortOrder(event.target.value)}>
+                                                <option value="PriceAscending">Price (low to high)</option>
+                                                <option value="PriceDescending">Price (high to low)</option>
+                                                <option value="Name">Name (a to z)</option>
+                                            </select> */}
                                         </div>
                                     </Menu.Items>
                                 </Transition>
@@ -280,14 +308,9 @@ export const Items = () => {
                             {/* Filters */}
                             <form className="hidden lg:block">
                                 <h3 className="sr-only">Categories</h3>
-                                <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                                    {/* {categories.map((category) => (
-                    <>
-                    <span type="button" key={category.id} id={category.id} onClick={(event) => {setCategory(parseInt(event.currentTarget.id))}}>{category.name}</span><br></br>
-                    </>
-                  ))} */}
+                                {/* <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                                     <button type="button" onClick={() => { setCategory(0) }}>Reset Filters</button>
-                                </ul>
+                                </ul> */}
 
                                 {/* ITEM CATEGORY API */}
                                 <Disclosure as="div" className="border-b border-gray-200 py-6">
@@ -298,7 +321,7 @@ export const Items = () => {
                                                     <span className="font-medium text-gray-900">Category</span>
                                                     <span className="ml-6 flex items-center">
                                                         {open ? (
-                                                            <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                            <MinusIcon className="h-5 w-5" aria-hidden="true" onClick={() => { setCategory(0) }}/>
                                                         ) : (
                                                             <PlusIcon className="h-5 w-5" aria-hidden="true" />
                                                         )}
