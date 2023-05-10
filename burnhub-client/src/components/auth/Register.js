@@ -10,7 +10,6 @@ export const Register = ({ isOpen, setIsOpen, setUserObj }) => {
         fullName: "",
         password: "",
     })
-    let navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault()

@@ -10,8 +10,8 @@ import { SearchBar } from './SearchBar'
 
 export const NavBar = () => {
   const navigate = useNavigate()
-  const localUser = localStorage.getItem("user");
-  const currentUser = JSON.parse(localUser);
+  const localUser = localStorage.getItem("user")
+  const currentUser = JSON.parse(localUser)
 
 
     const [user, setUser] = useState({
@@ -130,7 +130,7 @@ export const NavBar = () => {
                 {/* Products Nav Dropdown */}
                 <Menu as="div" className="ml-4 flex-shrink-0">
                   <div>
-                    <Menu.Button className="z-10 text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">
+                    <Menu.Button className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">
                       <span className="pr-2">Products</span>
                       <svg className="w-3 fill-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
@@ -146,7 +146,7 @@ export const NavBar = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-700 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute left-50 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-700 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {productsNav.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (

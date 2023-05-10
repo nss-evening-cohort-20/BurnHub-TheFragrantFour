@@ -7,6 +7,8 @@ import { StoreDetail } from "../myStore/StoreDetail";
 import { Items } from "../item/Items";
 import { ItemDetail } from "../item/ItemDetail";
 import { Profile } from "../profile/Profile";
+import { Filter } from "../filters/Filter";
+import { Cart } from "../cart/Cart";
 
 export const ApplicationViews = () => {
 
@@ -22,14 +24,14 @@ export const ApplicationViews = () => {
             <Route path="ProductForm" element={<ProductForm />} />
             <Route path="stores" element={<AllStores />} />
             <Route path="stores/search/:searchCriterion" element={<AllStores />} />
-            <Route path="stores/:storeId" element={<StoreDetail />} />
+            {/* <Route path="stores/:storeId" element={<StoreDetail />} /> */}
             <Route path="Items" element={<Items />} />
             <Route path="items/search/:searchCriterion" element={<Items />} />
             <Route path="items/:itemId" element={<ItemDetail />} />
             <Route path="/profile" element={<Profile />} />
-            {/* <Route path="/store" element={ <Store /> } />
-            <Route path="/" element={ <ItemPage /> } />
-            <Route path="/" element={ <ViewStores /> } /> */}
+            <Route path="/:userId" element={<Profile />} />
+            <Route path="filters" element={<Filter />} />
+            <Route path="cart" element={<Cart />} />
 
             {/* user.Seller
             ? <>

@@ -512,9 +512,10 @@ public class ItemRepository : BaseRepository, IItemRepository
                                             quantity = @quantity,
                                             description = @description,
                                             price = @price,
-                                            image = @image,
+                                            image = @image
                                     WHERE id = @id";
 
+                DbUtils.AddParameter(cmd, "@id", item.Id);
                 DbUtils.AddParameter(cmd, "@name", item.Name);
                 DbUtils.AddParameter(cmd, "@categoryId", item.CategoryId);
                 DbUtils.AddParameter(cmd, "@storeId", item.StoreId);
