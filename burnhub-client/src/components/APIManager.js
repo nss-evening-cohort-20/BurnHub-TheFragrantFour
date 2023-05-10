@@ -92,3 +92,9 @@ export const FetchStoresBySearch = async (criterion) => {
     const storesArray = await response.json()
     return storesArray
 }
+
+export const FetchPagedItems = async (pageNumber, pageSize) => {
+    const response = await fetch (`https://localhost:7069/Items/paged?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=Name`)
+    const itemsArray = await response.json()
+    return itemsArray
+}

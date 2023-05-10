@@ -27,9 +27,9 @@ namespace BurnHub.Controllers
         }
 
         [HttpGet("paged")]
-        public IActionResult GetPagedItems(int pageNumber, int pageSize)
+        public IActionResult GetPagedItems(int pageNumber, int pageSize, ItemRepository.SortOrder sortOrder)
         {
-            return Ok(_itemRepo.GetPagedItems(pageNumber, pageSize));
+            return Ok(_itemRepo.GetPagedItems(pageNumber, pageSize, sortOrder));
         }
 
         [HttpGet("{id}")]
