@@ -70,7 +70,7 @@ namespace BurnHub.Controllers
                 return BadRequest();
             }
 
-            _itemRepo.Add(item);
+            _itemRepo.Update(item);
             return NoContent();
         }
 

@@ -31,6 +31,17 @@ export const FetchItemsBySearch = async (criterion) => {
     return itemsArray
 }
 
+export const UpdateItem = async (id, item) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(item)
+    }
+    await fetch(`https://localhost:7069/Items/${id}`, options)
+}
+
 export const FetchUserByFirebaseId = async (uid) => {
     const response = await fetch(`https://localhost:7069/Users/uid/${uid}`)
     const user = await response.json();
@@ -69,6 +80,17 @@ export const AddOrder = async (newOrder) => {
     await fetch(`https://localhost:7069/Orders`, options)
 }
 
+export const UpdateOrder = async (id, order) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(order)
+    }
+    await fetch(`https://localhost:7069/Orders/${id}`, options)
+}
+
 export const AddOrderItem = async (newOrderItem) => {
     const options = {
         method: "POST",
@@ -79,6 +101,23 @@ export const AddOrderItem = async (newOrderItem) => {
     }
 
     await fetch(`https://localhost:7069/OrderItems/addOrderItem`, options)
+}
+
+export const UpdateOrderItem = async (id, orderItemObj) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderItemObj)
+    }
+    await fetch(`https://localhost:7069/OrderItems/orderItem/${id}`, options)
+}
+
+export const DeleteOrderItem = async (id) => {
+    await fetch(`https://localhost:7069/OrderItems/orderItem/${id}`, {
+        method: "DELETE"
+    })
 }
 
 export const GetCategories = async () => {

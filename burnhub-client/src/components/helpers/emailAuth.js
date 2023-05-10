@@ -81,13 +81,14 @@ import { AddUser, FetchUserByFirebaseId } from "../APIManager";
       });
     },
     // Sign out
-    signOut: function(setUserState) {
+    signOut: function(setUserState, navigate) {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
           localStorage.removeItem("user")
           setUserState("")
           console.log("Sign Out Success!")
+          navigate("/")
         })
         .catch((error) => {
           console.log("signOut Error")

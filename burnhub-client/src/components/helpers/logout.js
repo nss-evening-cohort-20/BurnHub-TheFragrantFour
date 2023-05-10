@@ -5,12 +5,12 @@ import { emailAuth } from "./emailAuth";
 // other methods may work for both.
 
 export const logout = {
-  logout: function(setUserState) {
+  logout: function(setUserState, navigate) {
     const userRecord = JSON.parse(localStorage.getItem("user"));
     if (userRecord.type === "google") {
-      googleAuth.signOut(setUserState)
+      googleAuth.signOut(setUserState, navigate)
     } else if (userRecord.type === "email") {
-      emailAuth.signOut(setUserState)
+      emailAuth.signOut(setUserState, navigate)
     }
   },
 };

@@ -215,7 +215,9 @@ public class OrderRepository : BaseRepository, IOrderRepository
 	                            i.categoryId as itemCategoryId,
 	                            i.storeId as itemStoreId,
 	                            i.description as itemDescription,
-	                            i.price as itemPrice
+	                            i.price as itemPrice,
+                                i.quantity as itemStoreQuantity,
+	                            i.image as itemImage
                             FROM [Order] o
                             JOIN [User] u
 	                            ON o.userId = u.id
@@ -283,7 +285,9 @@ public class OrderRepository : BaseRepository, IOrderRepository
                                 CategoryId = DbUtils.GetInt(reader, "itemCategoryId"),
                                 StoreId = DbUtils.GetInt(reader, "itemStoreId"),
                                 Description = DbUtils.GetString(reader, "itemDescription"),
-                                Price = DbUtils.GetInt(reader, "itemPrice")
+                                Price = DbUtils.GetInt(reader, "itemPrice"),
+                                Quantity = DbUtils.GetInt(reader, "itemStoreQuantity"),
+                                Image = DbUtils.GetString(reader, "itemImage")
                             }
                         });
                     }
