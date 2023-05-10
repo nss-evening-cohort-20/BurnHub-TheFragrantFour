@@ -88,7 +88,7 @@ public class ItemRepository : BaseRepository, IItemRepository
         }
     }
 
-    public List<Item> GetPagedItems(int pageNumber, int pageSize, SortOrder sortOrder)
+    public List<Item> GetPagedItems(int pageNumber, int pageSize, SortOrder sortOrder, int categoryId)
     {
         using (var conn = Connection)
         {
@@ -116,17 +116,22 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    ON i.storeId = s.id
                                     JOIN Category c
 	                                    ON i.categoryId = c.id";
-                
-                switch(sortOrder)
+
+                if (categoryId > 0)
+                {
+                    sql += "\nWHERE i.categoryId = @categoryId";
+                }
+
+                switch (sortOrder)
                 {
                     case SortOrder.PriceAscending:
-                        sql += " Order by i.price ASC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                        sql += " Order by i.price ASC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY ";
                         break;
                     case SortOrder.PriceDescending:
-                        sql += " Order by i.price DESC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                        sql += " Order by i.price DESC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY ";
                         break;
                     default: 
-                        sql += " Order by i.name ASC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                        sql += " Order by i.name ASC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY ";
                         break;
                 }
 
@@ -134,6 +139,7 @@ public class ItemRepository : BaseRepository, IItemRepository
                 
                 DbUtils.AddParameter(cmd, "@Offset", (pageNumber - 1) * pageSize);
                 DbUtils.AddParameter(cmd, "@PageSize", pageSize);
+                DbUtils.AddParameter(cmd, "@categoryId", categoryId);
 
                 var reader = cmd.ExecuteReader();
                 var items = new List<Item>();
@@ -176,14 +182,14 @@ public class ItemRepository : BaseRepository, IItemRepository
         }
     }
 
-    public List<Item> GetAll()
+    public List<Item> GetAll(int categoryId)
     {
         using (var conn = Connection)
         {
             conn.Open();
             using (var cmd = conn.CreateCommand())
             {
-                cmd.CommandText = @"SELECT
+                var sql = @"SELECT
                                         i.id,
                                         i.name,
                                         i.categoryId,
@@ -204,6 +210,15 @@ public class ItemRepository : BaseRepository, IItemRepository
 	                                    ON i.storeId = s.id
                                     JOIN Category c
 	                                    ON i.categoryId = c.id";
+
+                if (categoryId > 0)
+                {
+                    sql += "\nWHERE i.categoryId = @categoryId";
+                }
+
+                cmd.CommandText = sql;
+
+                DbUtils.AddParameter(cmd, "@categoryId", categoryId);
 
                 var reader = cmd.ExecuteReader();
                 var items = new List<Item>();

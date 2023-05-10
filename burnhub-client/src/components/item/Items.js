@@ -9,12 +9,6 @@ import ReactPaginate from "react-paginate"
 
 export const Items = () => {
 
-    // const sortOptions = [
-    //     { name: 'Name', value: 'Name', current: true },
-    //     { name: 'Price: Low to High', value: 'PriceAscending', current: false },
-    //     { name: 'Price: High to Low', value: 'PriceDescending', current: false }
-    // ]
-
     const {searchCriterion} = useParams()
     const [items, setItems] = useState([])
     const [pageCount, setpageCount] = useState(0)
@@ -27,14 +21,7 @@ export const Items = () => {
         { name: 'Price: High to Low', value: 'PriceDescending' }
     ])
     const [sortOption, setSortOption] = useState(sortOptions[0])
-   
     let limit = 8;
-
-    // useEffect(() => {
-    //     setSortOptions()
-    // }, [])
-
-    
 
     const fetchItems = async () => {
         const itemsArray = await FetchItems()
@@ -60,7 +47,7 @@ export const Items = () => {
     }
 
     const fetchPageOne = async () => {
-        const pageOne = await FetchPagedItems(1, limit, sortOption.value)
+        const pageOne = await FetchPagedItems(1, limit, sortOption.value, category)
         setFilteredItems(pageOne)
     }
 
@@ -91,7 +78,7 @@ export const Items = () => {
 
     const fetchPagedItems = async (currentPage) => {
         const res = await fetch(
-            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=${sortOption.value}`
+            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=${sortOption.value}&categoryId=${category}`
         )
         const data = await res.json()
         return data
@@ -120,14 +107,32 @@ export const Items = () => {
     }, [])
 
     useEffect(() => {
-        if (category > 0) {
-            const itemsInCategory = items.filter(
-                (item) => item.category.id === category
+        // if (category > 0) {
+        //     const itemsInCategory = items.filter(
+        //         (item) => item.category.id === category
+        //     )
+        //     setFilteredItems(itemsInCategory)
+        // } else {
+        //     setFilteredItems(items)
+        // }
+
+        const getItems = async (categoryId) => {
+            const res = await fetch(
+                `https://localhost:7069/Items/?categoryId=${categoryId}`
             )
-            setFilteredItems(itemsInCategory)
+            const data = await res.json()
+            const total = data.length
+            setpageCount(Math.ceil(total / limit))
+            fetchPageOne(1, limit, sortOption.value)
+            setFilteredItems(data)
+        }
+
+        if (category > 0) {
+            getItems(category)
         } else {
             setFilteredItems(items)
         }
+        
     }, [category, items])
 
 
