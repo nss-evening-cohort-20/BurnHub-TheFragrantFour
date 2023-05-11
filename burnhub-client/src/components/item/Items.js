@@ -22,6 +22,7 @@ export const Items = () => {
     ])
     const [sortOption, setSortOption] = useState(sortOptions[0])
     let limit = 8;
+    const toggleFilter = cat => setCategory(c => cat === c ? 0 : cat);
 
     const fetchItems = async () => {
         const itemsArray = await FetchItems()
@@ -343,7 +344,9 @@ export const Items = () => {
                                                                 defaultValue={category.id}
                                                                 type="checkbox"
                                                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                                onClick={() => { setCategory(category.id) }}
+                                                                onClick={() => { 
+                                                                    toggleFilter(category.id)
+                                                                }}
                                                             />
                                                             <label
                                                                 htmlFor={`filter-mobile-${category.id}-${categoryIdx}`}
