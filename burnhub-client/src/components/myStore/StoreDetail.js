@@ -1,38 +1,66 @@
 import React, { useEffect, useState } from 'react'
-import {FetchItemsByStore } from "../APIManager"
-import { useParams } from 'react-router'
-import { ItemCard } from '../item/ItemCard'
+import {FetchItemsByStore, FetchUserByFirebaseId } from "../APIManager"
+import { useNavigate, useParams } from 'react-router'
+
 
 export const StoreDetail = () => {
     const { storeId } = useParams()
     const [storeItems, setStoreItems] = useState([])
+    const [store, setStore] = useState({})
+    const navigate = useNavigate()
 
-    const fetchStore = async () => {
+    const fetchStoreItems = async () => {
         const storeItemArray = await FetchItemsByStore(storeId)
-        storeItems(storeItemArray)
+        setStoreItems(storeItemArray)
+        setStore(storeItemArray[0].store)
     }
 
+    // const fetchUserByUId = async () => {
+    //     const currentUser = await FetchUserByFirebaseId(uid)
+    // }
+
+
     useEffect(()=> {
-        fetchStore()
+        fetchStoreItems()
     }, [storeId])
 
   return (
     <main>
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-    <div className="bg-white">    
-    <h1 className="text-4xl font-bold tracking-tight text-gray-900">Stores</h1>
+    <div className="bg-white">   
+    <div> 
+    <h1 className="text-4xl font-bold tracking-tight text-gray-900">{store.name}</h1>
     
+            <img
+              src={store.coverImage}
+              alt="store cover"
+              className="h-full w-full object-cover object-center"
+            />
+            
+            </div>
         
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-            <h2 className="sr-only">{store.name}</h2>
+            
+           
 
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                
-                {store.map((storeItems) => {
+            <button onClick={() => navigate(`/ProductForm`)}>Add New Product</button>
+                {storeItems.map((item) => {
                     return (
+                        <main>
                         
-                           <div>{store.store[0].name}</div> 
-                        
+                           <div>
+                           <img
+              src={item.image}
+              alt={item.description}
+              className="h-full w-full object-cover object-center"
+            />
+                            {item.name}
+                           {item.description}
+                           ${item.price}
+                           <button onClick={() => navigate(`/items/${item.id}`)}>Buy</button>
+                           </div> 
+                           </main>
                     )
                 })}
             </div>
