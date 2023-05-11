@@ -1,18 +1,27 @@
 import { Fragment, useState, useEffect } from "react"
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import { FetchItems, GetCategories, FetchItemsBySearch } from "../APIManager"
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { FetchItems, FetchPagedItems, GetCategories, FetchItemsBySearch } from "../APIManager"
 import { ItemCard } from "./ItemCard"
 import { useParams } from "react-router"
+import ReactPaginate from "react-paginate"
 
 export const Items = () => {
 
     const {searchCriterion} = useParams()
     const [items, setItems] = useState([])
+    const [pageCount, setpageCount] = useState(0)
     const [filteredItems, setFilteredItems] = useState([])
     const [categories, setCategories] = useState([])
     const [category, setCategory] = useState(0)
+    const [sortOptions, setSortOptions] = useState([
+        { name: 'Name', value: 'Name' },
+        { name: 'Price: Low to High', value: 'PriceAscending' },
+        { name: 'Price: High to Low', value: 'PriceDescending' }
+    ])
+    const [sortOption, setSortOption] = useState(sortOptions[0])
+    let limit = 8;
 
     const fetchItems = async () => {
         const itemsArray = await FetchItems()
@@ -37,36 +46,95 @@ export const Items = () => {
         }
     }
 
+    const fetchPageOne = async () => {
+        const pageOne = await FetchPagedItems(1, limit, sortOption.value, category)
+        setFilteredItems(pageOne)
+    }
+
+    useEffect(() => {
+        fetchPageOne()
+        
+    }, [sortOption])
+
+    useEffect(() => {
+        const getItems = async () => {
+            const res = await fetch(
+                `https://localhost:7069/Items/`
+            )
+            const data = await res.json()
+            const total = data.length
+            setpageCount(Math.ceil(total / limit))
+            fetchPageOne(1, limit, sortOption.value)
+        }
+        getItems()
+
+    }, [limit])
+
+    useEffect(() => {
+        if (category === 0) {
+            fetchPageOne()
+        }
+    }, [category])
+
+    const fetchPagedItems = async (currentPage) => {
+        const res = await fetch(
+            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=${sortOption.value}&categoryId=${category}`
+        )
+        const data = await res.json()
+        return data
+    }
+
+    const handlePageClick = async (data) => {
+        let currentPage = data.selected + 1
+
+        const items = await fetchPagedItems(currentPage)
+
+        setFilteredItems(items)
+    }
+
     useEffect(() => {
         if (searchCriterion) {
             getItemsFromSearch()
-        } else {
-            fetchItems()
         }
     }, [searchCriterion])
+
+    useEffect(() => {
+        fetchItems()
+    }, [])
 
     useEffect(() => {
         fetchCategories()
     }, [])
 
     useEffect(() => {
-        if (category > 0) {
-            const itemsInCategory = items.filter(
-                (item) => item.category.id === category
+        // if (category > 0) {
+        //     const itemsInCategory = items.filter(
+        //         (item) => item.category.id === category
+        //     )
+        //     setFilteredItems(itemsInCategory)
+        // } else {
+        //     setFilteredItems(items)
+        // }
+
+        const getItems = async (categoryId) => {
+            const res = await fetch(
+                `https://localhost:7069/Items/?categoryId=${categoryId}`
             )
-            setFilteredItems(itemsInCategory)
+            const data = await res.json()
+            const total = data.length
+            setpageCount(Math.ceil(total / limit))
+            fetchPageOne(1, limit, sortOption.value)
+            setFilteredItems(data)
+        }
+
+        if (category > 0) {
+            getItems(category)
         } else {
             setFilteredItems(items)
         }
+        
     }, [category, items])
 
-    const sortOptions = [
-        { name: 'Most Popular', href: '#', current: true },
-        { name: 'Best Rating', href: '#', current: false },
-        { name: 'Newest', href: '#', current: false },
-        { name: 'Price: Low to High', href: '#', current: false },
-        { name: 'Price: High to Low', href: '#', current: false },
-    ]
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -165,7 +233,7 @@ export const Items = () => {
                 </Transition.Root>
 
                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
                         <h1 className="text-4xl font-bold tracking-tight text-gray-900">Products</h1>
 
                         <div className="flex items-center">
@@ -191,31 +259,40 @@ export const Items = () => {
                                 >
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <div className="py-1">
-                                            {sortOptions.map((option) => (
+                                            {sortOptions.map((option, idx) => (
                                                 <Menu.Item key={option.name}>
                                                     {({ active }) => (
                                                         <a
-                                                            href={option.href}
+                                                            value={option.value}
                                                             className={classNames(
-                                                                option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                sortOption.name === option.name ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                 active ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm'
                                                             )}
+                                                            
+                                                            onClick={() => {
+                                                                setSortOption(option)
+                                                                // sortOptions[idx].current = true
+                                                                console.log(sortOptions[idx].current)
+                                                                
+                                                                // setSortOption(option.value = true)
+                                                            }}
                                                         >
                                                             {option.name}
                                                         </a>
                                                     )}
                                                 </Menu.Item>
                                             ))}
+                                            {/* <label>Sort by:</label>
+                                            <select id="sort-order" value={sortOrder} onChange={(event) => setSortOrder(event.target.value)}>
+                                                <option value="PriceAscending">Price (low to high)</option>
+                                                <option value="PriceDescending">Price (high to low)</option>
+                                                <option value="Name">Name (a to z)</option>
+                                            </select> */}
                                         </div>
                                     </Menu.Items>
                                 </Transition>
                             </Menu>
-
-                            <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-                                <span className="sr-only">View grid</span>
-                                <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-                            </button>
                             <button
                                 type="button"
                                 className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -236,14 +313,9 @@ export const Items = () => {
                             {/* Filters */}
                             <form className="hidden lg:block">
                                 <h3 className="sr-only">Categories</h3>
-                                <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                                    {/* {categories.map((category) => (
-                    <>
-                    <span type="button" key={category.id} id={category.id} onClick={(event) => {setCategory(parseInt(event.currentTarget.id))}}>{category.name}</span><br></br>
-                    </>
-                  ))} */}
+                                {/* <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                                     <button type="button" onClick={() => { setCategory(0) }}>Reset Filters</button>
-                                </ul>
+                                </ul> */}
 
                                 {/* ITEM CATEGORY API */}
                                 <Disclosure as="div" className="border-b border-gray-200 py-6">
@@ -254,7 +326,7 @@ export const Items = () => {
                                                     <span className="font-medium text-gray-900">Category</span>
                                                     <span className="ml-6 flex items-center">
                                                         {open ? (
-                                                            <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                            <MinusIcon className="h-5 w-5" aria-hidden="true" onClick={() => { setCategory(0) }}/>
                                                         ) : (
                                                             <PlusIcon className="h-5 w-5" aria-hidden="true" />
                                                         )}
@@ -297,10 +369,9 @@ export const Items = () => {
                                             ? <div className="text-center pt-2">{searchCountMessage()}</div>
                                             : ""
                                     }
-                                        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                                        <div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                                             <h2 className="sr-only">Products</h2>
-
-                                            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                                            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mb-10">
                                                 {filteredItems.map((item) => {
                                                     return (
                                                         <ItemCard
@@ -308,10 +379,30 @@ export const Items = () => {
                                                             image={item.image}
                                                             name={item.name}
                                                             price={item.price}
+                                                            description={item.description}
                                                         />
                                                     )
                                                 })}
                                             </div>
+                                            <ReactPaginate
+                                                previousLabel={"previous"}
+                                                nextLabel={"next"}
+                                                breakLabel={"..."}
+                                                pageCount={pageCount}
+                                                marginPagesDisplayed={2}
+                                                pageRangeDisplayed={3}
+                                                onPageChange={handlePageClick}
+                                                containerClassName={"pagination justify-content-center"}
+                                                pageClassName={"page-item"}
+                                                pageLinkClassName={"page-link"}
+                                                previousClassName={"page-item"}
+                                                previousLinkClassName={"page-link"}
+                                                nextClassName={"page-item"}
+                                                nextLinkClassName={"page-link"}
+                                                breakClassName={"page-item"}
+                                                breakLinkClassName={"page-link"}
+                                                activeClassName={"active"}
+                                            />
                                         </div>
                                     </div>
 

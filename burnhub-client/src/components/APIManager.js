@@ -8,10 +8,10 @@ export const FetchStores = async () => {
 }
 //check before getting stores array check for success 
 
-export const FetchStore = async (storeId) => {
-    const response = await fetch(`https://localhost:7069/AllStores/${storeId}`)
-    const store = await response.json();
-    return store
+export const FetchItemsByStore = async (storeId) => {
+    const response = await fetch(`https://localhost:7069/Items/store/${storeId}`)
+    const storeItemsArray = await response.json();
+    return storeItemsArray
 }
 export const FetchItems = async () => {
     const response = await fetch(`https://localhost:7069/Items`);
@@ -130,4 +130,16 @@ export const FetchStoresBySearch = async (criterion) => {
     const response = await fetch(`https://localhost:7069/Stores/search?q=${criterion}`)
     const storesArray = await response.json()
     return storesArray
+}
+
+export const FetchPagedItems = async (pageNumber, pageSize, sortOrder, categoryId) => {
+    const response = await fetch (`https://localhost:7069/Items/paged?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}&categoryId=${categoryId}`)
+    const itemsArray = await response.json()
+    return itemsArray
+}
+
+export const FetchItemsByCategory = async(categoryId) => {
+    const response = await fetch(`https://localhost:7069/Items/?categoryId=${categoryId}`);
+    const itemsByCategoryArray = await response.json();
+    return itemsByCategoryArray
 }
