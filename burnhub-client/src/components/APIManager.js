@@ -62,10 +62,10 @@ export const AddUser = async (userObj) => {
     await fetch(`https://localhost:7069/Users`, options)
 }
 
-export const FetchUserOpenOrder = async (userId) => {
-    const response = await fetch(`https://localhost:7069/Orders/byUser?userId=${userId}&complete=false`)
-    const order = await response.json();
-    return order
+export const FetchOrdersByUserFirebaseId = async (firebaseId, orderComplete) => {
+    const response = await fetch(`https://localhost:7069/Orders/byUser?userFirebaseId=${firebaseId}&complete=${orderComplete}`)
+    const ordersArray = await response.json()
+    return ordersArray
 }
 
 export const AddOrder = async (newOrder) => {
@@ -130,10 +130,4 @@ export const FetchStoresBySearch = async (criterion) => {
     const response = await fetch(`https://localhost:7069/Stores/search?q=${criterion}`)
     const storesArray = await response.json()
     return storesArray
-}
-
-export const FetchOrdersByUserFirebaseId = async (firebaseId, orderComplete) => {
-    const response = await fetch(`https://localhost:7069/Orders/byUser?userFirebaseId=${firebaseId}&complete=${orderComplete}`)
-    const ordersArray = await response.json()
-    return ordersArray
 }
