@@ -147,7 +147,9 @@ public class StoreRepository : BaseRepository, IStoreRepository
                                     VALUES
 	                                    (@userId,
                                         @dateCreated,
-                                        @name)";
+                                        @name,
+                                        @profileImage,
+                                        @coverImage)";
 
                 DbUtils.AddParameter(cmd, "@userId", store.UserId);
                 DbUtils.AddParameter(cmd, "@dateCreated", store.DateCreated);
