@@ -7,6 +7,7 @@ import { Login } from '../auth/Login'
 import { Register } from '../auth/Register'
 import { FetchUserByFirebaseId } from '../APIManager'
 import { SearchBar } from './SearchBar'
+import { StoreForm } from '../myStore/StoreForm'
 
 export const NavBar = () => {
   const navigate = useNavigate()
@@ -25,6 +26,7 @@ export const NavBar = () => {
 
     const [isLoginOpen, setIsLoginOpen] = useState(false)
     const [isRegisterOpen, setIsRegisterOpen] = useState(false)
+    const [isStoreFormOpen, setIsStoreFormOpen] = useState(false)
 
     const getUser = async () => {
       if (currentUser) {
@@ -54,25 +56,6 @@ export const NavBar = () => {
     function classNames(...classes) {
       return classes.filter(Boolean).join(' ')
     }
-
-
-    const blurBackground = () => {
-      // if (isLoginOpen || isRegisterOpen) {
-      //   document.getElementById('nav').classList.add("blur")
-      //   document.getElementById('home').classList.add("blur")
-      //   // will need to add more once we get id's for other components
-      // } else {
-      //   document.getElementById('nav').classList.remove("blur")
-      //   document.getElementById('home').classList.remove("blur")
-      // }
-    }
-
-    useEffect(
-      () => {
-        blurBackground()
-      },
-      [isLoginOpen, isRegisterOpen]
-    )
 
 
     return (
@@ -109,6 +92,8 @@ export const NavBar = () => {
                     ? <ProfileNavBar
                       user={user}
                       setUser={setUser}
+                      isStoreFormOpen={isStoreFormOpen}
+                      setIsStoreFormOpen={setIsStoreFormOpen}
                     />
                     : <span onClick={() => setIsLoginOpen(true)} className="lg:z-10 lg:flex lg:items-center text-gray-300 hover:text-amber-500 hover:cursor-pointer">Sign In</span>
                 }
@@ -122,6 +107,12 @@ export const NavBar = () => {
                   isOpen={isRegisterOpen}
                   setIsOpen={setIsRegisterOpen}
                   setUserObj={setUser}
+                />
+                <StoreForm
+                  isOpen={isStoreFormOpen}
+                  setIsOpen={setIsStoreFormOpen}
+                  localU={currentUser}
+                  getUser={getUser}
                 />
 
               </div>

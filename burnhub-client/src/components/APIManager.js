@@ -13,6 +13,19 @@ export const FetchItemsByStore = async (storeId) => {
     const storeItemsArray = await response.json();
     return storeItemsArray
 }
+
+export const AddStore = async (newStore) => {
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newStore)
+    }
+
+    await fetch(`https://localhost:7069/Stores`, options)
+}
+
 export const FetchItems = async () => {
     const response = await fetch(`https://localhost:7069/Items`);
     const itemsArray = await response.json();
@@ -60,6 +73,17 @@ export const AddUser = async (userObj) => {
     }
 
     await fetch(`https://localhost:7069/Users`, options)
+}
+
+export const UpdateUser = async (id, user) => {
+    const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+    }
+    await fetch(`https://localhost:7069/Users/${id}`, options)
 }
 
 export const FetchOrdersByUserFirebaseId = async (firebaseId, orderComplete) => {
