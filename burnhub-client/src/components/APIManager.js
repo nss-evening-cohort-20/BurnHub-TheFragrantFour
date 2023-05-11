@@ -62,10 +62,10 @@ export const AddUser = async (userObj) => {
     await fetch(`https://localhost:7069/Users`, options)
 }
 
-export const FetchUserOpenOrder = async (userId) => {
-    const response = await fetch(`https://localhost:7069/Orders/byUser?userId=${userId}&complete=false`)
-    const order = await response.json();
-    return order
+export const FetchOrdersByUserFirebaseId = async (firebaseId, orderComplete) => {
+    const response = await fetch(`https://localhost:7069/Orders/byUser?userFirebaseId=${firebaseId}&complete=${orderComplete}`)
+    const ordersArray = await response.json()
+    return ordersArray
 }
 
 export const AddOrder = async (newOrder) => {
@@ -136,12 +136,6 @@ export const FetchPagedItems = async (pageNumber, pageSize, sortOrder, categoryI
     const response = await fetch (`https://localhost:7069/Items/paged?pageNumber=${pageNumber}&pageSize=${pageSize}&sortOrder=${sortOrder}&categoryId=${categoryId}`)
     const itemsArray = await response.json()
     return itemsArray
-}
-
-export const FetchOrdersByUserFirebaseId = async (firebaseId, orderComplete) => {
-    const response = await fetch(`https://localhost:7069/Orders/byUser?userFirebaseId=${firebaseId}&complete=${orderComplete}`)
-    const ordersArray = await response.json()
-    return ordersArray
 }
 
 export const FetchItemsByCategory = async(categoryId) => {
