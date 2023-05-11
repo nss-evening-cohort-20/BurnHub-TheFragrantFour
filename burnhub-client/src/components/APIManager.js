@@ -8,10 +8,10 @@ export const FetchStores = async () => {
 }
 //check before getting stores array check for success 
 
-export const FetchStore = async (storeId) => {
-    const response = await fetch(`https://localhost:7069/AllStores/${storeId}`)
-    const store = await response.json();
-    return store
+export const FetchItemsByStore = async (storeId) => {
+    const response = await fetch(`https://localhost:7069/Items/store/${storeId}`)
+    const storeItemsArray = await response.json();
+    return storeItemsArray
 }
 export const FetchItems = async () => {
     const response = await fetch(`https://localhost:7069/Items`);
