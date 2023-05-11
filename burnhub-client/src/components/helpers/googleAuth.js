@@ -5,9 +5,8 @@ import {
     signOut,
   } from "firebase/auth";
 import { AddUser, FetchUserByFirebaseId } from "../APIManager";
-  
-  // SignIn brings up the google sign in pop up AND works
-  // for both signing in AND registering a user
+import { useNavigate } from "react-router";
+
   
   export const googleAuth = {
     // Works to sign in AND register a user
@@ -49,13 +48,14 @@ import { AddUser, FetchUserByFirebaseId } from "../APIManager";
       });
     },
     // Sign out a user
-    signOut: function(setUserState) {
+    signOut: function(setUserState, navigate) {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
           localStorage.removeItem("user")
           setUserState("")
           console.log("Sign Out Success!")
+          navigate("/")
         })
         .catch((error) => {
           console.log("Google SignOut Error")

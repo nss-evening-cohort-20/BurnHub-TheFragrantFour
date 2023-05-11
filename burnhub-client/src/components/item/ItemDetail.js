@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router"
-import { FetchItem, FetchUserByFirebaseId } from "../APIManager"
+import { FetchItem, FetchOrdersByUserFirebaseId, FetchUserByFirebaseId } from "../APIManager"
 import { Login } from '../auth/Login'
 import { Register } from '../auth/Register'
-import { FetchUserOpenOrder, AddOrder, AddOrderItem } from "../APIManager"
+import { AddOrder, AddOrderItem } from "../APIManager"
 
 export const ItemDetail = () => {
 
@@ -52,7 +52,7 @@ export const ItemDetail = () => {
   const addToCart = async (e) => {
     e.preventDefault();
 
-    let userOpenOrders = await FetchUserOpenOrder(user.id)
+    let userOpenOrders = await FetchOrdersByUserFirebaseId(currentUser.uid, false)
 
     if (userOpenOrders.length === 0) {
       const newOrder = {
@@ -62,7 +62,7 @@ export const ItemDetail = () => {
       await AddOrder(newOrder)
     }
 
-    userOpenOrders = await FetchUserOpenOrder(user.id)
+    userOpenOrders = await FetchOrdersByUserFirebaseId(currentUser.uid, false)
 
     const newOrderItem = {
       orderId: userOpenOrders[0].id,
@@ -70,6 +70,8 @@ export const ItemDetail = () => {
       itemQuantity: orderItem.quantity
     }
     await AddOrderItem(newOrderItem)
+
+    navigate('/cart')
   }
 
   return (

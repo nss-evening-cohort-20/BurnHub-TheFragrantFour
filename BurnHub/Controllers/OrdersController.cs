@@ -33,9 +33,9 @@ namespace BurnHub.Controllers
         }
 
         [HttpGet("byUser")]
-        public IActionResult GetByUserId(int userId, bool complete)
+        public IActionResult GetByUserId(string userFirebaseId, bool complete)
         {
-            return(Ok(_orderRepo.GetAllByUserId(userId, complete)));
+            return(Ok(_orderRepo.GetAllByUserFirebaseId(userFirebaseId, complete)));
         }
 
         [HttpPost]
