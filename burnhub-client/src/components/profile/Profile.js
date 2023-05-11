@@ -8,8 +8,17 @@ export const Profile = () => {
         email: "",
         image: "",
     });
+    const [image, setImage] = useState(null)
      const { userId } = useParams();
      const navigate = useNavigate();
+
+     const handleChange = (event) => {
+      if (event.target.files[0]) {
+        setImage(event.target.files[0]);
+      }
+      const imagePreview = document.getElementById('file-upload')
+      imagePreview.src = URL.createObjectURL(event.target.files[0])
+    };
 
       useEffect( () => {
       fetch(`https://localhost:7069/Users/${userId}`)
@@ -55,7 +64,12 @@ export const Profile = () => {
                           <input id="file-upload" 
                                  name="file-upload" 
                                  type="file" 
-                                 className="sr-only" />
+                                 className="sr-only"
+                                 onChange={(evt) => {
+                                  const copy = { ...profile };
+                                  copy.image = evt.target.value;
+                                  handleChange(copy)
+                                 }} />
                         </label>
                         <p className="pl-1">or drag and drop</p>
                       </div>
