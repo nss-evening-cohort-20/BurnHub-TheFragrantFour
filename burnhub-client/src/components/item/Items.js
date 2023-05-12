@@ -18,11 +18,11 @@ export const Items = () => {
     const [sortOptions, setSortOptions] = useState([
         { name: 'Name', value: 'Name' },
         { name: 'Price: Low to High', value: 'PriceAscending' },
-        { name: 'Price: High to Low', value: 'PriceDescending' }
+        { name: 'Price: High to Low', value: 'PriceDescending' },
+        { name: 'Quantity: High to Low', value: 'Quantity' }
     ])
     const [sortOption, setSortOption] = useState(sortOptions[0])
     let limit = 8;
-    const toggleFilter = cat => setCategory(c => cat === c ? 0 : cat);
 
     function handleCategoryChange(categoryId) {
         if (category.includes(categoryId)) {
@@ -116,14 +116,6 @@ export const Items = () => {
     }, [])
 
     useEffect(() => {
-        // if (category > 0) {
-        //     const itemsInCategory = items.filter(
-        //         (item) => item.category.id === category
-        //     )
-        //     setFilteredItems(itemsInCategory)
-        // } else {
-        //     setFilteredItems(items)
-        // }
 
         const getItems = async (categoryId) => {
             const res = await fetch(

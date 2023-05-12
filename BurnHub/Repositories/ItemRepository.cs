@@ -12,7 +12,8 @@ public class ItemRepository : BaseRepository, IItemRepository
     {
         PriceAscending,
         PriceDescending,
-        Name
+        Name,
+        Quantity
     }
 
     public List<Item> Search(string criterion)
@@ -132,6 +133,9 @@ public class ItemRepository : BaseRepository, IItemRepository
                         break;
                     case SortOrder.PriceDescending:
                         sql += " Order by i.price DESC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY ";
+                        break;
+                    case SortOrder.Quantity:
+                        sql += " Order by i.quantity DESC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
                         break;
                     default: 
                         sql += " Order by i.name ASC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY ";
