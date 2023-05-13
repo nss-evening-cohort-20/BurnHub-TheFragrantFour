@@ -14,15 +14,24 @@ export const Items = () => {
     const [pageCount, setpageCount] = useState(0)
     const [filteredItems, setFilteredItems] = useState([])
     const [categories, setCategories] = useState([])
-    const [category, setCategory] = useState(0)
+    const [category, setCategory] = useState([])
     const [sortOptions, setSortOptions] = useState([
         { name: 'Name', value: 'Name' },
         { name: 'Price: Low to High', value: 'PriceAscending' },
-        { name: 'Price: High to Low', value: 'PriceDescending' }
+        { name: 'Price: High to Low', value: 'PriceDescending' },
+        { name: 'Quantity: High to Low', value: 'Quantity' }
     ])
     const [sortOption, setSortOption] = useState(sortOptions[0])
     let limit = 8;
 
+    function handleCategoryChange(categoryId) {
+        if (category.includes(categoryId)) {
+            setCategory(category.filter(id => id !== categoryId))
+        } else {
+            setCategory([...category, categoryId])
+        }
+      }
+    
     const fetchItems = async () => {
         const itemsArray = await FetchItems()
         setItems(itemsArray)
@@ -71,14 +80,14 @@ export const Items = () => {
     }, [limit])
 
     useEffect(() => {
-        if (category === 0) {
+        if (category.length > 0) {
             fetchPageOne()
         }
     }, [category])
 
     const fetchPagedItems = async (currentPage) => {
         const res = await fetch(
-            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=${sortOption.value}&categoryId=${category}`
+            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=${sortOption.value}&categoryIds=${category}`
         )
         const data = await res.json()
         return data
@@ -107,18 +116,10 @@ export const Items = () => {
     }, [])
 
     useEffect(() => {
-        // if (category > 0) {
-        //     const itemsInCategory = items.filter(
-        //         (item) => item.category.id === category
-        //     )
-        //     setFilteredItems(itemsInCategory)
-        // } else {
-        //     setFilteredItems(items)
-        // }
 
         const getItems = async (categoryId) => {
             const res = await fetch(
-                `https://localhost:7069/Items/?categoryId=${categoryId}`
+                `https://localhost:7069/Items/?categoryIds=${categoryId}`
             )
             const data = await res.json()
             const total = data.length
@@ -127,7 +128,7 @@ export const Items = () => {
             setFilteredItems(data)
         }
 
-        if (category > 0) {
+        if (category.length > 0) {
             getItems(category)
         } else {
             setFilteredItems(items)
@@ -265,17 +266,12 @@ export const Items = () => {
                                                         <a
                                                             value={option.value}
                                                             className={classNames(
-                                                                sortOption.name === option.name ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                                sortOption.name === option.name ? 'font-medium text-gray-900 cursor-pointer' : 'text-gray-500 cursor-pointer',
                                                                 active ? 'bg-gray-100' : '',
                                                                 'block px-4 py-2 text-sm'
                                                             )}
-                                                            
                                                             onClick={() => {
                                                                 setSortOption(option)
-                                                                // sortOptions[idx].current = true
-                                                                console.log(sortOptions[idx].current)
-                                                                
-                                                                // setSortOption(option.value = true)
                                                             }}
                                                         >
                                                             {option.name}
@@ -326,7 +322,7 @@ export const Items = () => {
                                                     <span className="font-medium text-gray-900">Category</span>
                                                     <span className="ml-6 flex items-center">
                                                         {open ? (
-                                                            <MinusIcon className="h-5 w-5" aria-hidden="true" onClick={() => { setCategory(0) }}/>
+                                                            <MinusIcon className="h-5 w-5" aria-hidden="true" onClick={() => { setCategory([]) }}/>
                                                         ) : (
                                                             <PlusIcon className="h-5 w-5" aria-hidden="true" />
                                                         )}
@@ -343,7 +339,9 @@ export const Items = () => {
                                                                 defaultValue={category.id}
                                                                 type="checkbox"
                                                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                                                onClick={() => { setCategory(category.id) }}
+                                                                onClick={() => { 
+                                                                    handleCategoryChange(category.id)
+                                                                }}
                                                             />
                                                             <label
                                                                 htmlFor={`filter-mobile-${category.id}-${categoryIdx}`}
