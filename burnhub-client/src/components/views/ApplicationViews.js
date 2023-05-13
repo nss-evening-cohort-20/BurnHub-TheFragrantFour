@@ -11,6 +11,8 @@ import { Filter } from "../filters/Filter";
 import { Cart } from "../cart/Cart";
 
 export const ApplicationViews = () => {
+    const localUser = localStorage.getItem("user")
+    const currentUser = JSON.parse(localUser)
 
     return (
         <Routes>
@@ -21,17 +23,19 @@ export const ApplicationViews = () => {
                 </>
             }>
             <Route path="/" element={ <Home /> } />
-            <Route path="ProductForm" element={<ProductForm />} />
             <Route path="stores" element={<AllStores />} />
             <Route path="stores/search/:searchCriterion" element={<AllStores />} />
             <Route path="stores/:storeId" element={<StoreDetail />} /> 
             <Route path="Items" element={<Items />} />
             <Route path="items/search/:searchCriterion" element={<Items />} />
             <Route path="items/:itemId" element={<ItemDetail />} />
+            <Route path="filters" element={<Filter />} />
+
+            <Route path="ProductForm" element={<ProductForm />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/:userId" element={<Profile />} />
-            <Route path="filters" element={<Filter />} />
             <Route path="cart" element={<Cart />} />
+
 
             {/* user.Seller
             ? <>
