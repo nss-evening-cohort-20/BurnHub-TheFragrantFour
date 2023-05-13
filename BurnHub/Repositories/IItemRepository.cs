@@ -5,8 +5,8 @@ namespace BurnHub.Repositories
     public interface IItemRepository
     {
         List<Item> Search(string criterion);
-        List<Item> GetAll(int categoryID);
-        List<Item> GetPagedItems(int pageNumber, int pageSize, ItemRepository.SortOrder sortOrder, int categoryId);
+        List<Item> GetAll(string? categoryIds = null);
+        List<Item> GetPagedItems(int pageNumber, int pageSize, ItemRepository.SortOrder sortOrder, string? categoryIds = null);
         Item GetById(int id);
         List<Item> GetByCategoryId(int id);
         List<Item> GetByStoreId(int id);

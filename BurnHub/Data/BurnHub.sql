@@ -167,7 +167,8 @@ INSERT INTO [Category]
             ([name])
         VALUES
             ('Candle'),
-			('Incense')
+			('Incense'),
+            ('Accessories')
 GO
 INSERT INTO [Item]
             ([name],
@@ -198,7 +199,13 @@ INSERT INTO [Item]
             ('Spring Flowers', 1 , 9 , 10 , 'wild flower walk in the sun in large mason jar', 35, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/spring-flowers.jpg?alt=media&token=374fd515-586a-4276-b87c-2b07489e26c1'),
             ('Shamrockin'' Flavor', 1 , 10 , 20 , '10oz mint green refresher', 18, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/shamrockin.jpg?alt=media&token=3c53a98d-cc8c-4459-b582-960397999e42'),
             ('Sparkling Limeade', 1 , 10 , 8 , '12oz lemon-lime refresher', 26, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/sparkling-limeade.jpg?alt=media&token=dc1cabf8-2f26-43ec-8906-033410ce811a'),
-			('P.F. Candle Co. Incense', 2, 1, 10, 'This incense will blow your mind', 11, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/incense.jpg?alt=media&token=96b57aca-49da-448b-9ba6-3cc55ea1c9db')
+			('P.F. Candle Co. Incense', 2, 1, 10, 'This incense will blow your mind', 11, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/incense.jpg?alt=media&token=96b57aca-49da-448b-9ba6-3cc55ea1c9db'),
+            ('Sandalwood Incense', 2, 2, 15, 'Premium hand-dipped incense sticks that will mellow your vibe', 10, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/premium-incense-sticks.jpg?alt=media&token=54dee636-ae13-4081-966b-64960f5c3201'),
+            ('Incense of the West', 2, 5, 12, 'This incense is from California so you know it''s chill', 15, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/incense-of-the-west.jpg?alt=media&token=e1e5f019-4957-42ae-ac78-44f2434b31e5'),
+            ('Natural Incense Sticks', 2, 4, 20, 'Palo santo Natural incense Sticks completely handmade MADE FROM SCRATCH by blending natural resins, Herbs, Spices with aromatic wood powders, charred coconut powder fragrant oils and honey.', 15, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/palo_santo_incense.jpg?alt=media&token=33e98bf3-b362-45d8-aa79-1c0f3c197105'),
+            ('Incense Holder', 3, 4, 12, 'Say goodbye to messy ash on your tabletop with Goolan Series Incense Stick Holder''s innovative anti-ash flying design.', 21, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/incense_holder.jpg?alt=media&token=ffae7a10-0768-48f6-ad5f-78f2c2b5b361'),
+            ('Floral Incense Holder', 3, 5, 10, 'Pair your incense of the west with this unbelievable incense holder that will force you to kick back and chill', 6, 'https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/incense_holder_2.jpg?alt=media&token=74052be2-5763-475c-908b-3d14fed00d28')
+
 GO
 INSERT INTO [Favorite]
             ([itemId],
