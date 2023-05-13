@@ -31,25 +31,24 @@ export const ApplicationViews = () => {
             <Route path="items/:itemId" element={<ItemDetail />} />
             <Route path="filters" element={<Filter />} />
 
-            <Route path="ProductForm" element={<ProductForm />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/:userId" element={<Profile />} />
-            <Route path="cart" element={<Cart />} />
+            {
+                currentUser
+                    ? <>
+                        <Route path="cart" element={<Cart />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/:userId" element={<Profile />} />
+                    </>
+                    : ""
+            }
 
-
-            {/* user.Seller
-            ? <>
-                <Route path="/store" element={ <MyStore /> } />
-            </>
-
-            : <>
-                
-            </> */}
-
+            {
+                currentUser && currentUser.isSeller
+                    ? <>
+                        <Route path="ProductForm" element={<ProductForm />} />
+                    </>
+                    : ""
+            }
             
-
-
-
             </Route>
         </Routes>
     )
