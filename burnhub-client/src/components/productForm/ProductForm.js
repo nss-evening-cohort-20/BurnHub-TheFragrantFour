@@ -5,18 +5,14 @@ import { PhotoIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 export const ProductForm = () => {
     const [product, setProduct] = useState({
         name: "",
+        categoryId: "",
         description: "",
         price: "",
         quantity: "",
         image: "",
     });
-
-    const [image, setImage] = useState(
-      null
-    )
-
-
-
+    const [categories, setCategories] = useState([]);
+    const [image, setImage] = useState(null)
     const navigate = useNavigate();
 
     const localProjectUser = localStorage.getItem("project_user");
@@ -35,14 +31,13 @@ export const ProductForm = () => {
 
         const productToSendToAPI = {
             name: product.name,
-            categoryId: 1,
+            categoryId: parseInt(product.categoryId),
             storeId: 1,
             description: product.description,
             price: product.price,
             quantity: product.quantity,
             image: product.image
-        }
-    
+        }   
 
     const productData = fetch(`https://localhost:7069/Items`, {
         method: "POST",
@@ -116,6 +111,36 @@ export const ProductForm = () => {
                     </div>
                   </div>
                 </div>
+
+                <div className="sm:col-span-4">
+                  <div className="mt-2">
+                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                      <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
+                      <section className="category" key={`type--${categories.id}`}>
+                      <select
+                        required
+                        autoFocus
+                        type="string"
+                        name="category"
+                        id="category"
+                        className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-400 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                        placeholder="Category"
+                        value={product.categoryId}
+                        onChange={(evt) => {
+                          const copy = { ...product };
+                          copy.categoryId = evt.target.value;
+                          setProduct(copy)
+                        }}>
+                      <option>Please Choose A Category</option>
+                      <option value="1">Candle</option>
+                      <option value="2">Incense</option>
+                      </select>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+
+                
     
                 <div className="sm:col-span-4">
                   <div className="mt-2">
