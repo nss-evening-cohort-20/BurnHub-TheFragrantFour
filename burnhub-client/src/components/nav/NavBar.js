@@ -117,7 +117,7 @@ export const NavBar = () => {
 
               </div>
               {/* main Nav items */}
-              <nav className="hidden lg:flex lg:justify-center lg:gap-32 lg:space-x-8 lg:py-2 mb-12" aria-label="Global">
+              <nav className="hidden lg:flex lg:justify-center lg:gap-32 lg:space-x-8 lg:py-2" aria-label="Global">
                 {/* Products Nav Dropdown */}
                 <Menu as="div" className="ml-4 flex-shrink-0">
                   <div>
