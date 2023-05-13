@@ -39,7 +39,7 @@ export const FetchItem = async (itemId) => {
 }
 
 export const FetchItemsBySearch = async (criterion) => {
-    const response = await fetch(`https://localhost:7069/Items/search?q=${criterion}`)
+    const response = await fetch(`https://localhost:7069/Items/?searchCriterion=${criterion}`)
     const itemsArray = await response.json()
     return itemsArray
 }

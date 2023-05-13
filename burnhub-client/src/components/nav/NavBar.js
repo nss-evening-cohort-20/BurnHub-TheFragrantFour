@@ -118,49 +118,17 @@ export const NavBar = () => {
               </div>
               {/* main Nav items */}
               <nav className="hidden lg:flex lg:justify-center lg:gap-32 lg:space-x-8 lg:py-2" aria-label="Global">
-                {/* Products Nav Dropdown */}
-                <Menu as="div" className="ml-4 flex-shrink-0">
-                  <div>
-                    <Menu.Button className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">
-                      <span className="pr-2">Products</span>
-                      <svg className="w-3 fill-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
-                      </svg>
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute left-50 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-700 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {productsNav.map((item) => (
-                        <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <Link
-                              to={item.to}
-                              className={classNames(
-                                active ? 'bg-gray-800' : '',
-                                'block px-4 py-2 text-sm text-gray-100'
-                              )}
-                            >
-                              {item.name}
-                            </Link>
-                          )}
-                        </Menu.Item>
-                      ))}
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
+                <Link
+                  key="items"
+                  to="/items"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"
+                >
+                  All Products
+                </Link>
                 <Link
                   key="Stores"
                   to="/stores"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"
-                  //item.current ? 'bg-gray-900 text-white'
                 >
                   Stores
                 </Link>
@@ -169,51 +137,19 @@ export const NavBar = () => {
   
             <Disclosure.Panel as="nav" className="lg:hidden" aria-label="Global">
               <div className="space-y-1 px-2 pb-3 pt-2">
-                {/* Mobile Products Dropdown */}
-                <Menu as="div" className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer block rounded-md py-2 px-3 text-base font-medium">
-                  <div>
-                    <Menu.Button className="flex items-center">
-                      <span className="pr-2">Products</span>
-                      <svg className="w-3 fill-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
-                      </svg>
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-700 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {productsNav.map((item) => (
-                        <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <Link
-                              to={item.to}
-                              className={classNames(
-                                active ? 'bg-gray-800' : '',
-                                'block px-4 py-2 text-sm text-gray-100'
-                              )}
-                            >
-                              {item.name}
-                            </Link>
-                          )}
-                        </Menu.Item>
-                      ))}
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-                {/* Mobile Stores Nav Option */}
+                <Disclosure.Button
+                  key="Items"
+                  as="a"
+                  onClick={() => {navigate("/items")}}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer block rounded-md py-2 px-3 text-base font-medium"
+                >
+                  Items
+                </Disclosure.Button>
                 <Disclosure.Button
                   key="Stores"
                   as="a"
                   onClick={() => {navigate("/stores")}}
                   className="text-gray-300 hover:bg-gray-700 hover:text-white hover:cursor-pointer block rounded-md py-2 px-3 text-base font-medium"
-                  // item.current ? 'bg-gray-900 text-white'
                 >
                   Stores
                 </Disclosure.Button>
@@ -250,14 +186,6 @@ export const NavBar = () => {
                       {item.name}
                     </Disclosure.Button>
                   ))}
-                  <Disclosure.Button
-                    key={'Become a Seller!'}
-                    //onClick toggle storeForm modal?
-                    as="a"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-amber-500 hover:bg-gray-700 hover:text-white hover:cursor-pointer"
-                  >
-                    Become a Seller!
-                  </Disclosure.Button>
                 </div>
               </div>
             </Disclosure.Panel>
