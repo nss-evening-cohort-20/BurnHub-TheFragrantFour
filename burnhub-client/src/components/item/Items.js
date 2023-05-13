@@ -31,11 +31,6 @@ export const Items = () => {
             setCategory([...category, categoryId])
         }
       }
-    
-    const fetchItems = async () => {
-        const itemsArray = await FetchItems()
-        setItems(itemsArray)
-    }
 
     const fetchCategories = async () => {
         const categories = await GetCategories()
@@ -44,14 +39,14 @@ export const Items = () => {
 
     const getItemsFromSearch = async () => {
         const itemsArray = await FetchItemsBySearch(searchCriterion)
-        setItems(itemsArray)
+        setFilteredItems(itemsArray)
     }
 
     const searchCountMessage = () => {
-        if (items.length === 1) {
+        if (filteredItems.length === 1) {
             return `1 result found for "${searchCriterion}".`
         } else {
-            return `${items.length} results found for "${searchCriterion}".`
+            return `${filteredItems.length} results found for "${searchCriterion}".`
         }
     }
 
@@ -75,9 +70,30 @@ export const Items = () => {
             setpageCount(Math.ceil(total / limit))
             fetchPageOne(1, limit, sortOption.value)
         }
-        getItems()
+
+        if (!searchCriterion) {
+            getItems()
+        }
 
     }, [limit])
+
+    useEffect(() => {
+
+        const getItems = async () => {
+            const res = await fetch(
+                `https://localhost:7069/Items/`
+            )
+            const data = await res.json()
+            const total = data.length
+            setpageCount(Math.ceil(total / limit))
+            fetchPageOne(1, limit, sortOption.value)
+        }
+
+        if (category.length === 0 && !searchCriterion) {
+            getItems()
+        }
+
+    }, [category])
 
     useEffect(() => {
         if (category.length > 0) {
@@ -93,12 +109,24 @@ export const Items = () => {
         return data
     }
 
+    const fetchSearchedPagedItems = async (currentPage) => {
+        const res = await fetch(
+            `https://localhost:7069/Items/paged?pageNumber=${currentPage}&pageSize=${limit}&sortOrder=${sortOption.value}&categoryIds=${category}&searchCriterion=${searchCriterion}`
+        )
+        const data = await res.json()
+        return data
+    }
+
     const handlePageClick = async (data) => {
         let currentPage = data.selected + 1
 
-        const items = await fetchPagedItems(currentPage)
-
-        setFilteredItems(items)
+        if (!searchCriterion) {
+            const items = await fetchPagedItems(currentPage)
+            setFilteredItems(items)
+        } else {
+            const items = await fetchSearchedPagedItems(currentPage)
+            setFilteredItems(items)
+        }
     }
 
     useEffect(() => {
@@ -106,10 +134,6 @@ export const Items = () => {
             getItemsFromSearch()
         }
     }, [searchCriterion])
-
-    useEffect(() => {
-        fetchItems()
-    }, [])
 
     useEffect(() => {
         fetchCategories()
@@ -130,11 +154,9 @@ export const Items = () => {
 
         if (category.length > 0) {
             getItems(category)
-        } else {
-            setFilteredItems(items)
         }
         
-    }, [category, items])
+    }, [category])
 
 
     function classNames(...classes) {
@@ -279,12 +301,6 @@ export const Items = () => {
                                                     )}
                                                 </Menu.Item>
                                             ))}
-                                            {/* <label>Sort by:</label>
-                                            <select id="sort-order" value={sortOrder} onChange={(event) => setSortOrder(event.target.value)}>
-                                                <option value="PriceAscending">Price (low to high)</option>
-                                                <option value="PriceDescending">Price (high to low)</option>
-                                                <option value="Name">Name (a to z)</option>
-                                            </select> */}
                                         </div>
                                     </Menu.Items>
                                 </Transition>
@@ -309,10 +325,6 @@ export const Items = () => {
                             {/* Filters */}
                             <form className="hidden lg:block">
                                 <h3 className="sr-only">Categories</h3>
-                                {/* <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-                                    <button type="button" onClick={() => { setCategory(0) }}>Reset Filters</button>
-                                </ul> */}
-
                                 {/* ITEM CATEGORY API */}
                                 <Disclosure as="div" className="border-b border-gray-200 py-6">
                                     {({ open }) => (
@@ -362,11 +374,11 @@ export const Items = () => {
                                 <main>
 
                                     <div className="bg-white">
-                                    {
+                                    {/* {
                                         searchCriterion
                                             ? <div className="text-center pt-2">{searchCountMessage()}</div>
                                             : ""
-                                    }
+                                    } */}
                                         <div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                                             <h2 className="sr-only">Products</h2>
                                             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mb-10">

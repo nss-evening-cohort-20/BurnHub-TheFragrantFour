@@ -7,8 +7,7 @@ export const ProfileNavBar = ({ user, setUser, isStoreFormOpen, setIsStoreFormOp
     const navigate = useNavigate()
 
     const userNavigation = [
-        { name: 'Profile', to: '/profile' },
-        { name: 'Favorites', to: '/favorites' },
+        { name: 'Profile', to: '/profile' }
     ]
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')

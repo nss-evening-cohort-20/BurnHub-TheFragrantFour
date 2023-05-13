@@ -89,7 +89,7 @@ public class ItemRepository : BaseRepository, IItemRepository
         }
     }
 
-    public List<Item> GetPagedItems(int pageNumber, int pageSize, SortOrder sortOrder, string? categoryIds = null)
+    public List<Item> GetPagedItems(int pageNumber, int pageSize, SortOrder sortOrder, string? categoryIds = null, string? searchCriterion = null)
     {
         using (var conn = Connection)
         {
@@ -118,10 +118,24 @@ public class ItemRepository : BaseRepository, IItemRepository
                                     JOIN Category c
 	                                    ON i.categoryId = c.id";
 
-                if (!string.IsNullOrEmpty(categoryIds))
+                if (!string.IsNullOrEmpty(categoryIds) && string.IsNullOrEmpty(searchCriterion))
                 {
                     var ids = categoryIds.Split(",").Select(id => int.Parse(id)).ToList();
                     var where = "\nWHERE i.categoryId IN ({0})";
+                    var formattedIds = string.Join(",", ids);
+                    sql += string.Format(where, formattedIds);
+                }
+
+                if (!string.IsNullOrEmpty(searchCriterion) && string.IsNullOrEmpty(categoryIds))
+                {
+                    sql += "\nWHERE i.name LIKE @Criterion";
+                }
+
+                if (!string.IsNullOrEmpty(categoryIds) && !string.IsNullOrEmpty(searchCriterion))
+                {
+                    sql += "\nWHERE i.name LIKE @Criterion OR ";
+                    var ids = categoryIds.Split(",").Select(id => int.Parse(id)).ToList();
+                    var where = "i.categoryId IN ({0})";
                     var formattedIds = string.Join(",", ids);
                     sql += string.Format(where, formattedIds);
                 }
@@ -147,7 +161,9 @@ public class ItemRepository : BaseRepository, IItemRepository
                 DbUtils.AddParameter(cmd, "@Offset", (pageNumber - 1) * pageSize);
                 DbUtils.AddParameter(cmd, "@PageSize", pageSize);
                 DbUtils.AddParameter(cmd, "@categoryId", categoryIds);
+                DbUtils.AddParameter(cmd, "@Criterion", $"%{searchCriterion}%");
 
+            
                 var reader = cmd.ExecuteReader();
                 var items = new List<Item>();
 
@@ -189,7 +205,7 @@ public class ItemRepository : BaseRepository, IItemRepository
         }
     }
 
-    public List<Item> GetAll(string? categoryIds = null)
+    public List<Item> GetAll(string? categoryIds = null, string? searchCriterion = null)
     {
         using (var conn = Connection)
         {
@@ -226,9 +242,15 @@ public class ItemRepository : BaseRepository, IItemRepository
                     sql += string.Format(where, formattedIds);
                 }
 
+                if (!string.IsNullOrEmpty(searchCriterion))
+                {
+                    sql += "\nWHERE i.name LIKE @Criterion";
+                }
+
                 cmd.CommandText = sql;
 
                 DbUtils.AddParameter(cmd, "@categoryId", categoryIds);
+                DbUtils.AddParameter(cmd, "@Criterion", $"%{searchCriterion}%");
 
                 var reader = cmd.ExecuteReader();
                 var items = new List<Item>();

@@ -21,15 +21,15 @@ namespace BurnHub.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllByCategory(string? categoryIds = null)
+        public IActionResult GetAllByCategory(string? categoryIds = null, string? searchCriterion = null)
         {
-            return Ok(_itemRepo.GetAll(categoryIds));
+            return Ok(_itemRepo.GetAll(categoryIds, searchCriterion));
         }
 
         [HttpGet("paged")]
-        public IActionResult GetPagedItems(int pageNumber, int pageSize, ItemRepository.SortOrder sortOrder, string? categoryIds = null)
+        public IActionResult GetPagedItems(int pageNumber, int pageSize, ItemRepository.SortOrder sortOrder, string? categoryIds = null, string? searchCriterion = null)
         {
-            return Ok(_itemRepo.GetPagedItems(pageNumber, pageSize, sortOrder, categoryIds));
+            return Ok(_itemRepo.GetPagedItems(pageNumber, pageSize, sortOrder, categoryIds, searchCriterion));
         }
 
         [HttpGet("{id}")]
