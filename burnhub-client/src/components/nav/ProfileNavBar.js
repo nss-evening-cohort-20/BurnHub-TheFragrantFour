@@ -3,12 +3,11 @@ import { Menu, Transition } from "@headlessui/react"
 import { Fragment } from "react"
 import { Link, useNavigate } from 'react-router-dom'
 
-export const ProfileNavBar = ({ user, setUser }) => {
+export const ProfileNavBar = ({ user, setUser, isStoreFormOpen, setIsStoreFormOpen }) => {
     const navigate = useNavigate()
 
     const userNavigation = [
-        { name: 'Profile', to: '/profile' },
-        { name: 'Favorites', to: '/favorites' },
+        { name: 'Profile', to: '/profile' }
     ]
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -72,6 +71,7 @@ export const ProfileNavBar = ({ user, setUser }) => {
                             : <Menu.Item key="Become a Seller!">
                                 {({ active }) => (
                                     <span
+                                        onClick={() => {setIsStoreFormOpen(true)}}
                                         className={classNames(
                                         active ? 'bg-gray-100' : '',
                                         'block px-4 py-2 text-sm text-amber-600 hover:cursor-pointer'

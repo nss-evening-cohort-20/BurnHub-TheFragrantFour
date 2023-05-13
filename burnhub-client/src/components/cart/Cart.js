@@ -71,7 +71,7 @@ export const Cart = () => {
     return <>
         {
             orderItems.length === 0
-                ? <div className="m-auto mt-28 text-center text-gray-200 rounded-lg">
+                ? <div className="m-auto mt-28 text-center text-gray-200 rounded-lg pt-12">
                     <h3 className="mb-8 text-xl font-light">There are no items in your cart.</h3>
                     <button
                         onClick={() => navigate("/Items")}
