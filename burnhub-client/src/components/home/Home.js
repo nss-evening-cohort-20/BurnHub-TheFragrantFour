@@ -13,7 +13,7 @@ export const Home = () => {
 
 
     return (
-        <div className="relative isolate overflow-hidden bg-gray-900 py-42 sm:py-60">
+        <div className="relative isolate overflow-hidden bg-gray-900 py-42 sm:py-56">
             <img
                 src="https://firebasestorage.googleapis.com/v0/b/burnhub-e391e.appspot.com/o/burnhub-home.jpg?alt=media&token=57bfb541-769c-4ae0-b2f8-bcec8f1e2716"
                 alt=""
